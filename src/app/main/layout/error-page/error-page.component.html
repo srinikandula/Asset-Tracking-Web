@@ -1,0 +1,11 @@
+<div class="page-error tile img-trasn">
+<!--    <img src="./assets/img/Symbol_icon.png" alt="Logo"-->
+<!--         style="position: absolute; opacity: 0.1;min-height: calc(89vh - 110px);"/>-->
+    <h1><i class="fa fa-exclamation-circle"></i> Error: {{errorStatusCode || ''}}</h1>
+    <div *ngIf="errorStatusCode !== ''" style="text-align: center;">
+        <h1>Page not found</h1>
+        <p>The page you have requested is not found.</p>
+    </div>
+    <h3 *ngIf="errorStatusCode === ''"> Better to check yourself, you are not connected to internet..!</h3>
+    <p><a class="btn btn-primary" (click)="reload()">Go Back</a></p>
+</div>

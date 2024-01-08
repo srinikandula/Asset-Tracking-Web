@@ -1,0 +1,279 @@
+<section class="cover login-content">
+    <div class="logo">
+        <img class="login-logo" src="../../../../assets/img/logo.png" alt="Logo">
+    </div>
+
+    <div class="signup-box col-sm-8">
+        <form class="forget-form fields-up signup-form" [formGroup]="signUpForm" novalidate
+              (ngSubmit)="userRegister()" style="margin: 0 auto;">
+            <h4 class="login-head mb-3">
+                <i class="fa fa-sign-in fa-lg fa-fw"></i>{{header}}
+            </h4>
+            <div class="row">
+                <div class="col-sm-6 form-group">
+                    <div class="has-feedback"
+                         [ngClass]="{ 'has-warning': f.fullName.invalid && !f.fullName.pristine, 'has-success': f.fullName.valid && !f.fullName.pristine }">
+                        <label for="fullName" class="control-label">FULLNAME <b
+                                class="mandatory-field">*</b></label>
+                        <input type="text" id="fullName" name="fullName"
+                               class="form-control form-control-bottom"
+                               formControlName="fullName"
+                               [(ngModel)]="user.fullName"
+                               placeholder="Enter FullName" minLength="5" autocomplete="off" required>
+                        <i class="fa form-control-feedback" aria-hidden="true"
+                           [ngClass]="{ 'fa-exclamation-triangle': f.fullName.invalid && !f.fullName.pristine, 'fa-check': f.fullName.valid && !f.fullName.pristine }"></i>
+                        <span class="help-warning fullName-min-error"
+                              *ngIf="f.fullName.invalid && f.fullName.dirty">Please Enter at least 5 characters</span>
+                        <!--                        <span ng-show="signUpForm.fullName.$dirty && signUpForm.fullName.$error.maxlength">maximum 5 charecters allowed</span>-->
+                    </div>
+                </div>
+                <div class="col-sm-6 form-group">
+                    <div class="has-feedback"
+                         [ngClass]="{ 'has-error': f.mobileNo.invalid && !f.mobileNo.pristine, 'has-success': f.mobileNo.valid && !f.mobileNo.pristine }">
+                        <label for="phoneNumber" class="control-label" style="font-weight: 700;">
+                            MOBILE.NO<b class="mandatory-field">*</b>
+                        </label>
+                        <input type="text" id="phoneNumber" name="mobileNo"
+                               class="form-control form-control-bottom"
+                               minlength="10" maxlength="10" placeholder="Enter Mobile Number"
+                               autocomplete="off"
+                               formControlName="mobileNo"
+                               numbersOnly
+                               required [(ngModel)]="user.phoneNumber" >
+                        <i class="fa form-control-feedback" aria-hidden="true"
+                           [ngClass]="{ 'fa-times': f.mobileNo.invalid && !f.mobileNo.pristine, 'fa-check': f.mobileNo.valid && !f.mobileNo.pristine }"></i>
+<!--                        <span class="help-block mobile-required-error"-->
+<!--                              *ngIf="f.mobileNo.errors.required && f.mobileNo.dirty">Mobile number is a required field</span>-->
+<!--                        <span class="help-block mobile-non-numeric-error"-->
+<!--                              *ngIf="f.mobileNo.errors.pattern">Please enter a 10 digit number</span>-->
+<!--                        <span class="help-block mobile-required-error" *ngIf="f.mobileNo.invalid">Mobile Number is required field</span>-->
+                        <span class="help-block mobile-non-numeric-error" *ngIf=" f.mobileNo.invalid && !f.mobileNo.pristine">Mobile Number must be 10 digits only.
+                    </span>
+                </div>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8 form-group">
+                    <div class="has-feedback"
+                         [ngClass]="{ 'has-error': f.email.invalid && !f.email.pristine, 'has-success': f.email.valid && !f.email.pristine }">
+                        <label class="control-label">
+                            EMAIL<b class="mandatory-field">*</b>
+                        </label>
+                        <input type="email" class="form-control form-control-bottom" placeholder="Enter Email"
+                               formControlName="email"
+                               name="email" [(ngModel)]="user.email" required />
+                        <i class="fa form-control-feedback" aria-hidden="true"
+                           [ngClass]="{ 'fa-times': f.email.invalid && !f.email.pristine, 'fa-check': f.email.valid && !f.email.pristine }"></i>
+                        <span class="help-block" *ngIf="f.email.invalid && f.email.dirty">Please Enter a valid email address</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 form-group">
+                    <div class="has-feedback"
+                         [ngClass]="{ 'has-error': f.dateOfBirth.invalid && !f.dateOfBirth.pristine, 'has-success': f.dateOfBirth.valid && !f.dateOfBirth.pristine }">
+                        <label class="control-label" style="z-index: 1">DATE OF BIRTH <b
+                                class="mandatory-field">*</b></label>
+                        <div class="input-group">
+                            <input name="startDate" class="form-control form-control-bottom"
+                                   [(ngModel)]="user.dateOfBirth"
+                                   formControlName="dateOfBirth"
+                                   placeholder="Date of Birth"
+                                   readonly type="text"
+                                   [maxDate]="maxDate"
+                                   #dp="bsDatepicker"
+                                   [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', containerClass: 'theme-red', showTodayButton: true, todayPosition: 'center', isAnimated: true }"
+                                   bsDatepicker />
+                            <div class="input-group-append">
+                                <button class="btn btn-light btn-sm" type="button"
+                                        style="border: 1px solid #ced4da;"
+                                        (click)="dp.show()"
+                                        [attr.aria-expanded]="dp.isOpen">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <i class="fa form-control-feedback" aria-hidden="true" style="top: 14px; right: 32px"
+                           [ngClass]="{ 'fa-times': f.dateOfBirth.invalid && !f.dateOfBirth.pristine, 'fa-check': f.dateOfBirth.valid && !f.dateOfBirth.pristine }"></i>
+                    </div>
+                </div>
+                <div class="col-sm-6 form-group floating-label">
+                    <div class="has-feedback"
+                         [ngClass]="{ 'has-error': f.roleName.invalid && !f.roleName.pristine, 'has-success': f.roleName.valid && !f.roleName.pristine }">
+                        <label for="roleName" class="control-label">SELECT ROLE <b
+                                class="mandatory-field">*</b></label>
+                        <select id="roleName" name="roleName"
+                                class="form-control form-control-bottom"
+                                formControlName="roleName"
+                                [(ngModel)]="user.userRole"
+                                (ngModelChange)="changeUserRole(user.userRole)">
+                            <option value="" selected>Select Role</option>
+                            <option *ngFor="let role of roles" value="{{role.type}}">{{role.name}}</option>
+                        </select>
+                        <i class="fa form-control-feedback" aria-hidden="true" style="top: 14px; right: 20px"
+                           [ngClass]="{ 'fa-times': f.roleName.invalid && !f.roleName.pristine, 'fa-check': f.roleName.valid && !f.roleName.pristine }"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 form-group floating-label">
+                    <div class="has-feedback"
+                         [ngClass]="{ 'has-error': f.cityName.invalid && !f.cityName.pristine, 'has-success': f.cityName.valid && !f.cityName.pristine }">
+                        <label for="cityName" class="control-label">SELECT CITY</label>
+                        <select id="cityName" name="cityName"
+                                class="form-control form-control-bottom"
+                                [(ngModel)]="user.cityId"
+                                formControlName="cityName"
+                                (ngModelChange)="getAllSites(user.cityId)">
+                            <option value="" selected>Select City</option>
+                            <option *ngFor="let city of cities" value="{{city.id}}">{{city.name}}</option>
+                        </select>
+                        <i class="fa form-control-feedback" aria-hidden="true" style="top: 14px; right: 20px"
+                           [ngClass]="{ 'fa-times': f.cityName.invalid && !f.cityName.pristine, 'fa-check': f.cityName.valid && !f.cityName.pristine }"></i>
+                    </div>
+                </div>
+                <div class="col-sm-6 form-group floating-label">
+                    <div class="has-feedback"
+                         [ngClass]="{ 'has-error': f.siteName.invalid && !f.siteName.pristine, 'has-success': f.siteName.valid && !f.siteName.pristine }">
+                        <label for="siteName" class="control-label">SELECT SITE <b
+                                class="mandatory-field">*</b></label>
+                        <select id='siteName' name="siteName"
+                                [(ngModel)]="user.siteId"
+                                (ngModelChange)="selectOtherOption(user.siteId)"
+                                class="form-control form-control-bottom"
+                                formControlName="siteName">
+                            <option value="" selected>Select Site {{user.siteId}}</option>
+                            <option *ngFor="let site of sites" value="{{site.id}}">{{site.name}} ({{site.siteCode}})
+                            </option>
+                            <option value="No Site">No Site</option>
+                        </select>
+                        <i class="fa form-control-feedback" aria-hidden="true" style="top: 14px; right: 20px"
+                           [ngClass]="{ 'fa-times': f.siteName.invalid && !f.siteName.pristine, 'fa-check': f.siteName.valid && !f.siteName.pristine }"></i>
+                    </div>
+                    <span style="color: #ff0000;" *ngIf="sites.length === 0">No Sites for the selected City</span>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="locationFieldAdd">
+                <div class="col-sm-8 form-group">
+                    <div class="has-feedback"
+                         [ngClass]="{ 'has-warning': f.siteLocationData.invalid && !f.siteLocationData.pristine, 'has-success': f.siteLocationData.valid && !f.siteLocationData.pristine }">
+                        <label for="siteLocationId" class="control-label">SITE LOCATION <b
+                                class="mandatory-field">*</b></label>
+                        <input type="text" id="siteLocationId" name="siteLocationData"
+                               class="form-control form-control-bottom"
+                               formControlName="siteLocationData"
+                               [(ngModel)]="user.preferredSiteLocation"
+                               placeholder="Enter Site Location" autocomplete="off" required>
+                        <i class="fa form-control-feedback" aria-hidden="true"
+                           [ngClass]="{ 'fa-exclamation-triangle': f.siteLocationData.invalid && !f.siteLocationData.pristine, 'fa-check': f.siteLocationData.valid && !f.siteLocationData.pristine }"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="user.userRole === 'DRIVER_AND_ASSOCIATE' || user.userRole === 'DRIVER'">
+                <div class="col-sm-6 form-group">
+                    <div class="has-feedback"
+                         [ngClass]="{ 'has-warning': f.vehicleTypeData.invalid && !f.vehicleTypeData.pristine, 'has-success': f.vehicleTypeData.valid && !f.vehicleTypeData.pristine }">
+                        <label for="cityName" class="control-label">SELECT VEHICLE TYPE <b
+                                class="mandatory-field">*</b></label>
+                        <select id="vehicleType" name="vehicleTypeData"
+                                class="form-control form-control-bottom"
+                                formControlName="vehicleTypeData"
+                                [(ngModel)]="user.vehicleType">
+                            <option value="" selected>Select Vehicle Type</option>
+                            <option *ngFor="let vehicleType of vehicleTypes"
+                                    [value]="vehicleType.value">{{vehicleType.key}}</option>
+                        </select>
+                        <i class="fa form-control-feedback" aria-hidden="true" style="top: 14px; right: 20px"
+                           [ngClass]="{ 'fa-times': f.vehicleTypeData.invalid && !f.vehicleTypeData.pristine, 'fa-check': f.vehicleTypeData.valid && !f.vehicleTypeData.pristine }"></i>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="has-feedback"
+                         [ngClass]="{'has-error': vehicleRegistrationNumberLabelError === 'isError', 'has-success': vehicleRegistrationNumberLabelError === 'isNotError'}">
+                        <label class="control-label" style="z-index: 1;">VEHICLE REG.NO <b
+                                class="mandatory-field">*</b></label>
+                        <div class="row">
+                            <div class="col-sm-3 form-group">
+                                <input class="form-control form-control-bottom" type="text"
+                                       pattern="/^[a-zA-Z]{2}$/" maxlength="2"
+                                       [(ngModel)]="user.firstValue" placeholder="XX"
+                                       (ngModelChange)="combinedValue()"
+                                       style="text-transform:uppercase; text-align: center"
+                                       [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div class="col-sm-3 form-group">
+                                <input class="form-control form-control-bottom" name="second" type="text"
+                                       pattern="/^[0-9a-zA-Z]{1,2}$/" maxlength="2"
+                                       style="text-transform:uppercase; text-align: center"
+                                       [(ngModel)]="user.secondValue" placeholder="00" (ngModelChange)="combinedValue()"
+                                       [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div class="col-sm-3 form-group">
+                                <input class="form-control form-control-bottom" name="third" type="text"
+                                       pattern="/^[a-zA-Z]{1,2}$/" maxlength="2"
+                                       style="text-transform:uppercase; text-align: center"
+                                       [(ngModel)]="user.thirdValue" placeholder="XX" (ngModelChange)="combinedValue()"
+                                       [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div class="col-sm-3 form-group">
+                                <input class="form-control form-control-bottom" name="fourth" type="text"
+                                       pattern="/^[0-9]{4}$/" maxlength="4"
+                                       numbersOnly
+                                       style="text-transform:uppercase; text-align: center"
+                                       [(ngModel)]="user.fourthValue" placeholder="0000"
+                                       (ngModelChange)="combinedValue()"
+                                       [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--                            <div class="col-2"></div>-->
+                            <div class="col-sm-12 form-group">
+                                <small class="sample-hint">Sample Vehicle Number: <span class="letter-spacing-6x">XX 00 X OR XX 000 OR 0000</span></small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 form-group"><span
+                                    style="color: red">{{vehicleRegistrationNumberError}}</span></div>
+                        </div>
+                        <i class="fa form-control-feedback fa-candr" aria-hidden="true"
+                           [ngClass]="{'fa-times': vehicleRegistrationNumberLabelError === 'isError', 'fa-check': vehicleRegistrationNumberLabelError === 'isNotError'}"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-danger col-md-12" role="alert" *ngIf="errors.length">
+                        <span *ngFor="let error of errors">{{error}}</span>
+                        <br/>
+                        <span>Please contact +91 82972 97000 or email us at <a
+                                href="mailto:help@whizzard.in?subject=SignUP Error: Help needed">help@whizzard.in</a></span>
+                    </div>
+                    <div class="alert alert-danger col-md-12" role="alert" *ngIf="serverErrors">
+                        <span>  {{serverErrors.message}}</span>
+                        <br/>
+                        <span>Please contact +91 82972 97000 or email us at <a
+                                href="mailto:help@whizzard.in?subject=SignUP Error: Help needed">help@whizzard.in</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-container">
+                <button class="btn btn-register btn-all-shadow waves-effect waves-light btn-cus btn-block"
+                        id="register-button">
+                    <i class="fa fa-lg fa-fw" aria-hidden="true"></i>Register
+                </button>
+            </div>
+            <div class=" mt-3">
+                <p class="semibold-text mb-0">
+                    <a data-toggle="flip" style="color: #007bff; cursor: pointer" (click)="backToLogin()">
+                        <i class="fa fa-angle-left fa-fw"></i> Back to Login
+                    </a>
+                </p>
+            </div>
+        </form>
+    </div>
+</section>
+<!--</div>-->

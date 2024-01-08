@@ -1,0 +1,104 @@
+<div *ngIf="currentUser">
+    <header class="app-header">
+        <a class="app-header__logo">
+            <img src="assets/img/logo.png" style="width: 125px; height: 30px" alt=""/>
+        </a>
+        <a class="app-sidebar__toggle onClick waves-effect waves-light" data-toggle="sidebar" aria-label="Hide Sidebar">
+            <i class="fa fa-bars" aria-hidden="true" style="padding-top: 14px"></i>
+        </a>
+        <ul class="app-nav">
+            <li class="app-search">
+                <input class="app-search__input" type="search" placeholder="Search"/>
+                <button class="app-search__button"><i class="fa fa-search"></i></button>
+            </li>
+            <!--Notification Menu-->
+            <li class="dropdown">
+                <a class="app-nav__item waves-effect waves-light" href="" data-toggle="dropdown"
+                   aria-label="Show notifications">
+                    <i class="fa fa-bell-o fa-lg"></i>
+                </a>
+            </li>
+            <!-- User Menu-->
+            <li class="dropdown logOut-dropdown">
+                <a class="app-nav__item waves-effect app-nav__img waves-light" href=""
+                   data-toggle="dropdown" aria-label="Open Profile Menu" style="padding: 0;">
+                    <div class="logOut-nav">
+                        <div class="app-nav__user-name user-logOut-title m-auto">
+                            <p class="mb-0"><b>{{currentUser.fullName | uppercase}}</b></p>
+                            <p class="mb-0"><b><small>{{getUserRoleValue(currentUser.role)}}</small></b></p>
+                        </div>
+                        <img class="app-nav__user-avatar user-logOut-icon" src="{{currentUser.profilePicUrl || 'assets/img/user-icon-placeholder.png'}}"
+                             alt="User Image">
+                    </div>
+                </a>
+                <ul class="dropdown-menu settings-menu dropdown-menu-right">
+                    <li style="display: none"><a class="dropdown-item" href=""><i class="fa fa-cog fa-lg"></i> Settings</a>
+                    </li>
+                    <li><a (click)="gotoUserProfile()" class="dropdown-item waves-effect waves-black"><i
+                            class="fa fa-user fa-lg"></i> Profile</a></li>
+                    <li><a class="dropdown-item waves-effect waves-red" (click)="logOutUser()"
+                           style="cursor: pointer"><i
+                            class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </header>
+
+    <aside class="app-sidebar">
+        <div class="app-sidebar__user" title="{{currentUser.fullName}}">
+            <img class="app-sidebar__user-avatar" src="{{currentUser.profilePicUrl || 'assets/img/user-icon-placeholder.png'}}" alt="User Image">
+            <div>
+                <p class="app-sidebar__user-name">{{currentUser.fullName | uppercase}}</p>
+                <p class="app-sidebar__user-designation">
+                    <small class="app-sidebar__user-designation">{{getUserRoleValue(currentUser.role)}}</small>
+                </p>
+            </div>
+        </div>
+        <ul class="app-menu" id="dashboard-main-menu" >
+            <li class="treeview" >
+                <a class="app-menu__item" href="" data-toggle="treeview" [routerLinkActive]="['active']">
+                    <!--                    <i class="app-menu__icon fa fa-dashboard"></i>-->
+                    <i class="icon svgIcon-menu OnboardingIcon" aria-hidden="true"></i>
+                    <span class="app-menu__label">Onboarding</span>
+                    <i class="treeview-indicator fa fa-angle-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="waves-effect waves-light">
+                        <a class="treeview-item" [routerLink]="['users']" [routerLinkActive]="['active']">
+                            <i class="icon fa fa-user" aria-hidden="true"></i>Search Users
+                        </a>
+                    </li>
+                    <li class="waves-effect waves-light" >
+                        <a class="treeview-item" [routerLink]="['users/pendingUserReport']" [routerLinkActive]="['active']">
+                            <i class="icon fa fa-users" aria-hidden="true"></i>Pending Users Report
+                        </a>
+                    </li>
+                    <li class="waves-effect waves-light" >
+                        <a class="treeview-item" [routerLink]="['vehicles']" [routerLinkActive]="['active']">
+                            <i class="icon fa fa-truck" aria-hidden="true"></i>Vehicles
+                        </a>
+                    </li>
+                    <!--                    <li class="waves-effect waves-light" *ngIf="fleetManagersMenuOption">-->
+                    <li class="waves-effect waves-light" *ngIf="false">
+                        <a class="treeview-item">
+                            <i class="icon fa fa-male" aria-hidden="true"></i>Fleet Managers
+                        </a>
+                    </li>
+                    <li class="waves-effect waves-light" >
+                        <a class="treeview-item" [routerLink]="['beneficiaries']" [routerLinkActive]="['active']">
+                            <i class="icon fa fa-behance-square" aria-hidden="true"></i>Beneficiaries
+                        </a>
+                    </li>
+                    <li class="waves-effect waves-light" >
+                        <a class="treeview-item" [routerLink]="['liteUsers']" [routerLinkActive]="['active']">
+                            <i class="icon fa fa-user" aria-hidden="true"></i>Lite Users
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+    </aside>
+</div>
+
+<router-outlet></router-outlet>
