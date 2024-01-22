@@ -1,0 +1,121 @@
+<div class="app-content">
+    <div class="app-title">
+        <div class="div">
+            <h1>
+                <i class="fa fa-ticket" aria-hidden="true"></i>
+                Asset Requisition Form
+            </h1>
+        </div>
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item">
+                <a class="fa fa-home fa-lg breadcrumb-home-link" (click)="goToDashboard()"></a>
+            </li>
+            <li class="breadcrumb-item"><span class="breadcrumb-item-router">Asset Requisition Form List</span></li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12" >
+            <div class="tile">
+                <div class="tile-body">
+                    <div class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                        <div class="row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-12 p-0 text-right">
+                                <button type="button"
+                                        class="btn btn-sm btn-danger btn-all-shadow waves-effect waves-light form-group"
+                                        title="Add Expense"
+                                        [routerLink]="['add']">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 pl-0 pr-0 table-responsive">
+                                <table class="table table-hover dataTable text-center" role="grid" id="rejectTableData"
+                                       aria-describedby="sampleTable_info">
+                                    <thead>
+                                    <tr role="row" class="table-bordered" >
+                                        <th>S.No</th>
+                                        <th>Invoice No</th>
+                                        <th>Model</th>
+                                        <th>Asset Category</th>
+                                        <th>Asset Sub Category</th>
+                                        <th>Vendor Name</th>
+                                        <th>Site</th>
+                                        <th>Warranty</th>
+                                        <th>Description</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let asset of getAllAssetList ; let i = index">
+                                        <td>{{(data.page - 1) * data.size + i + 1}}</td>
+                                        <td>{{asset.invoiceNo}}</td>
+                                        <td>{{asset.model}}</td>
+                                        <td>{{asset.assetCategory}}</td>
+                                        <td>{{asset.assetSubCategory}}</td>
+                                        <td>{{asset.vendorName}}</td>
+                                        <td>{{asset.site}}</td>
+                                        <td>{{asset.warranty}}</td>
+                                        <td>{{asset.description}}</td>
+                                        <td>
+                                            <button class="action-icon-style waves-effect waves-light"
+                                                    [routerLink]="['edit/' + asset.id]"
+                                                    title="Edit"
+                                                    style="padding: 0; height: 35px;width: 35px; background-color: #db2b30; color: white">
+                                                <i class="fa fa-pencil fa-1x" aria-hidden="true"></i>
+                                            </button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button class="action-icon-style waves-effect waves-light"
+                                                    title="Delete"
+                                                    (click)="deleteAsset(asset.id)"
+                                                    style="padding: 0; height: 35px;width: 35px; background-color: #db2b30; color: white">
+                                                <i class="fa fa-trash fa-1x" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="!assetCount || assetCount === 0">
+                                        <td colspan="11" style="text-align: center">No Records exist.</td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr *ngIf="assetCount !== 0">
+                                        <th colSpan="11">
+                                            <div class="pull-right">
+                                                Total Count : {{ assetCount || 0}}
+                                            </div>
+                                        </th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+
+
+                                <div class="form-group">
+                                    <div class="list-row">
+                                        <ngb-pagination *ngIf="assetCount || assetCount !== 0"
+                                                        [(page)]="data.page"
+                                                        [pageSize]="data.size"
+                                                        [collectionSize]="assetCount"
+                                                        [boundaryLinks]="true"
+                                                        (pageChange)="handlePageChange($event)"
+                                                        [maxSize]="5">
+                                        </ngb-pagination>
+                                    </div>
+                                    <ul class="pagination pull-right" style="margin-top: -49px !important;"
+                                        *ngIf="assetCount || assetCount !== 0">
+                                        <li class="page-item" [ngClass]="size == data.size ? 'active' : ''"
+                                            *ngFor="let size of data.pageSizes" (click)="handlePageSizeChange(size)">
+                                            <button class="page-link"> {{ size }}
+                                                <span class="sr-only">(current)</span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

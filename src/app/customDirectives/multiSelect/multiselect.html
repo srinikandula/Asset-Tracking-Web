@@ -1,0 +1,97 @@
+<div class="btn-group" style="width: 100%">
+    <button type="button" class="form-control form-control-sm" [disabled]="isDisabled" (click)="toggleSelect()">
+        <span class="pull-left buttonTextOverflow" [innerHtml]="localHeader"></span>
+        <!--        <span class="caret pull-right"></span>-->
+        <i class="fa fa-caret-down pull-right" style="margin: .2em;"></i>
+    </button>
+    <div class="dropdown-menu multi-select-popup" [ngStyle]="{display:isOpen ? 'block' : 'none'}" style="display:block;">
+        <div class="has-feedback filter">
+            <div class="input-group input-group-sm" *ngIf="enableFilter">
+                <input class="form-control form-control-sm" type="text" [(ngModel)]="filterText"
+                       style="border-right: none;"
+                       [placeholder]="filterPlaceholder"/>
+                <div class="input-group-append">
+                    <button class="btn" style="border: 1px solid #ced4d9; border-left: none;" (click)="clearFilter()">
+                        <i class="fa fa-times" style="color: #dc3545"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex checkAllBox" style="border-bottom: 1px solid #ddd;">
+            <button class="flex-fill btn btn-sm btn-link btn-small" (click)="checkAllAndUncheckAll(true)">
+                Check all
+            </button>
+            <button class="flex-fill btn btn-sm btn-link btn-small" (click)="checkAllAndUncheckAll(false)">
+                Uncheck all
+            </button>
+        </div>
+        <ul class="multiSelect-items-ul">
+            <li *ngFor="let item of dataStoreItems | multiFilter: { text: filterText }">
+                <a (click)="select(item)" class="dropdown-item">
+                    <i class="fa fa-fw"
+                       [ngClass]="{'fa-check-square-o': item.checked, 'fa-square-o': !item.checked}"></i>
+                    <span [innerHtml]="item.text" class="viewLabel" *ngIf="!underScorelessRemove"> {{item.checked}} </span>
+                    <span [innerHtml]="item.text | removeUnderscore" class="viewLabel" *ngIf="underScorelessRemove"> {{item.checked}} </span>
+                </a>
+            </li>
+            <li *ngIf="!dataStoreItems.length">
+                <div class="text-center p-1"> No-Data </div>
+            </li>
+        </ul>
+
+        <div class="d-flex items-count">
+            <span class="p-1 flex-fill"><b>{{selectedItems.length || 0}}</b> Selections Made</span>
+            <span class="p-1 flex-fill">
+                <b>
+                    {{(dataStoreItems | multiFilter:  { text: filterText }).length === dataStoreItems.length ? 0 : (dataStoreItems | multiFilter:  { text: filterText }).length}}
+                </b> Matches Found
+            </span>
+            <span class="p-1 flex-fill"><b>{{dataStoreItems.length || 0}}</b> Options</span>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="showSelected">
+    <ul class="nav-multi" style="padding-left: 15px;" *ngIf="selectedItems.length">
+        <li *ngFor="let item of selectedItems">
+            <span [innerHtml]="item.text" class="viewLabel" *ngIf="!underScorelessRemove"> {{item.checked}} </span>
+            <span [innerHtml]="item.text | removeUnderscore" class="viewLabel" *ngIf="underScorelessRemove"> {{item.checked}} </span>
+            <a (click)="select(item)" style="padding-left: 3px;font-size: 15px;cursor: pointer;" class="selectItemsView">
+                <i class="fa fa-fw" [ngClass]="{'fa-times': item.checked, 'fa-square-o': !item.checked}"></i>
+            </a>
+        </li>
+    </ul>
+    <ul class="nav-multi" style="padding-left: 15px;" *ngIf="!selectedItems.length">
+        <li>Select Options</li>
+    </ul>
+</div>
+<!--
+
+<div class="btn-group" ng-class="{ dropup: dropup, single: !multiple }">
+    <button type="button" class="btn btn-default dropdown-toggle" ng-click="toggleSelect()" ng-disabled="disabled" ng-class="{'has-error': !valid()}">
+        <span class="pull-left" ng-bind="localHeader"></span>
+        <span class="caret pull-right"></span>
+    </button>
+    <ul class="dropdown-menu multi-select-popup" ng-show="isOpen && !moveInProgress" ng-style="{ true: {top: position.top +'px', left: position.left +'px'}, false: {}}[appendToBody]" style="display: block;" role="listbox" aria-hidden="{{!isOpen}}">
+        <li *ngIf="enableFilter" class="filter-container">
+            <div class="form-group has-feedback filter">
+                <input class="form-control" type="text" ng-model="searchText.label" placeholder="{{ filterPlaceholder }}" />
+                <span class="glyphicon glyphicon-remove-circle form-control-feedback" ng-click="clearFilter()"></span>
+            </div>
+        </li>
+        <li ng-show="multiple && (enableCheckAll || enableUncheckAll)">
+            <button *ngIf="enableCheckAll" type="button" class="btn-link btn-small" ng-click="checkAll()"><i class="icon-ok"></i> {{ checkAllLabel }}</button>
+            <button *ngIf="enableUncheckAll" type="button" class="btn-link btn-small" ng-click="uncheckAll()"><i class="icon-remove"></i> {{ uncheckAllLabel }}</button>
+        </li>
+        <li ng-show="maxSelected">
+            <small>Selected maximum of </small><small ng-bind="selectLimit"></small>
+        </li>
+        <li ng-repeat="i in items | filter:searchText">
+            <a ng-click="select(i);">
+                <i class="glyphicon" ng-class="{'glyphicon-ok': i.checked, 'glyphicon-none': !i.checked}"></i>
+                <span ng-bind="i.label"></span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+-->

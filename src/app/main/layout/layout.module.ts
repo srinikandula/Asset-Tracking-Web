@@ -7,11 +7,13 @@ import {LayoutComponent} from './layout.component';
 import {FormsModule} from '@angular/forms';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { AssetTrackingComponent } from './asset-tracking/asset-tracking.component';
 // import {FilterComponent} from './filters/filter/filter.component';
 
 @NgModule({
     declarations: [
         LayoutComponent,
+        AssetTrackingComponent,
         // ProcessingFeeComponent,
         // FilterComponent
     ],
