@@ -59,39 +59,13 @@
                 <a class="app-menu__item" href="" data-toggle="treeview" [routerLinkActive]="['active']">
                     <!--                    <i class="app-menu__icon fa fa-dashboard"></i>-->
                     <i class="icon svgIcon-menu OnboardingIcon" aria-hidden="true"></i>
-                    <span class="app-menu__label">Onboarding</span>
+                    <span class="app-menu__label">Asset Tracking</span>
                     <i class="treeview-indicator fa fa-angle-right"></i>
                 </a>
                 <ul class="treeview-menu">
                     <li class="waves-effect waves-light">
-                        <a class="treeview-item" [routerLink]="['users']" [routerLinkActive]="['active']">
-                            <i class="icon fa fa-user" aria-hidden="true"></i>Search Users
-                        </a>
-                    </li>
-                    <li class="waves-effect waves-light" >
-                        <a class="treeview-item" [routerLink]="['users/pendingUserReport']" [routerLinkActive]="['active']">
-                            <i class="icon fa fa-users" aria-hidden="true"></i>Pending Users Report
-                        </a>
-                    </li>
-                    <li class="waves-effect waves-light" >
-                        <a class="treeview-item" [routerLink]="['vehicles']" [routerLinkActive]="['active']">
-                            <i class="icon fa fa-truck" aria-hidden="true"></i>Vehicles
-                        </a>
-                    </li>
-                    <!--                    <li class="waves-effect waves-light" *ngIf="fleetManagersMenuOption">-->
-                    <li class="waves-effect waves-light" *ngIf="false">
-                        <a class="treeview-item">
-                            <i class="icon fa fa-male" aria-hidden="true"></i>Fleet Managers
-                        </a>
-                    </li>
-                    <li class="waves-effect waves-light" >
-                        <a class="treeview-item" [routerLink]="['beneficiaries']" [routerLinkActive]="['active']">
-                            <i class="icon fa fa-behance-square" aria-hidden="true"></i>Beneficiaries
-                        </a>
-                    </li>
-                    <li class="waves-effect waves-light" >
-                        <a class="treeview-item" [routerLink]="['liteUsers']" [routerLinkActive]="['active']">
-                            <i class="icon fa fa-user" aria-hidden="true"></i>Lite Users
+                        <a class="treeview-item" [routerLink]="['AssetTracking/assetRequisitionForm']" [routerLinkActive]="['active']">
+                            <i class=" icon fa fa-laptop" aria-hidden="true"></i> Asset Requisition Form
                         </a>
                     </li>
                 </ul>

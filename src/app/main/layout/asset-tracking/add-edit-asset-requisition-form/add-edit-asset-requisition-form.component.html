@@ -1,0 +1,127 @@
+<div class="app-content">
+    <div class="app-title">
+        <div class="div">
+            <h1>
+                <i class="fa fa-ticket" aria-hidden="true"></i>
+                Asset Requisition Form
+            </h1>
+        </div>
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><a class="fa fa-home fa-lg breadcrumb-home-link" (click)="goToDashboard()"></a>
+            </li>
+            <li class="breadcrumb-item"><span class="breadcrumb-item-router">Asset Requisition Form List</span></li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 col-sm-12">
+            <div class="tile">
+                <h3 class="tile-title form-head-line-style">{{ assetRequisitionTitle }}
+                </h3>
+                <hr>
+                <div class="tile-body">
+                    <div class="row">
+
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">Asset Category<b
+                                    class="mandatory-field">*</b></label>
+                            <ng-select [(ngModel)]="assetQuery.assetCategory"
+                                       [ngModelOptions]="{standalone: true}"
+                                       bindValue="value"
+                                       bindLabel="key"
+                                       placeholder="Select Asset"
+                                       (ngModelChange)="getAllSubCategory()"
+                                       [clearable]="false">
+                                <ng-option value="" selected>Select Asset Category</ng-option>
+                                <ng-option *ngFor="let Asset of assetCategoryTypes"
+                                           [value]="Asset.value">{{Asset.key}}</ng-option>
+                            </ng-select>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">Asset Sub Category<b
+                                    class="mandatory-field">*</b></label>
+                            <ng-select [(ngModel)]="assetQuery.assetSubCategory"
+                                       [ngModelOptions]="{standalone: true}"
+                                       bindValue="value"
+                                       bindLabel="key"
+                                       placeholder="Select Sub Category"
+                                       [clearable]="false">
+                                <ng-option value="" selected>Select Sub Category</ng-option>
+                                <ng-option *ngFor="let subCat of assetSubCategoryTypes"
+                                           [value]="subCat.value">{{subCat.key}}</ng-option>
+                            </ng-select>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">Select Site<b
+                                    class="mandatory-field">*</b></label>
+                            <ng-select [(ngModel)]="assetQuery.siteId"
+                                       [ngModelOptions]="{standalone: true}"
+                                       bindValue="id"
+                                       bindLabel="name"
+                                       placeholder="Select Site"
+                                       [clearable]="false">
+                                <ng-option value="" selected>Select Site</ng-option>
+                                <ng-option *ngFor="let site of sitesStore"
+                                           [value]="site.id">{{site.name}}</ng-option>
+                            </ng-select>
+                        </div>
+
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">Model</label>
+                            <input class="form-control form-control-sm" type="text"
+                                   [(ngModel)]="assetQuery.model"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Enter Model" required/>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">Asset Description</label>
+                            <input class="form-control form-control-sm" type="text"
+                                   [(ngModel)]="assetQuery.description"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Enter Asset Description" required/>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">Quantity</label>
+                            <input class="form-control form-control-sm" type="text"
+                                   [(ngModel)]="assetQuery.quantity"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Enter Quantity" required/>
+                        </div>
+                    </div>
+                </div>
+                <div class="tile-footer">
+                    <!--                <div class="row">-->
+                    <!--                    <div class="col-md-12 col-md-offset-3">-->
+                    <!--                        <div class="alert alert-danger col-md-12" role="alert" *ngIf="expenseErrors.length">-->
+                    <!--                            <ul>-->
+                    <!--                                <li *ngFor="let error of expenseErrors">{{error}}</li>-->
+                    <!--                            </ul>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                    <!--                </div>-->
+                    <div class="row">
+                        <div class="col-md-12 col-md-offset-3">
+                            <div class="pull-right">
+                                <button id="save-client-button"
+                                        class="btn btn-sm btn-all-shadow waves-effect waves-light btn-danger"
+                                        (click)="addorUpdateAsset()">{{assetRequisitionId ? 'Update' : 'Save'}}
+                                </button>
+                                &nbsp;&nbsp;&nbsp;
+                                <button id="cancel-client-button"
+                                        class="btn btn-sm btn-all-shadow waves-effect waves-light btn-dark"
+                                        (click)="cancel()">
+                                    <i class="fa fa-fw fa-times-circle"></i>
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

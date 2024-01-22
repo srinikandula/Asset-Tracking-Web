@@ -1,0 +1,30 @@
+<ng-select
+        [items]="optionItems"
+        [multiple]="true"
+        bindLabel="name"
+        [selectableGroup]="true"
+        [closeOnSelect]="false"
+        bindValue="id"
+        placeholder="Select items" (change)="onSelectionChange($event)">
+    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+        <div class="ng-value" *ngFor="let item of items | slice:0:1" [hidden]="items.length > 1">
+            <span class="ng-value-label">
+                {{item.name}}</span>
+            <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+        </div>
+        <div class="ng-value" *ngIf="items.length > 1">
+            <span class="ng-value-label">{{items.length}} more...</span>
+        </div>
+    </ng-template>
+    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+        <input id="item-{{index}}" type="checkbox" [checked]="item$.selected" /> {{item.name}}
+    </ng-template>
+    <ng-template ng-header-tmp>
+        <button (click)="selectAll()" class="btn btn-sm btn-secondary">Select all</button>
+        <button (click)="unselectAll()" class="btn btn-sm btn-secondary">Unselect all</button>
+    </ng-template>
+    <ng-template ng-footer-tmp>
+<!--        Selected count: {{selectedData.length}}-->
+        Selected count: {{optionItems.length - optionItems.length}}
+    </ng-template>
+</ng-select>

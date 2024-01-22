@@ -16,6 +16,12 @@ const layoutRoutes: Routes = [
                 loadChildren: () => import('./dashboard/dashboard.module')
                     .then(m => m.DashboardModule)
             },
+            {
+                path: 'AssetTracking',
+                canActivate: [AuthGuard],
+                data: {expectedRole: [45, 41, 40, 35, 31, 30, 29, 28, 27, 25,74, 72, 43, 78,47,80, 70, 76]},
+                loadChildren: () => import('./asset-tracking/asset-tracking.module').then(m => m.AssetTrackingModule)
+            },
             {path: '', pathMatch: 'full', component: DashboardComponent},
         ]
     },
