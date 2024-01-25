@@ -16,12 +16,15 @@ export class ApiUrls {
 
 
 //     Asset Requisition Form Api's
-    getAllAssets = 'api/v1/assetTracking/searchIndent';
-    getAssetCount = 'api/v1/assetTracking/countIndent'
-    getAllCategories = 'api/v1/assetTracking/getAllCategory'
-    getAllSubCategories = 'api/v1/assetTracking/getAllSubCategory'
-    addAsset = 'api/v1/assetTracking/addIndent';
-    updateAsset = 'api/v1/assetTracking/updateIndent/'
-    getAssetById = 'api/v1/assetTracking/getIndent?id='
-    deleteAsset = 'api/v1/assetTracking/deleteIndent?id='
+    getAllAssets = 'api/v1/assetTracking/indent/searchRequestForm';
+    getAssetCount = 'api/v1/assetTracking/indent/countRequestForm'
+    getAllCategories = 'api/v1/assetTracking/asset/getAllCategory'
+    getAllSubCategories = 'api/v1/assetTracking/asset/getAllSubCategory'
+    addAsset = 'api/v1/assetTracking/indent/addRequestForm';
+    updateAsset = 'api/v1/assetTracking/indent/addPurchasingOrder/'
+    getAssetById = 'api/v1/assetTracking/indent/getRequestFormBasedOnId?id='
+    deleteAsset = 'api/v1/assetTracking/indent/deleteRequestForm?id='
+    changeStatus = 'api/v1/assetTracking/indent/changeStatusOfRequestForm?id=';
+    addPurchasingOrder = 'api/v1/assetTracking/indent/addPurchasingOrder/'
+    getPoGenerated ='api/v1/assetTracking/indent/getPoGenerated?id='
 }
