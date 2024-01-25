@@ -3495,7 +3495,7 @@ ul.uib-datepicker-popup.dropdown-menu.ng-scope {
 
 .cus-font-label {
     letter-spacing: .04em;
-    font-weight: 500 !important;
+    font-weight: 700 !important;
     /*color: #bla!important;*/
 }
 
@@ -4135,8 +4135,13 @@ ul.uib-datepicker-popup.dropdown-menu.ng-scope {
 .inactive {
     pointer-events: none;
     cursor: default;
+    background-color: whitesmoke;
 }
-
+.inactive .ng-select-container  {
+    pointer-events: none !important;
+    cursor: default;
+    background-color: whitesmoke !important;
+}
 
 /*.ng-table-scrollcontainer {*/
 /*    width: 300px;*/
@@ -4742,4 +4747,25 @@ table.tid-table tr.tid-detail-row.show > td > div {
 .auto-verify-head b{
     padding-left: 5px;
     font-size: 16px;
+}
+.next-status{
+    color: Red;
+    font-size: 14px;
+    font-weight: 700
+}
+.current-status{
+    color: Green;
+    font-size: 14px;
+    font-weight: 700
+}
+.scrolling-container {
+    max-height: 300px !important; /* Adjust the height as needed */
+    overflow-y: auto !important;
+}
+.form-fieldset {
+    border: 2px solid #ccc; /* Add your desired border styles */
+    padding: 10px; /* Add padding if needed */
+    text-align: left;
+    border-radius: 5px;
+    margin: 30px 10px;
 }
