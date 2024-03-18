@@ -27,4 +27,5 @@ export class ApiUrls {
     changeStatus = 'api/v1/assetTracking/indent/changeStatusOfRequestForm?id=';
     addPurchasingOrder = 'api/v1/assetTracking/indent/addPurchasingOrder/'
     getPoGenerated ='api/v1/assetTracking/indent/getPoGenerated?id='
+    getCustodianDetails = 'api/v1/assetTracking/indent/getCustodianDetails?'
 }

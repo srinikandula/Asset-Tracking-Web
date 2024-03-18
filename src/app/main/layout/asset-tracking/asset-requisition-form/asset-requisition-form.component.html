@@ -55,7 +55,7 @@
                                         <td>{{asset.attrs?.siteCode}}</td>
                                         <td>{{asset.description}}</td>
                                         <td>
-                                            <span class="current-status">{{asset.attrs?.currentStatus}}</span>&nbsp; <small>(current Status)</small>&nbsp;&nbsp;
+                                            <span class="current-status">{{asset.attrs?.currentStatus}}</span>&nbsp; <small>(Current Status)</small>&nbsp;&nbsp;
                                             <i class="fa fa-arrow-right"></i>&nbsp;&nbsp;
                                             <span class="next-status">{{asset.attrs?.nextStatus}}</span> &nbsp;<small>(Next Status)</small>
                                         </td>
@@ -147,13 +147,20 @@
                                                                     </ng-select>
                                                                 </div>
 
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Model</label>
-                                                                    <input class="form-control form-control-sm" type="text"
 
-                                                                           [(ngModel)]="assetQuery.model"
-                                                                           [ngModelOptions]="{standalone: true}"
-                                                                           placeholder="Enter Model" required/>
+                                                                <div class="form-group col-sm-6">
+                                                                    <label class="control-label">Select Custodian Name<b
+                                                                            class="mandatory-field">*</b></label>
+                                                                    <ng-select [(ngModel)]="assetQuery.custodianId"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               bindValue="id"
+                                                                               bindLabel="custodianName"
+                                                                               placeholder="Select Custodian Name"
+                                                                               [clearable]="false">
+                                                                        <ng-option value="" selected>Select Custodian Name</ng-option>
+                                                                        <ng-option *ngFor="let data of custodianDetails"
+                                                                                   [value]="data.custodianId">{{data.custodianName}}</ng-option>
+                                                                    </ng-select>
                                                                 </div>
                                                                 <div class="col-sm-3 form-group text-left">
                                                                     <label class="control-label">Quantity</label>
@@ -457,7 +464,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="display: none">
 <head>
     <meta charset="UTF-8">
     <title>PO</title>

@@ -22,7 +22,11 @@ export class AddEditAssetRequisitionFormComponent implements OnInit {
     description: '',
     assetCategory: '',
     assetSubCategory: '',
+    category: '',
+    custodianName: ''
   }
+  custodianDetails: any;
+  allErrors: any = [];
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
               public  apiService: ApiServiceService,
@@ -66,6 +70,7 @@ getAllSubCategory(): void{
   }
 
   addorUpdateAsset() {
+    console.log(this.allErrors)
     if (this.assetRequisitionId) {
       this.apiService.update(this.apiUrls.updateAsset  +  this.assetRequisitionId, this.assetQuery).subscribe((res: any) => {
         if (res) {
@@ -89,6 +94,18 @@ getAllSubCategory(): void{
         this.assetQuery = res;
         this.getAllCategory()
         this.getAllSubCategory();
+      }
+    })
+  }
+  getCustodianDetails(): void{
+    console.log(this.assetQuery.siteId);
+    this.apiService.get(this.apiUrls.getCustodianDetails + 'id='  + this.assetQuery.siteId).subscribe((res: any) => {
+      if (res){
+        this.custodianDetails = res;
+        // this.assetQuery.custodianName = res[0].custodianName;
+        // this.assetQuery.custodianNumber = res[0].custodianNumber;
+
+        // console.log(this.custodianDetails)
       }
     })
   }
