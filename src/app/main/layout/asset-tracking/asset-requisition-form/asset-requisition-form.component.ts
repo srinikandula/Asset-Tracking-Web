@@ -34,6 +34,7 @@ export class AssetRequisitionFormComponent implements OnInit {
   public assetCategoryTypes: Array<any> = [];
   public assetSubCategoryTypes: Array<any> = [];
   public sitesStore: Array<any> = [];
+  custodianDetails: any;
   public assetRequisitionId: any;
   public initiatePo: any = {
     vendorName: '',
