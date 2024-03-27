@@ -13,9 +13,21 @@
             <li class="breadcrumb-item"><span class="breadcrumb-item-router">Asset Requisition Form List</span></li>
         </ul>
     </div>
-    <div class="row">
-        <div class="col-md-12" >
-            <div class="tile">
+    <ul class="nav nav-tabs">
+        <li class="nav-item active-tab-nav" (click)="changeTab(1)">
+            <a class="nav-link" [ngClass]="{active:tab==1}">Active</a>
+        </li>
+        <li class="nav-item active-tab-nav" (click)="changeTab(2)">
+            <a class="nav-link" [ngClass]="{active:tab==2}">Rejected</a>
+        </li>
+    </ul>
+
+    <!--  Pending Tab   -->
+
+<!--    <div class="row">-->
+<!--        <div class="col-md-12" >-->
+
+            <div class="tile" *ngIf="tab == 1">
                 <div class="tile-body">
                     <div class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
                         <div class="row">
@@ -37,11 +49,12 @@
                                     <thead>
                                     <tr role="row" class="table-bordered" >
                                         <th>S.No</th>
-                                        <th>Model</th>
                                         <th>Asset Category</th>
                                         <th>Asset Sub Category</th>
                                         <th>Site</th>
+                                        <th>Quantity</th>
                                         <th>Description</th>
+                                        <th>Custodian Name</th>
 <!--                                        <th>Next Status</th>-->
                                         <th >Status</th>
                                     </tr>
@@ -49,11 +62,12 @@
                                     <tbody *ngFor="let asset of getAllAssetList ; let i = index" style="cursor: pointer">
                                     <tr  (click)="toggleRowExpand(i, asset)">
                                         <td>{{(data.page - 1) * data.size + i + 1}}</td>
-                                        <td >{{asset.model}}</td>
                                         <td>{{asset.assetCategory}}</td>
                                         <td>{{asset.assetSubCategory}}</td>
                                         <td>{{asset.attrs?.siteCode}}</td>
+                                        <td>{{asset.quantity }}</td>
                                         <td>{{asset.description}}</td>
+                                        <td >{{asset.custodianName}}</td>
                                         <td>
                                             <span class="current-status">{{asset.attrs?.currentStatus}}</span>&nbsp; <small>(Current Status)</small>&nbsp;&nbsp;
                                             <i class="fa fa-arrow-right"></i>&nbsp;&nbsp;
@@ -90,6 +104,9 @@
 <!--                                            </button>-->
 <!--                                        </td>-->
                                     </tr>
+
+                                    <!--                                                            Editable Fields -->
+
                                     <tr *ngIf="expandedRows[i]">
                                         <td colspan="8">
                                             <div class="tile">
@@ -140,6 +157,7 @@
                                                                                bindLabel="name"
                                                                                placeholder="Select Site"
                                                                                [clearable]="false"
+                                                                               (change)="getCustodianDetails()"
                                                                                >
                                                                         <ng-option value="" selected>Select Site</ng-option>
                                                                         <ng-option *ngFor="let site of sitesStore"
@@ -148,7 +166,7 @@
                                                                 </div>
 
 
-                                                                <div class="form-group col-sm-6">
+                                                                <div class="form-group col-sm-3">
                                                                     <label class="control-label">Select Custodian Name<b
                                                                             class="mandatory-field">*</b></label>
                                                                     <ng-select [(ngModel)]="assetQuery.custodianId"
@@ -178,6 +196,15 @@
                                                                               [ngModelOptions]="{standalone: true}"
                                                                               rows="3" cols="50"
                                                                               placeholder="Enter Asset Description" required></textarea>
+                                                                </div>
+                                                                <div class="col-sm-3 form-group text-left">
+                                                                    <label class="control-label">Shipping Address</label>
+                                                                    <textarea class="form-control form-control-sm" type="text"
+
+                                                                              [(ngModel)]="assetQuery.shippingAddress"
+                                                                              [ngModelOptions]="{standalone: true}"
+                                                                              rows="3" cols="50"
+                                                                              placeholder="Enter Shipping Address" required></textarea>
                                                                 </div>
 
                                                             </div>
@@ -230,6 +257,16 @@
                                                                 <legend style="width: unset; max-width: none">Raise PO:</legend>
                                                             <div class="row" >
                                                                 <div class="col-sm-3 form-group text-left">
+                                                                    <label class="control-label">Vendor PAN Number</label>
+                                                                    <input class="form-control form-control-sm" type="text"
+                                                                           maxlength="10"
+                                                                           minlength="10"
+                                                                           [(ngModel)]="initiatePo.panCardNumber"
+                                                                           [ngModelOptions]="{standalone: true}"
+                                                                           (ngModelChange)="getVendorPanDetail()"
+                                                                           placeholder="Enter Pan Card Number" required/>
+                                                                </div>
+                                                                <div class="col-sm-3 form-group text-left">
                                                                     <label class="control-label">Vendor Name</label>
                                                                     <input class="form-control form-control-sm" type="text"
                                                                               [(ngModel)]="initiatePo.vendorName"
@@ -239,7 +276,7 @@
                                                                 <div class="col-sm-3 form-group text-left">
                                                                     <label class="control-label">Vendor Phone Number</label>
                                                                     <input class="form-control form-control-sm" type="text"
-                                                                              [(ngModel)]="initiatePo.vendorPhoneNumber"
+                                                                              [(ngModel)]="initiatePo.mobile"
                                                                               [ngModelOptions]="{standalone: true}"
                                                                               placeholder="Enter Vendor Phone Number" required/>
                                                                 </div>
@@ -270,6 +307,13 @@
                                                                               [(ngModel)]="initiatePo.ifscCode"
                                                                               [ngModelOptions]="{standalone: true}"
                                                                               placeholder="Enter IFSC Code" required/>
+                                                                </div>
+                                                                <div class="col-sm-3 form-group text-left">
+                                                                    <label class="control-label">Vendor GST Number</label>
+                                                                    <input class="form-control form-control-sm" type="text"
+                                                                              [(ngModel)]="initiatePo.gstNumber"
+                                                                              [ngModelOptions]="{standalone: true}"
+                                                                              placeholder="Enter  GST Number" required/>
                                                                 </div>
                                                                 <div class="col-sm-3 form-group text-left">
                                                                     <label class="control-label">Billing Address</label>
@@ -349,13 +393,13 @@
                                                                            [ngModelOptions]="{standalone: true}"
                                                                            placeholder="Enter Total Amount" required/>
                                                                 </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Vendor Gst Number</label>
-                                                                    <input class="form-control form-control-sm" type="text"
-                                                                              [(ngModel)]="initiatePo.vendorGstNumber"
-                                                                              [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter Vendor Gst Number" required/>
-                                                                </div>
+<!--                                                                <div class="col-sm-3 form-group text-left">-->
+<!--                                                                    <label class="control-label">Vendor Gst Number</label>-->
+<!--                                                                    <input class="form-control form-control-sm" type="text"-->
+<!--                                                                              [(ngModel)]="initiatePo.vendorGstNumber"-->
+<!--                                                                              [ngModelOptions]="{standalone: true}"-->
+<!--                                                                              placeholder="Enter Vendor Gst Number" required/>-->
+<!--                                                                </div>-->
                                                                 <div class="col-sm-3 form-group text-left">
                                                                     <label class="control-label">Vendor Address</label>
                                                                     <textarea class="form-control form-control-sm" type="text"
@@ -379,6 +423,11 @@
 <!--                                                                <button *ngIf="asset.attrs.currentStatus !== 'OM_SUBMITTED'"-->
 <!--                                                                        class="btn btn-sm btn-all-shadow waves-effect waves-light btn-danger">{{asset.attrs.currentStatus}}-->
 <!--                                                                </button>-->
+<!--                                                                <button class="btn btn-sm btn-all-shadow waves-effect waves-light btn-success"-->
+<!--                                                                        (click)="updateAssetReq(asset)"-->
+<!--                                                                        > UPDATE-->
+<!--                                                                </button>-->
+                                                                &nbsp;&nbsp;&nbsp;
                                                             </div>
                                                         </div>
                                                         <div class="col-md-12 col-md-offset-3" *ngIf="currentUser.role === 40">
@@ -408,6 +457,19 @@
                                                                 <button *ngIf="asset.attrs.currentStatus === 'SIGNED_OFF'"
                                                                         (click)="pdfData()"
                                                                         class="btn btn-sm btn-all-shadow waves-effect waves-light btn-danger">Download
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-md-offset-3">
+                                                            <div class="pull-right">
+                                                                <button class="btn btn-sm btn-all-shadow waves-effect waves-light btn-primary"
+                                                                        *ngIf="currentUser.id === asset.custodianId"
+                                                                        (click)="acknowledgeOpenPopUp(asset)"
+                                                                        > Acknowledge
+                                                                </button>&nbsp;&nbsp;
+                                                                <button class="btn btn-sm btn-all-shadow waves-effect waves-light btn-danger"
+                                                                        (click)="rejectAsset(asset)"
+                                                                        > Reject
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -458,9 +520,136 @@
                     </div>
                 </div>
             </div>
+<!--        </div>-->
+<!--    </div>-->
+
+<!--  Reject Tab   -->
+
+    <div class="tile" *ngIf="tab == 2">
+        <div class="tile-body">
+            <div class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                <div class="row">
+                    <div class="col-sm-12 pl-0 pr-0 table-responsive">
+                        <table class="table table-hover dataTable text-center" role="grid" id="rejectTableData1"
+                               aria-describedby="sampleTable_info">
+                            <thead>
+                            <tr role="row" class="table-bordered" >
+                                <th>S.No</th>
+                                <th>Asset Category</th>
+                                <th>Asset Sub Category</th>
+                                <th>Site</th>
+                                <th>Quantity</th>
+                                <th>Description</th>
+                                <th>Custodian Name</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let reject of rejectedList; let i = index">
+                                <td>{{(rejectQuery.page - 1) * rejectQuery.size + i + 1}}</td>
+                                <td>{{reject.assetCategory || 'NA'}}</td>
+                                <td>{{reject.assetSubCategory || 'NA'}}</td>
+                                <td>{{reject.attrs?.siteCode || 'NA'}}</td>
+                                <td>{{reject.quantity || 'NA'}}</td>
+                                <td>{{reject.description || 'NA'}}</td>
+                                <td >{{reject.custodianName || 'NA'}}</td>
+                                <td >{{reject.status}}</td>
+                            </tr>
+                            <tr *ngIf="!rejectCount || rejectCount === 0">
+                            <td colspan="8" style="text-align: center">No Records exist.</td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr *ngIf="rejectCount !== 0">
+                                <th colSpan="11">
+                                    <div class="pull-right">
+                                        Total Count : {{ rejectCount || 0}}
+                                    </div>
+                                </th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
         </div>
     </div>
 </div>
+
+
+<ng-template #myModal class="viewExpensePop" let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <div class="" style="width: 100%;">
+            <div class="row">
+                <div class="col-md-9">
+                    <h5 class="modal-title form-head-line-style" style="color: #45a3c5">Upload Invoice</h5>
+                </div>
+                <div class="col-md-3 text-center">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12" style="padding-top: 15px; line-height: 2">
+                <div class="col-sm-6 form-group text-left">
+                    <label class="control-label">Quantity</label>
+                    <input class="form-control form-control-sm" type="number"
+                           [(ngModel)]="custodianUploadData.qty"
+                           [ngModelOptions]="{standalone: true}"
+                           placeholder="Enter Quantity" required/>
+                </div>
+                <div class="col-sm-6 form-group text-left">
+                    <label class="control-label">Invoice Number</label>
+                    <input class="form-control form-control-sm" type="text"
+                           [(ngModel)]="custodianUploadData.invoiceNumber"
+                           [ngModelOptions]="{standalone: true}"
+                           placeholder="Enter Invoice Number" required/>
+                </div>
+            </div>
+            <!--                   Images Upload     -->
+<!--            <div class="row">-->
+                <div class="col-sm-6">
+                    <label class="control-label">Upload Inovice<b class="mandatory-field">*</b></label>
+                    <div class="card">
+                        <img src="{{custodianUploadData || './assets/img/icons/emptyIconImage.png'}}" alt="Vehicle Image"
+                             class="card-img-top" height="168px">
+                        <div class="btn-group btn-group-deAndrem" role="group"
+                             *ngIf="custodianUploadData.panUploadUrl">
+                            <button type="button" class="btn btn-sm"
+                                    (click)="onClick(custodianUploadData.panUploadUrl)"
+                                    data-toggle="modal"
+                                    data-target="#rcUploadModal">
+                                <i class="fa fa-info-circle fa-2x"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm" *ngIf="false">
+                                <i class="fa fa-times-circle fa-2x"></i>
+                            </button>
+                        </div>
+                        <app-imageupload class="upload-btn-wrapper" [imageType]="'uploadAssetDocument'"
+                                         (imageToEmit)="uploadImage($event)"></app-imageupload>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="image-preview pt-5" *ngIf="uploadPanPicDemo">
+                        <img [src]="uploadPanPicDemo" height="168px" width="100%"/>
+                    </div>
+                </div>
+            </div>
+<!--        </div>-->
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-success btn-sm btn-all-shadow waves-effect waves-light"
+                title="Ack" (click)="ackUpload()">
+            <i class="fa fa-thumbs-up fa-1x" aria-hidden="true"></i> Submit
+        </button>
+        <button class="btn btn-secondary btn-sm btn-all-shadow waves-effect waves-light"
+                title="Ack" (click)="close()"> Close
+        </button>
+    </div>
+
+</ng-template>
+
 
 
 <!DOCTYPE html>

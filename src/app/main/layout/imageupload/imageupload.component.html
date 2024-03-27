@@ -1,0 +1,90 @@
+
+<button class="card-footer-cus btn btn-comp btn-all-shadow" style="width: 100%">Upload Image</button>
+<input type="file" style="width: 100%;height: 100%" (change)="fileChangeEvent($event)">
+<br>
+<ng-template #myModal let-c="close" let-d="dismiss">
+    <!--    <modal-header>-->
+    <div class="modal-header">
+        <h4 class="modal-title form-head-line-style">
+            <!--            {{imageType}} -->
+            Image Upload</h4>
+    </div>
+    <!--    </modal-header>-->
+    <!--    <modal-content>-->
+    <div class="modal-body">
+        <image-cropper class="form-group"
+                       [imageChangedEvent]="imageChangedEvent"
+                       [maintainAspectRatio]="false"
+                       [containWithinAspectRatio]="containWithinAspectRatio"
+                       [aspectRatio]="4/3"
+                       [cropperMinWidth]="128"
+                       [onlyScaleDown]="true"
+                       [roundCropper]="false"
+                       [canvasRotation]="canvasRotation"
+                       [transform]="transform"
+                       [alignImage]="'center'"
+                       [style.display]="showCropper ? null : 'none'"
+                       format="png"
+                       (imageCropped)="imageCropped($event)"
+                       (imageLoaded)="imageLoaded()"
+                       (cropperReady)="cropperReady($event)"
+                       (loadImageFailed)="loadImageFailed()"
+        ></image-cropper>
+
+        <h3 class="tile-title form-head-line-style">Preview</h3>
+        <div class="tile">
+            <div class="tile-body text-center">
+                <img [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'"  style="width: 100%"/>
+            </div>
+        </div>
+
+        <h3 class="tile-title form-head-line-style">Tools</h3>
+        <div class="tile">
+            <div class="tile-body" style="display: flex;flex-wrap: wrap;">
+                <button class="btn btn-sm btn-outline-secondary btn-all-shadow waves-effect waves-light mr-1 form-group" (click)="rotateLeft()">
+                    <i class="fa fa-undo" aria-hidden="true" title="Rotate Left"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-secondary btn-all-shadow waves-effect waves-light mr-1 form-group" (click)="rotateRight()">
+                    <i class="fa fa-repeat" aria-hidden="true" title="Rotate right"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-secondary btn-all-shadow waves-effect waves-light mr-1 form-group" (click)="zoomOut()">
+                    <i class="fa fa-search-minus" aria-hidden="true" title="Zoom -"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-secondary btn-all-shadow waves-effect waves-light mr-1 form-group" (click)="zoomIn()">
+                    <i class="fa fa-search-plus" aria-hidden="true" title="Zoom +"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-secondary btn-all-shadow waves-effect waves-light mr-1 form-group" (click)="flipHorizontal()">
+                    <i title="Flip horizontal"></i>Flip horizontal
+                </button>
+                <button class="btn btn-sm btn-outline-secondary btn-all-shadow waves-effect waves-light mr-1 form-group" (click)="flipVertical()">
+                    <i title="Flip vertical"></i>Flip vertical
+                </button>
+                <button class="btn btn-sm btn-outline-secondary btn-all-shadow waves-effect waves-light mr-1 form-group" (click)="toggleContainWithinAspectRatio()">
+                    {{containWithinAspectRatio ? 'Fill Aspect Ratio' : 'Contain Within Aspect Ratio'}}
+                </button>
+                <button class="btn btn-sm btn-outline-secondary btn-all-shadow waves-effect waves-light mr-1 form-group" (click)="resetImage()">Reset image</button>
+            </div>
+        </div>
+    </div>
+    <!--    </modal-content>-->
+    <!--    <modal-footer>-->
+    <div class="modal-footer">
+        <!--                                    <input [(ngModel)]="rotation" [ngModelOptions]="{standalone: true}" placeholder="Rotation" type="number" (keyup)="updateRotation()" />-->
+        <button type="button" id="addClientPopup" class="btn btn-success btn-sm btn-all-shadow waves-effect waves-light"
+                style="float: right" (click)="uploadImage(this.file)">Done
+        </button>
+        <button type="button" class="btn btn-sm btn-all-shadow waves-effect waves-light btn-secondary"
+                data-dismiss="modal" id="close-modal" (click)="close()">Close
+        </button>
+    </div>
+    <!--    </modal-footer>-->
+</ng-template>
+<modal #myModal2>
+
+    <modal-content>
+        <img src="{{vehicleMaster.attrs.pollutionUploadUrl || vehicleMaster.attrs.fitnessUploadUrl || vehicleMaster.attrs.insuranceUploadUrl || vehicleMaster.attrs.rcUploadUrl || vehicleMaster.attrs.reSecondUploadUrl || vehicleMaster.attrs.roadTaxUploadUrl }}"
+             style="width: 100%;">
+    </modal-content>
+</modal>
+
+

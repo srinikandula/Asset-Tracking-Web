@@ -7,12 +7,16 @@ import { AddEditAssetRequisitionFormComponent } from './add-edit-asset-requisiti
 import {FormsModule} from "@angular/forms";
 import {NgbPaginationModule, NgbPopoverModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
+import {ImageCropperModule} from "ngx-image-cropper";
+import {ImageuploadComponent} from "../imageupload/imageupload.component";
+import {ModalModule} from "ngb-modal";
 
 
 @NgModule({
   declarations: [
     AssetRequisitionFormComponent,
-    AddEditAssetRequisitionFormComponent
+    AddEditAssetRequisitionFormComponent,
+      ImageuploadComponent
   ],
     imports: [
         CommonModule,
@@ -21,6 +25,9 @@ import {NgSelectModule} from '@ng-select/ng-select';
         NgbPaginationModule,
         NgSelectModule,
         NgbPopoverModule,
-    ]
+        ImageCropperModule,
+        ModalModule,
+    ],
+    exports: [ImageuploadComponent]
 })
 export class AssetTrackingModule { }

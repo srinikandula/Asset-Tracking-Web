@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthenticationService} from "../../../../services/authentication.service";
 import {ApiServiceService} from "../../../../services/api-service.service";
@@ -7,6 +7,8 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {OnlynumberDirective} from "../../../../customDirectives/onlynumber.directive";
 // @ts-ignore
 import * as html2pdf from 'html2pdf.js';
+import { ModalManager } from 'ngb-modal';
+import swal from "sweetalert2";
 
 @Component({
   selector: 'app-asset-requisition-form',
@@ -14,10 +16,18 @@ import * as html2pdf from 'html2pdf.js';
   styleUrls: ['./asset-requisition-form.component.css']
 })
 export class AssetRequisitionFormComponent implements OnInit {
+  tab = 1;
   public assetCount: any;
   public getAllAssetList: any;
   public currentUser: any;
+  public rejectedList: any;
+  public rejectCount: any;
   data: any = {
+    page: 1,
+    size: 10,
+    pageSizes: [],
+  };
+  rejectQuery: any = {
     page: 1,
     size: 10,
     pageSizes: [],
@@ -55,22 +65,33 @@ export class AssetRequisitionFormComponent implements OnInit {
     additionalExpenses: 0,
     totalAmount: 0,
     vendorGstNumber: '',
-    vendorAddress: ''
+    vendorAddress: '',
+    panCardNumber: ''
   }
   public poData: any = {};
   public checkStatus = {
     fieldBoo: false,
     staticBoo: false
   }
+
+  public uploadPanPicDemo: any;
+  public previewUrl2: any;
+  public imageChangedEvent: any = '';
+  public imageArray: Array<any> = [];
+  @ViewChild('myModal') myModal: any;
+  @ViewChild('myModal2') myModal2: any;
+  public modalRef: any;
+  public custodianUploadData: any = {};
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
               public  apiService: ApiServiceService,
               private apiUrls: ApiUrls,
               private actRoute: ActivatedRoute,
-              private ngModalService: NgbModal) {
+              private ngModalService: NgbModal,
+              public modelService: ModalManager,) {
     this.authenticationService.currentUser.subscribe(x => {
       this.currentUser = x;
-      // console.log(this.currentUser)
+      console.log(this.currentUser)
     });
   }
 
@@ -96,7 +117,23 @@ export class AssetRequisitionFormComponent implements OnInit {
     })
 
   }
+  getAllRejects(): void{
+    this.apiService.getAll(this.apiUrls.getRejectRequestForm, this.rejectQuery).subscribe((res: any) => {
+      if (res){
+        this.rejectedList = res.content;
+      }
+    })
+  }
+  getCountForReject(): void{
+    this.apiService.getCount(this.apiUrls.getRejectRequestFormCount, this.data).subscribe((res: any) => {
+      if (res){
+        this.rejectCount = res;
+        OnlynumberDirective.pagination(this.rejectCount, this.rejectQuery);
+        this.getAllRejects();
+      }
+    })
 
+  }
   deleteAsset(id: any):void{
     this.apiService.update(this.apiUrls.deleteAsset + id, {}).subscribe((res: any) => {
       if (res){
@@ -117,7 +154,19 @@ export class AssetRequisitionFormComponent implements OnInit {
     this.data.page = 1;
     this.getCount()
   }
-
+  changeTab(tabKey: any): void {
+    this.tab = tabKey ? tabKey : 1;
+    switch (this.tab) {
+      case 1:
+        this.getCount()
+        break;
+      case 2:
+        this.getCountForReject()
+        break;
+      default:
+        break;
+    }
+  }
   commit(asset: any):void {
     this.apiService.update(this.apiUrls.changeStatus + asset.id, {}).subscribe((res: any) => {
       if (res){
@@ -177,7 +226,9 @@ export class AssetRequisitionFormComponent implements OnInit {
         this.getAllCategory()
         this.getAllSubCategory();
         this.getSitesForDropDownExpense();
+        this.getCustodianDetails();
         this.assetQuery = res;
+        // this.assetQuery.custodianId = res.custodianId;
       }
     })
   }
@@ -197,6 +248,7 @@ export class AssetRequisitionFormComponent implements OnInit {
   }
 
   getStatusCheck(id: any, status: any, nextStatus: any): any {
+    console.log(nextStatus, '-------------------------')
     if (id === this.currentUser.id && this.currentUser.role === 26) {
       if (nextStatus === 'OM_PENDING') {
         this.checkStatus.fieldBoo = true;
@@ -217,6 +269,7 @@ export class AssetRequisitionFormComponent implements OnInit {
     } else if (id === this.currentUser.id && this.currentUser.role === 40) {
       console.log('rm')
       if (nextStatus === 'VL_PENDING') {
+        console.log(123456)
         this.checkStatus.fieldBoo = true;
         this.checkStatus.staticBoo = false;
       } else {
@@ -248,6 +301,113 @@ export class AssetRequisitionFormComponent implements OnInit {
     this.apiService.update(this.apiUrls.addPurchasingOrder + asset.id, {...this.initiatePo, ...this.assetQuery.description, ...this.assetQuery.quantity}).subscribe((res: any) => {
       if (res){
 
+      }
+    })
+  }
+  getCustodianDetails(): void{
+    console.log(this.assetQuery.siteId);
+    this.apiService.get(this.apiUrls.getCustodianDetails + 'id='  + this.assetQuery.siteId).subscribe((res: any) => {
+      if (res){
+        this.custodianDetails = res;
+        // this.assetQuery.custodianName = res[0].custodianName;
+        // this.assetQuery.custodianNumber = res[0].custodianNumber;
+
+        // console.log(this.custodianDetails)
+      }
+    })
+  }
+  onClick(event: any): void {
+    this.previewUrl2 = event;
+    this.imageChangedEvent = event;
+    this.modalRef = this.ngModalService.open(this.myModal2, {size: 'lg', backdrop: 'static', keyboard: false});
+  }
+
+
+  uploadImage(event: any): void {
+    const reader = new FileReader();
+    if (!event.imageData) {
+    } else {
+      const obj: any = {
+        file: '',
+        subUrl: '',
+        picName: '',
+      };
+      for (let i = 0; i < this.imageArray.length; i++) {
+        if (this.imageArray[i].picName === event.uploadName) {
+          this.imageArray.splice(i, 1);
+        }
+      }
+      console.log(this.imageArray)
+      switch (event.uploadName) {
+        case 'uploadAssetDocument':
+          obj.picName = event.uploadName;
+          obj.subUrl = 'api/v1/assetTracking/indent/uploadAssetDocument?id=';
+          obj.file = event.imageData;
+          reader.readAsDataURL(obj.file);
+          console.log(obj.file)
+          reader.onload = () => {
+            this.uploadPanPicDemo = reader.result;
+          };
+          this.imageArray.push(obj);
+          break;
+      }
+      console.log(this.custodianUploadData)
+    }
+    // this.preview();
+  }
+
+  ackUpload(): void{
+    // this.imageArray = [];
+    // this.custodianUploadData.invoiceNumber = '';
+    // this.custodianUploadData.qty= ''
+    // this.uploadPanPicDemo = ''
+    this.apiService.get(this.apiUrls.addCustodianQtyAndInvoiceNumber
+        + this.assetRequisitionId
+        +  '&qty=' + this.custodianUploadData.qty
+        + '&invoiceNumber=' + this.custodianUploadData.invoiceNumber).subscribe((res: any) => {
+          if (res){
+            let i: any;
+            for (i = 0; i < this.imageArray.length; i++) {
+              console.log(this.imageArray, '================')
+              this.apiService.imageUpload(this.imageArray[i].subUrl + this.assetRequisitionId, this.imageArray[i].file).subscribe
+              ((response: any) => {
+                if (response) {
+                  if (i === this.imageArray.length) {
+                    console.log(this.imageArray, '==========image Array');
+                    swal.fire('Success!', 'Invoice Uploaded Successfully  ' , 'success');
+                    this.router.navigate(['AssetTracking/assetRequisitionForm']);
+                  }
+                }
+              });
+            }
+            this.ngModalService.dismissAll();
+          }
+    })
+  }
+  acknowledgeOpenPopUp(data: any) {
+    this.modalRef = this.ngModalService.open(this.myModal, {size: 'md', backdrop: 'static', keyboard: false});
+  }
+  close(): void{
+    this.ngModalService.dismissAll();
+    this.imageArray = [];
+    this.custodianUploadData.invoiceNumber = '';
+    this.custodianUploadData.qty= ''
+
+  }
+  getVendorPanDetail(): void {
+    if (this.initiatePo.panCardNumber.length === 10) {
+      this.apiService.get(this.apiUrls.getVendorDetailsByPan  + this.initiatePo.panCardNumber)
+          .subscribe((res: any) => {
+            if (res) {
+              this.initiatePo = res;
+            }
+          });
+    }
+  }
+  rejectAsset(asset: any): void{
+    this.apiService.update(this.apiUrls.rejectRequestForm + asset.id, {}).subscribe((res: any) => {
+      if (res){
+        this.getCount()
       }
     })
   }
