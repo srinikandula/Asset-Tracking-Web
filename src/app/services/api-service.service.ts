@@ -188,5 +188,11 @@ export class ApiServiceService {
     allData(subUrl: any, data: any) {
         return this.http.get(this.Apiurls.mainUrl + subUrl, data);
     }
+
+    imageUpload(subUrl: any, data: File) {
+        const formData: FormData = new FormData();
+        formData.append('fileKey', data, data.name);
+        return this.http.post(this.Apiurls.mainUrl + subUrl, formData);
+    }
 }
 

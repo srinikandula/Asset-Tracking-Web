@@ -9,7 +9,7 @@ export class ApiUrls {
 
     // mainUrl = 'http://localhost:8090/';
     //  mainUrl = 'http://192.168.0.105:8090/';
-    mainUrl = 'http://10.72.25.219:8090/';
+    mainUrl = 'http://10.72.25.219:8091/';
     // mainUrl = environment.testPath;
     // mainUrl = 'https://sapi.whizzard.in/';
 
@@ -28,4 +28,9 @@ export class ApiUrls {
     addPurchasingOrder = 'api/v1/assetTracking/indent/addPurchasingOrder/'
     getPoGenerated ='api/v1/assetTracking/indent/getPoGenerated?id='
     getCustodianDetails = 'api/v1/assetTracking/indent/getCustodianDetails?'
+    addCustodianQtyAndInvoiceNumber = 'api/v1/assetTracking/indent/addCustodianQtyAndInvoiceNumber?id='
+    getVendorDetailsByPan = 'api/v1/vendorDetails/getVendorDetails?pan='
+    rejectRequestForm = 'api/v1/assetTracking/indent/rejectRequestForm?id=';
+    getRejectRequestForm = 'api/v1/assetTracking/indent/getRejectRequestForm'
+    getRejectRequestFormCount = 'api/v1/assetTracking/indent/getRejectRequestFormCount'
 }
