@@ -22,6 +22,7 @@ export class AssetRequisitionFormComponent implements OnInit {
   public currentUser: any;
   public rejectedList: any;
   public rejectCount: any;
+  public viewRejectAssetDetails: any;
   data: any = {
     page: 1,
     size: 10,
@@ -80,6 +81,7 @@ export class AssetRequisitionFormComponent implements OnInit {
   public imageArray: Array<any> = [];
   @ViewChild('myModal') myModal: any;
   @ViewChild('myModal2') myModal2: any;
+  @ViewChild('viewRejectModal') viewRejectModal: any;
   public modalRef: any;
   public custodianUploadData: any = {};
   constructor(private router: Router,
@@ -133,6 +135,13 @@ export class AssetRequisitionFormComponent implements OnInit {
       }
     })
 
+  }
+  viewAsset(reject: any): void{
+    this.viewRejectAssetDetails = reject;
+    console.log(this.viewRejectAssetDetails, '===========')
+    if (this.viewRejectAssetDetails) {
+      this.modalRef = this.ngModalService.open(this.viewRejectModal, {size: 'lg', backdrop: 'static', keyboard: false});
+    }
   }
   deleteAsset(id: any):void{
     this.apiService.update(this.apiUrls.deleteAsset + id, {}).subscribe((res: any) => {
@@ -369,7 +378,11 @@ export class AssetRequisitionFormComponent implements OnInit {
             let i: any;
             for (i = 0; i < this.imageArray.length; i++) {
               console.log(this.imageArray, '================')
-              this.apiService.imageUpload(this.imageArray[i].subUrl + this.assetRequisitionId, this.imageArray[i].file).subscribe
+              this.apiService.imageUpload(this.imageArray[i].subUrl
+                  + this.assetRequisitionId
+                  +  '&qty=' + this.custodianUploadData.qty
+                  + '&invoiceNumber=' + this.custodianUploadData.invoiceNumber,
+                  this.imageArray[i].file).subscribe
               ((response: any) => {
                 if (response) {
                   if (i === this.imageArray.length) {
