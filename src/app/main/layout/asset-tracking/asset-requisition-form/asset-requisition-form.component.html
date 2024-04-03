@@ -49,6 +49,7 @@
                                     <thead>
                                     <tr role="row" class="table-bordered" >
                                         <th>S.No</th>
+                                        <th>Asset Req No</th>
                                         <th>Asset Category</th>
                                         <th>Asset Sub Category</th>
                                         <th>Site</th>
@@ -62,6 +63,7 @@
                                     <tbody *ngFor="let asset of getAllAssetList ; let i = index" style="cursor: pointer">
                                     <tr  (click)="toggleRowExpand(i, asset)">
                                         <td>{{(data.page - 1) * data.size + i + 1}}</td>
+                                        <td>{{asset.indentNumber}}</td>
                                         <td>{{asset.assetCategory}}</td>
                                         <td>{{asset.assetSubCategory}}</td>
                                         <td>{{asset.attrs?.siteCode}}</td>
@@ -232,12 +234,12 @@
                                                                         <span class="shift-tem-text-Re">{{assetQuery.attrs.siteName}} ({{ assetQuery.attrs.siteCode|| 'NA'}})</span>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group">
-                                                                        <label class="cus-font-label">Model: </label>&nbsp;
-                                                                        <span class="shift-tem-text-Re">{{ assetQuery.model|| 'NA'}}</span>
-                                                                    </div>
-                                                                </div>
+<!--                                                                <div class="col-sm-6">-->
+<!--                                                                    <div class="form-group">-->
+<!--                                                                        <label class="cus-font-label">Model: </label>&nbsp;-->
+<!--                                                                        <span class="shift-tem-text-Re">{{ assetQuery.model|| 'NA'}}</span>-->
+<!--                                                                    </div>-->
+<!--                                                                </div>-->
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group">
                                                                         <label class="cus-font-label">Quantity: </label>&nbsp;
@@ -257,7 +259,7 @@
                                                                 <legend style="width: unset; max-width: none">Raise PO:</legend>
                                                             <div class="row" >
                                                                 <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Vendor PAN Number</label>
+                                                                    <label class="control-label">Vendor PAN Number <b class="mandatory-field">*</b></label>
                                                                     <input class="form-control form-control-sm" type="text"
                                                                            maxlength="10"
                                                                            minlength="10"
@@ -267,14 +269,14 @@
                                                                            placeholder="Enter Pan Card Number" required/>
                                                                 </div>
                                                                 <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Vendor Name</label>
+                                                                    <label class="control-label">Vendor Name <b class="mandatory-field">*</b></label>
                                                                     <input class="form-control form-control-sm" type="text"
                                                                               [(ngModel)]="initiatePo.vendorName"
                                                                               [ngModelOptions]="{standalone: true}"
                                                                               placeholder="Enter Vendor Name" required/>
                                                                 </div>
                                                                 <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Vendor Phone Number</label>
+                                                                    <label class="control-label">Vendor Phone Number <b class="mandatory-field">*</b></label>
                                                                     <input class="form-control form-control-sm" type="text"
                                                                               [(ngModel)]="initiatePo.mobile"
                                                                               [ngModelOptions]="{standalone: true}"
@@ -288,42 +290,42 @@
                                                                               placeholder="Enter Vendor Email" required/>
                                                                 </div>
                                                                 <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Beneficiary Name</label>
+                                                                    <label class="control-label">Beneficiary Name <b class="mandatory-field">*</b></label>
                                                                     <input class="form-control form-control-sm" type="text"
                                                                               [(ngModel)]="initiatePo.beneficiaryName"
                                                                               [ngModelOptions]="{standalone: true}"
                                                                               placeholder="Enter Beneficiary Name" required/>
                                                                 </div>
                                                                 <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Account Number</label>
+                                                                    <label class="control-label">Account Number <b class="mandatory-field">*</b></label>
                                                                     <input class="form-control form-control-sm" type="text"
                                                                               [(ngModel)]="initiatePo.accountNumber"
                                                                               [ngModelOptions]="{standalone: true}"
                                                                               placeholder="Enter Account Number" required/>
                                                                 </div>
                                                                 <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">IFSC Code</label>
+                                                                    <label class="control-label">IFSC Code <b class="mandatory-field">*</b></label>
                                                                     <input class="form-control form-control-sm" type="text"
                                                                               [(ngModel)]="initiatePo.ifscCode"
                                                                               [ngModelOptions]="{standalone: true}"
                                                                               placeholder="Enter IFSC Code" required/>
                                                                 </div>
                                                                 <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Vendor GST Number</label>
+                                                                    <label class="control-label">Vendor GST Number <b class="mandatory-field">*</b></label>
                                                                     <input class="form-control form-control-sm" type="text"
-                                                                              [(ngModel)]="initiatePo.gstNumber"
+                                                                              [(ngModel)]="initiatePo.vendorGstNumber"
                                                                               [ngModelOptions]="{standalone: true}"
                                                                               placeholder="Enter  GST Number" required/>
                                                                 </div>
                                                                 <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Billing Address</label>
+                                                                    <label class="control-label">Billing Address <b class="mandatory-field">*</b></label>
                                                                     <input class="form-control form-control-sm" type="text"
                                                                               [(ngModel)]="initiatePo.billingAddress"
                                                                               [ngModelOptions]="{standalone: true}"
                                                                               placeholder="Enter Billing Address" required/>
                                                                 </div>
                                                                 <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Shipping Address</label>
+                                                                    <label class="control-label">Shipping Address <b class="mandatory-field">*</b></label>
                                                                     <input class="form-control form-control-sm" type="text"
                                                                               [(ngModel)]="initiatePo.shippingAddress"
                                                                               [ngModelOptions]="{standalone: true}"
@@ -344,7 +346,7 @@
                                                                               placeholder="Enter Ship To Email" required/>
                                                                 </div>
                                                                 <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Terms</label>
+                                                                    <label class="control-label">Terms <b class="mandatory-field">*</b></label>
                                                                     <input class="form-control form-control-sm" type="text"
                                                                               [(ngModel)]="initiatePo.terms"
                                                                               [ngModelOptions]="{standalone: true}"
@@ -359,21 +361,21 @@
                                                                 </div>
 
                                                                 <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Rate</label>
+                                                                    <label class="control-label">Rate <b class="mandatory-field">*</b></label>
                                                                     <input class="form-control form-control-sm" type="number"
-                                                                           [(ngModel)]="initiatePo.Rate"
+                                                                           [(ngModel)]="initiatePo.rate"
                                                                            [ngModelOptions]="{standalone: true}"
                                                                            placeholder="Enter Rate" required/>
                                                                 </div>
                                                                 <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">PreGst Amount</label>
+                                                                    <label class="control-label">PreGst Amount <b class="mandatory-field">*</b></label>
                                                                     <input class="form-control form-control-sm" type="number"
                                                                            [(ngModel)]="initiatePo.preGstAmount"
                                                                            [ngModelOptions]="{standalone: true}"
                                                                            placeholder="Enter PreGst Amount" required/>
                                                                 </div>
                                                                 <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">GST Amount</label>
+                                                                    <label class="control-label">GST Amount <b class="mandatory-field">*</b></label>
                                                                     <input class="form-control form-control-sm" type="number"
                                                                            [(ngModel)]="initiatePo.gstAmount"
                                                                            [ngModelOptions]="{standalone: true}"
@@ -387,7 +389,7 @@
                                                                            placeholder="Enter Additional Expenses" required/>
                                                                 </div>
                                                                 <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Total Amount</label>
+                                                                    <label class="control-label">Total Amount <b class="mandatory-field">*</b></label>
                                                                     <input class="form-control form-control-sm" type="number"
                                                                            [(ngModel)]="initiatePo.totalAmount"
                                                                            [ngModelOptions]="{standalone: true}"
@@ -401,7 +403,7 @@
 <!--                                                                              placeholder="Enter Vendor Gst Number" required/>-->
 <!--                                                                </div>-->
                                                                 <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Vendor Address</label>
+                                                                    <label class="control-label">Vendor Address <b class="mandatory-field">*</b></label>
                                                                     <textarea class="form-control form-control-sm" type="text"
                                                                               rows="3" cols="20"
                                                                               [(ngModel)]="initiatePo.vendorAddress"
