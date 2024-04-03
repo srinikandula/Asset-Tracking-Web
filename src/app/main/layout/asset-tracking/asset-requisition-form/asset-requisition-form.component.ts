@@ -60,7 +60,7 @@ export class AssetRequisitionFormComponent implements OnInit {
     shipToEmail: '',
     terms: '',
     warranty: '',
-    Rate: 0,
+    rate: 0,
     preGstAmount: 0,
     gstAmount: 0,
     additionalExpenses: 0,
