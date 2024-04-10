@@ -1,0 +1,321 @@
+<div class="app-content" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+    <div class="app-title">
+        <div class="div">
+            <h1>
+                <i class="fa fa-tablet" aria-hidden="true"></i>
+                Asset
+            </h1>
+        </div>
+        <ul class="app-breadcrumb breadcrumb">
+            <li class="breadcrumb-item"><a class="fa fa-home fa-lg" (click)="goToDashboard()"></a></li>
+            <li class="breadcrumb-item"><span class="breadcrumb-item-router">{{assetTitle}}</span></li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 col-sm-12">
+            <div class="tile">
+                <h3 class="tile-title form-head-line-style">{{assetTitle}}
+                </h3>
+                <hr>
+                <div class="tile-body">
+                    <div class="row">
+                        <div class="col-sm-6 form-group">
+                                <label class="control-label">Asset Requisition Number<b
+                                        class="mandatory-field">*</b></label>
+                                <ng-select [(ngModel)]="assetQuery.vendorNumber"
+                                           [ngModelOptions]="{standalone: true}"
+                                           bindValue="value"
+                                           bindLabel="key"
+                                           placeholder="Select Ticket Number"
+                                           [clearable]="false"
+                                           (ngModelChange)="getDataForTicketNumber(assetQuery.vendorNumber)">
+                                    <ng-option value="" selected>Select Ticket Number</ng-option>
+                                    <ng-option *ngFor="let ticket of assetTicketNumberList"
+                                               [value]="ticket.value">{{ ticket.key }}
+                                    </ng-option>
+                                </ng-select>
+                        </div>
+
+                        <div class="form-group col-sm-6 text-left">
+                            <label class="control-label">Select Site<b
+                                    class="mandatory-field">*</b></label>
+                            <ng-select [(ngModel)]="assetQuery.siteId" class="diabled-Drop"
+                                       [ngModelOptions]="{standalone: true}"
+                                       bindValue="id"
+                                       bindLabel="name"
+                                       placeholder="Select Site"
+                                       [clearable]="false"
+                            >
+                                <ng-option value="" selected>Select Site</ng-option>
+                                <ng-option *ngFor="let site of sitesStore"
+                                           [value]="site.id">{{site.name}}</ng-option>
+                            </ng-select>
+                        </div>
+
+
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">Asset Category <b class="mandatory-field">*</b></label>
+                            <input type="text" class="form-control form-control-sm" type="text"
+                                   [(ngModel)]="assetQuery.assetCategory"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Asset Category" required/>
+                        </div>
+
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">Asset Sub Category <b
+                                    class="mandatory-field">*</b></label>
+                            <input type="text" class="form-control form-control-sm" type="text"
+                                   [(ngModel)]="assetQuery.assetSubCategory"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Asset Sub Category" required/>
+                        </div>
+
+                        <div class="col-sm-6 form-group" >
+                            <label class="control-label">Vendor Name <b
+                                    class="mandatory-field">*</b></label>
+                            <input type="text" class="form-control form-control-sm" type="text"
+                                   [(ngModel)]="assetQuery.attrs.vendorName"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Asset Custodian Name" required/>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">Invoice Number <b
+                                    class="mandatory-field">*</b></label>
+                            <input type="text" class="form-control form-control-sm" type="text"
+                                   [(ngModel)]="assetQuery.invoiceNumber"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Asset Invoice Number" required/>
+                        </div>
+
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">Invoice Date <b
+                                    class="mandatory-field">*</b></label>
+                            <input type="text" class="form-control form-control-sm" type="text"
+                                   [(ngModel)]="assetQuery.invoiceDate"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Asset Invoice Date" required/>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">Asset Identification No <b
+                                    class="mandatory-field">*</b></label>
+                            <input type="text" class="form-control form-control-sm" type="text"
+                                   [(ngModel)]="assetQuery.indentNumber"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Asset Indent Number" required/>
+                        </div>
+
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">Amount Before Tax <b
+                                    class="mandatory-field">*</b></label>
+                            <input type="text" class="form-control form-control-sm" type="number"
+                                   [(ngModel)]="assetQuery.amountBeforeTax"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Amount Before Tax" required/>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">Additional Expenses <b
+                                    class="mandatory-field">*</b></label>
+                            <input type="text" class="form-control form-control-sm" type="number"
+                                   [(ngModel)]="assetQuery.additionalExpenses"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Enter Additional Expenses" required/>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">Description <b
+                                    class="mandatory-field">*</b></label>
+                            <input type="text" class="form-control form-control-sm" type="text"
+                                   [(ngModel)]="assetQuery.description"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Enter Descriptions" required/>
+                        </div>
+                        </div>
+
+                    <div class="row" *ngIf="assetId">
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">Select Tax Type<b
+                                    class="mandatory-field">*</b></label>
+                            <ng-select [(ngModel)]="assetQuery.tax"
+                                       [ngModelOptions]="{standalone: true}"
+                                       bindValue="value"
+                                       bindLabel="key"
+                                       placeholder="Select Tax Type"
+                                       [clearable]="false"
+                                       >
+                                <ng-option value="" selected>Select Tax Type</ng-option>
+                                <ng-option *ngFor="let ticket of taxArray"
+                                           [value]="ticket.value">{{ ticket.key }}
+                                </ng-option>
+                            </ng-select>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">Capitalised Value <b
+                                    class="mandatory-field">*</b></label>
+                            <input type="text" class="form-control form-control-sm" type="number"
+                                   [(ngModel)]="assetQuery.capitalisedValue"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Enter Capitalised Value" required/>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">Date of capitalisation <b
+                                    class="mandatory-field">*</b></label>
+                            <input type="text" class="form-control form-control-sm" type="text"
+                                   [(ngModel)]="assetQuery.dateOfCapitalisation"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Enter Date of capitalisation " required/>
+                        </div>
+
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">Model <b
+                                    class="mandatory-field">*</b></label>
+                            <input type="text" class="form-control form-control-sm" type="text"
+                                   [(ngModel)]="assetQuery.model"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Enter Model " required/>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">Serial Number <b
+                                    class="mandatory-field">*</b></label>
+                            <input type="text" class="form-control form-control-sm" type="text"
+                                   [(ngModel)]="assetQuery.serialNumber"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Enter Serial Number " required/>
+                        </div>
+
+                    </div>
+                        <div class="row" *ngIf="assetId">
+                            <div class="col-sm-4">
+                                <label class="control-label">Invoice Image</label>
+                                <div class="card">
+                                    <img src="{{assetQuery.attrs.invoiceDocUrl || './assets/img/icons/emptyIconImage.png'}}" alt="Vehicle Image"
+                                         class="card-img-top" height="168px">
+                                    <div class="btn-group btn-group-deAndrem" role="group"
+                                         *ngIf="assetQuery.attrs.invoiceDocUrl">
+                                        <button type="button" class="btn btn-sm"
+                                                (click)="onClick(assetQuery.attrs.invoiceDocUrl)"
+                                                data-toggle="modal" data-target="#insuranceUploadModal">
+                                            <i class="fa fa-info-circle fa-2x"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm" *ngIf="false">
+                                            <i class="fa fa-info-circle fa-2x"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+<!--                    </div>-->
+
+                    <div class="row" *ngIf="!assetId">
+                        <div class="col-sm-12 form-group">
+                            <table class="table table-hover text-center sticky-invoice">
+                                <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Serial Number </th>
+                                    <th>Model</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="sticky-body" *ngFor="let item of assetQuery.itemsList; let i = index; let last = last;">
+                                    <td style="border: 2px solid #dee2e6">
+                                        {{ i + 1}}
+                                    </td>
+
+                                    <td class="widt-120" style="border: 2px solid #dee2e6">
+                                        <input placeholder="Enter Serial Number" type="text"
+                                               class="form-control form-control-sm text-right" min="0"
+                                               [(ngModel)]="item.serialNumber"
+                                               [ngModelOptions]="{standalone: true}" />
+                                    </td>
+                                    <td class="widt-120" style="border: 2px solid #dee2e6">
+                                        <input placeholder="Enter Model" type="text"
+                                               class="form-control form-control-sm text-right" min="0"
+                                               [(ngModel)]="item.model"
+                                               [ngModelOptions]="{standalone: true}" />
+                                    </td>
+                                    <td style="border: 2px solid #dee2e6">
+                                        <div style="display: flex" >
+                                            <button class="action-icon-style waves-effect waves-red delete-user-button"
+                                                    (click)="deleteItem(i)" title="Delete Item"
+                                                    *ngIf="assetQuery.itemsList.length != 1"
+                                                    style="height: 30px;width: 30px;padding: 0;">
+                                                <i class="fa fa-trash" aria-hidden="true" style="color: red;font-size: 15px"></i>
+                                            </button>
+
+                                            <button class="action-icon-style waves-effect waves-red delete-user-button"
+                                                    title="Add Item"
+                                                    style="height: 30px;width: 30px;padding: 0;" (click)="addItem()" *ngIf="last">
+                                                <i class="fa fa-plus-circle" aria-hidden="true"
+                                                   style="color: green; font-size: 15px"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                                <tfoot>
+                                <tr *ngIf="assetQuery.itemsList === null">
+                                    <th colspan="6" style="text-align: center">No Records exist.</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tile-footer">
+                    <div class="row">
+                        <div class="col-sm-12 col-sm-offset-3">
+                            <div class="alert alert-danger col-sm-12" role="alert" *ngIf="errors.length">
+                                <ul style="margin-bottom: 0;">
+                                    <li *ngFor="let error of errors">{{error}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-sm-offset-3">
+                        <div class="pull-right">
+                            <button id="save-client-button"
+                                    class="btn btn-sm btn-all-shadow waves-effect waves-light btn-info"
+                                    (click)="saveAsset()">
+                                <i class="fa fa-fw fa-check-circle"></i>
+                                Add Asset
+                            </button>
+                            &nbsp;&nbsp;&nbsp;
+                            <button id="cancel-client-button"
+                                    class="btn btn-sm btn-all-shadow waves-effect waves-light btn-dark"
+                                    (click)="cancel()">
+                                <i class="fa fa-fw fa-times-circle"></i>
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<ng-template #myModal2 let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <div class="d-none modal-header"></div>
+        <img [src]="previewUrl2" style="width: 100%;">
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success btn-sm btn-all-shadow waves-effect waves-light"
+                (click)="close()">Close
+        </button>&nbsp;&nbsp;&nbsp;
+        <a class="btn btn-sm waves-effect waves-light btn-primary"
+           href="{{previewUrl2}}">Download</a>
+        <!--        <p>{{vehicleMaster.attrs.pollutionUploadUrl || vehicleMaster.attrs.fitnessUploadUrl || vehicleMaster.attrs.insuranceUploadUrl || vehicleMaster.attrs.rcUploadUrl || vehicleMaster.attrs.roadTaxUploadUrl }}</p>-->
+    </div>
+</ng-template>

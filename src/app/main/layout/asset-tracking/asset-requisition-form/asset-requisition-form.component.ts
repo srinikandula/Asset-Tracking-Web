@@ -9,6 +9,7 @@ import {OnlynumberDirective} from "../../../../customDirectives/onlynumber.direc
 import * as html2pdf from 'html2pdf.js';
 import { ModalManager } from 'ngb-modal';
 import swal from "sweetalert2";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-asset-requisition-form',
@@ -176,10 +177,61 @@ export class AssetRequisitionFormComponent implements OnInit {
         break;
     }
   }
-  commit(asset: any):void {
-    this.apiService.update(this.apiUrls.changeStatus + asset.id, {}).subscribe((res: any) => {
-      if (res){
-        this.getCount();
+
+
+
+//   Swal.fire({
+//               title: 'Are you sure?',
+//               html: ['<div>You are committing the rental payment for<b style="font-weight: bold"> ' + site.siteCode + ' </b>.</div>'].join(),
+//   icon: 'warning',
+//   showCancelButton: true,
+//   confirmButtonColor: '#28a745',
+//   cancelButtonColor: '#d33',
+//   confirmButtonText: '<i class="fa fa-thumbs-up"></i> Yes, Commit it!',
+// }).then((result) => {
+//   if (result.isConfirmed) {
+//     this.apiService.create(this.apiUrls.commitSiteRental + site.id, {})
+//         .subscribe((response: any) => {
+//           if (response === true) {
+//             Swal.fire(
+//                 'Committed!',
+//                 'The rental payment for the ' + site.siteCode + ' have been Committed.',
+//                 'success'
+//             );
+//             this.getRentalData('');
+//           } else {
+//             Swal.fire(
+//                 'Error!',
+//                 'Commits are not allowed..!.',
+//                 'error'
+//             );
+//           }
+//         });
+//   }
+// });
+  commit(asset: any): void {
+    console.log(asset.attrs)
+    swal.fire({
+      title: 'Are you sure to ' + asset.attrs.currentStatus + '?' ,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#28a745',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Yes, Submit it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.apiService.update(this.apiUrls.changeStatus + asset.id, {}).subscribe((res: any) => {
+          if (res) {
+            swal.fire('Success!', '', 'success');
+            this.getCount();
+          } else {
+            Swal.fire(
+                'Error!',
+                'Commits are not allowed..!.',
+                'error'
+            );
+          }
+        });
       }
     })
   }
@@ -424,6 +476,48 @@ export class AssetRequisitionFormComponent implements OnInit {
       }
     })
   }
+
+  showRejectButtonFun(asset: any): any {
+    if (this.currentUser.id === asset.createdBy) {
+      console.log(1)
+      return false;
+    } else if ((this.currentUser.role === 26) && ((asset.status === 'OM_PENDING') || (asset.status === 'RM_PENDING') || (asset.status === 'VL_PENDING') || (asset.status === 'SIGNED_OFF'))) {
+      console.log(2)
+      return true;
+    } else if ((this.currentUser.role === 31) && ((asset.status === 'OM_PENDING') || (asset.status === 'RM_PENDING') || (asset.status === 'VL_PENDING') || (asset.status === 'SIGNED_OFF'))) {
+      console.log(3)
+      return true;
+    } else if ((this.currentUser.role === 40) && ((asset.status === 'VL_PENDING') || (asset.status === 'SIGNED_OFF'))) {
+      console.log(4)
+      return true;
+    } else if ((this.currentUser.role === 76) && asset.status === 'SIGNED_OFF') {
+      console.log(5)
+      return true;
+    } else {
+      console.log(6)
+      return false
+    }
+  }
+  // @ts-ignore
+  statusRole(key: any): number {
+    if (key === 'OM_PENDING') {
+      return 30;
+    } else if (key === 'RM_PENDING') {
+      return 35;
+    } else if (key === 'VL_PENDING') {
+      return 76;
+    }
+  }
+
+
+  calculatePreGstAmount(): void{
+    this.initiatePo.preGstAmount = Number(this.assetQuery.quantity) + Number(this.initiatePo.rate);
+  }
+  calculateTotalAmount(): void{
+    this.initiatePo.totalAmount = Number (this.initiatePo.preGstAmount) + Number(this.initiatePo.gstAmount)  + Number(this.initiatePo.additionalExpenses)
+  }
+
+
   pdfData(): void{
     this.apiService.get(this.apiUrls.getPoGenerated + this.assetRequisitionId).subscribe((res: any) => {
       if (res){

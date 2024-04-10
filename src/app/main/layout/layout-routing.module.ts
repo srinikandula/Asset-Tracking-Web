@@ -22,6 +22,13 @@ const layoutRoutes: Routes = [
                 data: {expectedRole: [45, 41, 40, 35, 31, 30, 29, 28, 27, 26, 25, 20, 19, 74, 72, 43, 78, 47,80, 70, 76]},
                 loadChildren: () => import('./asset-tracking/asset-tracking.module').then(m => m.AssetTrackingModule)
             },
+            {
+                path: 'Asset',
+                canActivate: [AuthGuard],
+                data: {expectedRole: [45, 41, 40, 35, 31, 30, 29, 28, 27, 26, 25, 20, 19, 74, 72, 43, 78, 47,80, 70, 76]},
+                loadChildren: () => import('./asset/asset-routing.module').then( m=> m.AssetRoutingModule)
+
+            },
             {path: '', pathMatch: 'full', component: DashboardComponent},
         ]
     },
