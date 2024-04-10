@@ -60,7 +60,7 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
     DatepickerModule.forRoot(),
     // NgMultiSelectDropDownModule.forRoot(),
     CommonModule,
-    BrowserAnimationsModule, // required animations module
+    // BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot({
       timeOut: 2000,
       positionClass: 'toast-bottom-right',

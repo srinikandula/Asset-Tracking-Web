@@ -33,4 +33,16 @@ export class ApiUrls {
     rejectRequestForm = 'api/v1/assetTracking/indent/rejectRequestForm?id=';
     getRejectRequestForm = 'api/v1/assetTracking/indent/getRejectRequestForm'
     getRejectRequestFormCount = 'api/v1/assetTracking/indent/getRejectRequestFormCount'
+
+
+//  Asset or Add-Asset Api's
+
+    searchAssets = 'api/v1/assetTracking/asset/searchAssets';
+    countAssets = 'api/v1/assetTracking/asset/countAssets';
+    getPaidVendorNumberDropDownForAddAsset = 'api/v1/assetTracking/asset/getPaidVendorNumberDropDownForAddAsset'
+    getVendorPaymentByVendorNumber = 'api/v1/assetTracking/asset/getVendorPaymentByVendorNumber?vendorNumber='
+    addAssetApi = 'api/v1/assetTracking/asset/addAsset';
+    invoiceNumberForCapitalisation = 'api/v1/assetTracking/asset/getCapitalisedValue?invoiceNumber=';
+    getForAssetById = 'api/v1/assetTracking/asset/getAssetBasedOnId?id='
+
 }
