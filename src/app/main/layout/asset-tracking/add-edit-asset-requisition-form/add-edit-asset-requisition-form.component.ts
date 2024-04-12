@@ -23,7 +23,8 @@ export class AddEditAssetRequisitionFormComponent implements OnInit {
     assetCategory: '',
     assetSubCategory: '',
     category: '',
-    custodianName: ''
+    custodianName: '',
+    quantity: 0
   }
   custodianDetails: any;
   allErrors: any = [];
@@ -77,6 +78,8 @@ getAllSubCategory(): void{
           console.log(res);
           this.router.navigate(['AssetTracking/assetRequisitionForm']);
         }
+      }, error => {
+        this.allErrors = error;
       })
     } else {
       this.apiService.getAll(this.apiUrls.addAsset, this.assetQuery).subscribe((res: any) => {
@@ -84,6 +87,8 @@ getAllSubCategory(): void{
           console.log(res);
           this.router.navigate(['AssetTracking/assetRequisitionForm']);
         }
+      }, error => {
+        this.allErrors = error;
       })
     }
   }
