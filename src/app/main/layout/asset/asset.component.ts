@@ -20,12 +20,18 @@ export class AssetComponent implements OnInit {
    count: 0,
    pageSizes: [],
 }
+  public currentUser: any;
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
               public  apiService: ApiServiceService,
               private apiUrls: ApiUrls,
               private actRoute: ActivatedRoute,
-              private ngModalService: NgbModal) { }
+              private ngModalService: NgbModal) {
+    this.authenticationService.currentUser.subscribe(x => {
+      this.currentUser = x;
+      console.log(this.currentUser)
+    });
+  }
 
   ngOnInit(): void {
    this.getCount();

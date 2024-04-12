@@ -55,7 +55,7 @@ export class AssetRequisitionFormComponent implements OnInit {
     beneficiaryName: '',
     accountNumber: '',
     ifscCode: '',
-    billingAddress: '',
+    billingAddress: '8th floor,801/A,krishe Block 1-89/3/B/40-42/KS/801A, Krishe Sapphire, Hi-Tech City Road, Madhapur, Hyderabad, Ranagareddy,500081,India,PAN Number: AABCZ2432M,GSTIN 36AABCZ2432M1Z4',
     shippingAddress: '',
     billToEmail: '',
     shipToEmail: '',
@@ -309,7 +309,6 @@ export class AssetRequisitionFormComponent implements OnInit {
   }
 
   getStatusCheck(id: any, status: any, nextStatus: any): any {
-    console.log(nextStatus, '-------------------------')
     if (id === this.currentUser.id && this.currentUser.role === 26) {
       if (nextStatus === 'OM_PENDING') {
         this.checkStatus.fieldBoo = true;
@@ -357,11 +356,27 @@ export class AssetRequisitionFormComponent implements OnInit {
       ...this.initiatePo,
       ...this.assetQuery
     };
-
-    console.log(123456)
-    this.apiService.update(this.apiUrls.addPurchasingOrder + asset.id, {...this.initiatePo, ...this.assetQuery.description, ...this.assetQuery.quantity}).subscribe((res: any) => {
-      if (res){
-
+    swal.fire({
+      title: 'Are you sure?' ,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#28a745',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Yes, Submit it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.apiService.update(this.apiUrls.addPurchasingOrder + asset.id, {...this.initiatePo, ...this.assetQuery.description, ...this.assetQuery.quantity}).subscribe((res: any) => {
+          if (res){
+            swal.fire('Success!', ' ' , 'success');
+            this.getCount();
+          } else {
+            Swal.fire(
+                'Error!',
+                'PO_INITIATED are not allowed..!.',
+                'error'
+            );
+          }
+        });
       }
     })
   }
@@ -465,14 +480,37 @@ export class AssetRequisitionFormComponent implements OnInit {
           .subscribe((res: any) => {
             if (res) {
               this.initiatePo = res;
+              this.initiatePo.additionalExpenses = 0;
+              this.initiatePo.rate = 0;
+              this.initiatePo.gstAmount = 0;
+              this.initiatePo.totalAmount = 0;
+              this.initiatePo.billingAddress = '8th floor,801/A,krishe Block 1-89/3/B/40-42/KS/801A, Krishe Sapphire, Hi-Tech City Road, Madhapur, Hyderabad, Ranagareddy,500081,India,PAN Number: AABCZ2432M,GSTIN 36AABCZ2432M1Z4'
             }
           });
     }
   }
-  rejectAsset(asset: any): void{
-    this.apiService.update(this.apiUrls.rejectRequestForm + asset.id, {}).subscribe((res: any) => {
-      if (res){
-        this.getCount()
+  rejectAsset(asset: any): void {
+    swal.fire({
+      title: 'Are you sure?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#28a745',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Yes, Reject it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.apiService.update(this.apiUrls.rejectRequestForm + asset.id, {}).subscribe((res: any) => {
+          if (res) {
+            swal.fire('Rejected', 'Your request has been rejected.', 'success');
+            this.getCount()
+          } else {
+            Swal.fire(
+                'Error!',
+                'Reject are not allowed..!.',
+                'error'
+            )
+          }
+        })
       }
     })
   }
@@ -484,18 +522,17 @@ export class AssetRequisitionFormComponent implements OnInit {
     } else if ((this.currentUser.role === 26) && ((asset.status === 'OM_PENDING') || (asset.status === 'RM_PENDING') || (asset.status === 'VL_PENDING') || (asset.status === 'SIGNED_OFF'))) {
       console.log(2)
       return true;
-    } else if ((this.currentUser.role === 31) && ((asset.status === 'OM_PENDING') || (asset.status === 'RM_PENDING') || (asset.status === 'VL_PENDING') || (asset.status === 'SIGNED_OFF'))) {
+    } else if ((this.currentUser.role === 31) && ((asset.status === 'OM_PENDING'))) {
       console.log(3)
       return true;
-    } else if ((this.currentUser.role === 40) && ((asset.status === 'VL_PENDING') || (asset.status === 'SIGNED_OFF'))) {
+    } else if ((this.currentUser.role === 40) && ((asset.status === 'RM_PENDING'))) {
       console.log(4)
       return true;
-    } else if ((this.currentUser.role === 76) && asset.status === 'SIGNED_OFF') {
+    } else if ((this.currentUser.role === 76) && (asset.status === 'VL_PENDING')) {
       console.log(5)
       return true;
     } else {
-      console.log(6)
-      return false
+      return false;
     }
   }
   // @ts-ignore
@@ -511,7 +548,7 @@ export class AssetRequisitionFormComponent implements OnInit {
 
 
   calculatePreGstAmount(): void{
-    this.initiatePo.preGstAmount = Number(this.assetQuery.quantity) + Number(this.initiatePo.rate);
+    this.initiatePo.preGstAmount = Number(this.assetQuery.quantity) * Number(this.initiatePo.rate);
   }
   calculateTotalAmount(): void{
     this.initiatePo.totalAmount = Number (this.initiatePo.preGstAmount) + Number(this.initiatePo.gstAmount)  + Number(this.initiatePo.additionalExpenses)

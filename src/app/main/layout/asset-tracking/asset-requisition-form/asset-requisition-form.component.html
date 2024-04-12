@@ -323,18 +323,29 @@
                                                                               placeholder="Enter  GST Number" required/>
                                                                 </div>
                                                                 <div class="col-sm-3 form-group text-left">
+                                                                    <label class="control-label">Vendor Address <b class="mandatory-field">*</b></label>
+                                                                    <textarea class="form-control form-control-sm" type="text"
+                                                                              rows="3" cols="20"
+                                                                              [(ngModel)]="initiatePo.vendorAddress"
+                                                                              [ngModelOptions]="{standalone: true}"
+                                                                              placeholder="Enter Vendor Address" required></textarea>
+                                                                </div>
+
+                                                                <div class="col-sm-3 form-group text-left">
                                                                     <label class="control-label">Billing Address <b class="mandatory-field">*</b></label>
-                                                                    <input class="form-control form-control-sm" type="text"
+                                                                    <textarea class="form-control form-control-sm" type="text" disabled
+                                                                              rows="3" cols="20"
                                                                               [(ngModel)]="initiatePo.billingAddress"
                                                                               [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter Billing Address" required/>
+                                                                              placeholder="Enter Billing Address" required></textarea>
                                                                 </div>
                                                                 <div class="col-sm-3 form-group text-left">
                                                                     <label class="control-label">Shipping Address <b class="mandatory-field">*</b></label>
-                                                                    <input class="form-control form-control-sm" type="text"
+                                                                    <textarea class="form-control form-control-sm" type="text"
+                                                                              rows="3" cols="20"
                                                                               [(ngModel)]="initiatePo.shippingAddress"
                                                                               [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter Shipping Address" required/>
+                                                                              placeholder="Enter Shipping Address" required ></textarea>
                                                                 </div>
                                                                 <div class="col-sm-3 form-group text-left">
                                                                     <label class="control-label">Bill To Email</label>
@@ -420,14 +431,7 @@
 <!--                                                                              [ngModelOptions]="{standalone: true}"-->
 <!--                                                                              placeholder="Enter Vendor Gst Number" required/>-->
 <!--                                                                </div>-->
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Vendor Address <b class="mandatory-field">*</b></label>
-                                                                    <textarea class="form-control form-control-sm" type="text"
-                                                                              rows="3" cols="20"
-                                                                              [(ngModel)]="initiatePo.vendorAddress"
-                                                                              [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter Vendor Address" required></textarea>
-                                                                </div>
+
                                                             </div>
                                                             </fieldset>
                                                         </div>
@@ -440,6 +444,11 @@
                                                                         *ngIf="asset.attrs.currentStatus === 'COMMIT'"> COMMIT
                                                                 </button>
                                                                 &nbsp;&nbsp;&nbsp;
+                                                                <button class="btn btn-sm btn-all-shadow waves-effect waves-light btn-danger"
+                                                                        *ngIf="showRejectButtonFun(asset)"
+                                                                        (click)="rejectAsset(asset)"
+                                                                > Reject
+                                                                </button>
 <!--                                                                <button *ngIf="asset.attrs.currentStatus !== 'OM_SUBMITTED'"-->
 <!--                                                                        class="btn btn-sm btn-all-shadow waves-effect waves-light btn-danger">{{asset.attrs.currentStatus}}-->
 <!--                                                                </button>-->
@@ -455,6 +464,11 @@
                                                                 <button class="btn btn-sm btn-all-shadow waves-effect waves-light btn-success"
                                                                         (click)="commit(asset)"
                                                                         *ngIf="asset.attrs.currentStatus === 'APPROVE'"> APPROVE
+                                                                </button>&nbsp;&nbsp;
+                                                                <button class="btn btn-sm btn-all-shadow waves-effect waves-light btn-danger"
+                                                                        *ngIf="showRejectButtonFun(asset)"
+                                                                        (click)="rejectAsset(asset)"
+                                                                > Reject
                                                                 </button>
 <!--                                                                &nbsp;&nbsp;&nbsp;-->
 <!--                                                                <button *ngIf="asset.attrs.currentStatus !== 'OM_SUBMITTED'"-->
@@ -469,6 +483,11 @@
                                                                         *ngIf="asset.attrs.currentStatus === 'SIGN_OFF'"> SIGN_OFF
                                                                 </button>
                                                                 &nbsp;&nbsp;&nbsp;
+                                                                <button class="btn btn-sm btn-all-shadow waves-effect waves-light btn-danger"
+                                                                        *ngIf="showRejectButtonFun(asset)"
+                                                                        (click)="rejectAsset(asset)"
+                                                                > Reject
+                                                                </button> &nbsp;&nbsp;
                                                                 <button *ngIf="asset.attrs.currentStatus === 'SIGNED_OFF'"
                                                                         (click)="addPurchasingFun(asset)"
                                                                         class="btn btn-sm btn-all-shadow waves-effect waves-light btn-success">
@@ -487,12 +506,12 @@
                                                                         (click)="acknowledgeOpenPopUp(asset)"
                                                                         > Acknowledge
                                                                 </button>&nbsp;&nbsp;
-<!--                                                                {{showRejectButtonFun(asset)}}-->
-                                                                <button class="btn btn-sm btn-all-shadow waves-effect waves-light btn-danger"
-                                                                        [disabled]="(statusRole(asset.status) >= currentUser.role)"
-                                                                        (click)="rejectAsset(asset)"
-                                                                        > Reject
-                                                                </button>
+<!--                                                                {{showRejectButtonFun(asset)}}      [disabled]="(statusRole(asset.status) >= currentUser.role)"-->
+<!--                                                                <button class="btn btn-sm btn-all-shadow waves-effect waves-light btn-danger"-->
+<!--                                                                        *ngIf="showRejectButtonFun(asset)"-->
+<!--                                                                        (click)="rejectAsset(asset)"-->
+<!--                                                                        > Reject out-->
+<!--                                                                </button>-->
 
                                                                 <!--                                                                        *ngIf="asset.status === 'SIGNED_OFF' ?  currentUser.id !== asset.createdBy && !(asset.status === 'OM_PENDING' || asset.status === 'RM_PENDING' || asset.status === 'VL_PENDING') : false"-->
 
