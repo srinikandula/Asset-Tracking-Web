@@ -260,182 +260,252 @@
                                                             </div>
                                                         </fieldset>
 
-                                                            <fieldset class="form-fieldset" *ngIf="currentUser.role === 76 && asset.attrs?.currentStatus === 'SIGNED_OFF'">
-                                                                <legend style="width: unset; max-width: none">INITIATE PO:</legend>
-                                                            <div class="row" >
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Vendor PAN Number <b class="mandatory-field">*</b></label>
-                                                                    <input class="form-control form-control-sm" type="text"
-                                                                           maxlength="10"
-                                                                           minlength="10"
-                                                                           [(ngModel)]="initiatePo.panCardNumber"
-                                                                           [ngModelOptions]="{standalone: true}"
-                                                                           (ngModelChange)="getVendorPanDetail()"
-                                                                           placeholder="Enter Pan Card Number" required/>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Vendor Name <b class="mandatory-field">*</b></label>
-                                                                    <input class="form-control form-control-sm" type="text"
-                                                                              [(ngModel)]="initiatePo.vendorName"
-                                                                              [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter Vendor Name" required/>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Vendor Phone Number <b class="mandatory-field">*</b></label>
-                                                                    <input class="form-control form-control-sm" type="text"
-                                                                              [(ngModel)]="initiatePo.mobile"
-                                                                              [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter Vendor Phone Number" required/>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Vendor Email</label>
-                                                                    <input class="form-control form-control-sm" type="text"
-                                                                              [(ngModel)]="initiatePo.vendorEmail"
-                                                                              [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter Vendor Email" required/>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Beneficiary Name <b class="mandatory-field">*</b></label>
-                                                                    <input class="form-control form-control-sm" type="text"
-                                                                              [(ngModel)]="initiatePo.beneficiaryName"
-                                                                              [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter Beneficiary Name" required/>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Account Number <b class="mandatory-field">*</b></label>
-                                                                    <input class="form-control form-control-sm" type="text"
-                                                                              [(ngModel)]="initiatePo.accountNumber"
-                                                                              [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter Account Number" required/>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">IFSC Code <b class="mandatory-field">*</b></label>
-                                                                    <input class="form-control form-control-sm" type="text"
-                                                                              [(ngModel)]="initiatePo.ifscCode"
-                                                                              [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter IFSC Code" required/>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Vendor GST Number <b class="mandatory-field">*</b></label>
-                                                                    <input class="form-control form-control-sm" type="text"
-                                                                              [(ngModel)]="initiatePo.vendorGstNumber"
-                                                                              [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter  GST Number" required/>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Vendor Address <b class="mandatory-field">*</b></label>
-                                                                    <textarea class="form-control form-control-sm" type="text"
-                                                                              rows="3" cols="20"
-                                                                              [(ngModel)]="initiatePo.vendorAddress"
-                                                                              [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter Vendor Address" required></textarea>
-                                                                </div>
+                                                            <fieldset class="form-fieldset"
+                                                                      *ngIf="currentUser.role === 76 && asset.attrs?.currentStatus === 'SIGNED_OFF'">
+                                                                <legend style="width: unset; max-width: none">INITIATE
+                                                                    PO:
+                                                                </legend>
+                                                                <div class="row">
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Vendor PAN Number
+                                                                            <b class="mandatory-field">*</b></label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="text"
+                                                                               maxlength="10"
+                                                                               minlength="10"
+                                                                               [(ngModel)]="initiatePo.panCardNumber"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               (ngModelChange)="getVendorPanDetail()"
+                                                                               placeholder="Enter Pan Card Number"
+                                                                               required/>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Vendor Name <b
+                                                                                class="mandatory-field">*</b></label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="text"
+                                                                               [(ngModel)]="initiatePo.vendorName"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               placeholder="Enter Vendor Name"
+                                                                               required/>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Vendor Phone Number
+                                                                            <b class="mandatory-field">*</b></label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="text"
+                                                                               [(ngModel)]="initiatePo.mobile"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               placeholder="Enter Vendor Phone Number"
+                                                                               required/>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Vendor
+                                                                            Email</label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="text"
+                                                                               [(ngModel)]="initiatePo.vendorEmail"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               placeholder="Enter Vendor Email"
+                                                                               required/>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Beneficiary Name <b
+                                                                                class="mandatory-field">*</b></label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="text"
+                                                                               [(ngModel)]="initiatePo.beneficiaryName"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               placeholder="Enter Beneficiary Name"
+                                                                               required/>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Account Number <b
+                                                                                class="mandatory-field">*</b></label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="text"
+                                                                               [(ngModel)]="initiatePo.accountNumber"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               placeholder="Enter Account Number"
+                                                                               required/>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">IFSC Code <b
+                                                                                class="mandatory-field">*</b></label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="text"
+                                                                               [(ngModel)]="initiatePo.ifscCode"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               placeholder="Enter IFSC Code" required/>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Vendor GST Number
+                                                                            <b class="mandatory-field">*</b></label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="text"
+                                                                               [(ngModel)]="initiatePo.vendorGstNumber"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               placeholder="Enter  GST Number"
+                                                                               required/>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Vendor Address <b
+                                                                                class="mandatory-field">*</b></label>
+                                                                        <textarea class="form-control form-control-sm"
+                                                                                  type="text"
+                                                                                  rows="3" cols="20"
+                                                                                  [(ngModel)]="initiatePo.vendorAddress"
+                                                                                  [ngModelOptions]="{standalone: true}"
+                                                                                  placeholder="Enter Vendor Address"
+                                                                                  required></textarea>
+                                                                    </div>
 
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Billing Address <b class="mandatory-field">*</b></label>
-                                                                    <textarea class="form-control form-control-sm" type="text" disabled
-                                                                              rows="3" cols="20"
-                                                                              [(ngModel)]="initiatePo.billingAddress"
-                                                                              [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter Billing Address" required></textarea>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Shipping Address <b class="mandatory-field">*</b></label>
-                                                                    <textarea class="form-control form-control-sm" type="text"
-                                                                              rows="3" cols="20"
-                                                                              [(ngModel)]="initiatePo.shippingAddress"
-                                                                              [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter Shipping Address" required ></textarea>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Bill To Email</label>
-                                                                    <input class="form-control form-control-sm" type="text"
-                                                                              [(ngModel)]="initiatePo.billToEmail"
-                                                                              [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter Bill To Email" required/>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Ship To Email</label>
-                                                                    <input class="form-control form-control-sm" type="text"
-                                                                              [(ngModel)]="initiatePo.shipToEmail"
-                                                                              [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter Ship To Email" required/>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Terms <b class="mandatory-field">*</b></label>
-                                                                    <input class="form-control form-control-sm" type="text"
-                                                                              [(ngModel)]="initiatePo.terms"
-                                                                              [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter Terms" required/>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Warranty</label>
-                                                                    <input class="form-control form-control-sm" type="text"
-                                                                              [(ngModel)]="initiatePo.warranty"
-                                                                              [ngModelOptions]="{standalone: true}"
-                                                                              placeholder="Enter Warranty" required/>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Quantity</label>
-                                                                    <input class="form-control form-control-sm" type="number"
-                                                                           disabled
-                                                                           [(ngModel)]="assetQuery.quantity"
-                                                                           [ngModelOptions]="{standalone: true}"
-                                                                           placeholder="Enter Quantity" required/>
-                                                                </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Billing Address <b
+                                                                                class="mandatory-field">*</b></label>
+                                                                        <textarea class="form-control form-control-sm"
+                                                                                  type="text" disabled
+                                                                                  rows="3" cols="20"
+                                                                                  [(ngModel)]="initiatePo.billingAddress"
+                                                                                  [ngModelOptions]="{standalone: true}"
+                                                                                  placeholder="Enter Billing Address"
+                                                                                  required></textarea>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Shipping Address <b
+                                                                                class="mandatory-field">*</b></label>
+                                                                        <textarea class="form-control form-control-sm"
+                                                                                  type="text"
+                                                                                  rows="3" cols="20"
+                                                                                  [(ngModel)]="initiatePo.shippingAddress"
+                                                                                  [ngModelOptions]="{standalone: true}"
+                                                                                  placeholder="Enter Shipping Address"
+                                                                                  required></textarea>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Bill To
+                                                                            Email</label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="text"
+                                                                               [(ngModel)]="initiatePo.billToEmail"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               placeholder="Enter Bill To Email"
+                                                                               required/>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Ship To
+                                                                            Email</label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="text"
+                                                                               [(ngModel)]="initiatePo.shipToEmail"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               placeholder="Enter Ship To Email"
+                                                                               required/>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Terms <b
+                                                                                class="mandatory-field">*</b></label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="text"
+                                                                               [(ngModel)]="initiatePo.terms"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               placeholder="Enter Terms" required/>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Warranty</label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="text"
+                                                                               [(ngModel)]="initiatePo.warranty"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               placeholder="Enter Warranty" required/>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Quantity</label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="number"
+                                                                               disabled
+                                                                               [(ngModel)]="assetQuery.quantity"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               placeholder="Enter Quantity" required/>
+                                                                    </div>
 
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Rate <b class="mandatory-field">*</b></label>
-                                                                    <input class="form-control form-control-sm" type="number"
-                                                                           [(ngModel)]="initiatePo.rate"
-                                                                           (ngModelChange)="calculatePreGstAmount()"
-                                                                           [ngModelOptions]="{standalone: true}"
-                                                                           placeholder="Enter Rate" required/>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">PreGst Amount <b class="mandatory-field">*</b></label>
-                                                                    <input class="form-control form-control-sm" type="number"
-                                                                           [(ngModel)]="initiatePo.preGstAmount"
-                                                                           disabled
-                                                                           [ngModelOptions]="{standalone: true}"
-                                                                           placeholder="Enter PreGst Amount" required/>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">GST Amount <b class="mandatory-field">*</b></label>
-                                                                    <input class="form-control form-control-sm" type="number"
-                                                                           [(ngModel)]="initiatePo.gstAmount"
-                                                                           [ngModelOptions]="{standalone: true}"
-                                                                           (ngModelChange)="calculateTotalAmount()"
-                                                                           placeholder="Enter GST Amount" required/>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Additional Expenses</label>
-                                                                    <input class="form-control form-control-sm" type="number"
-                                                                           [(ngModel)]="initiatePo.additionalExpenses"
-                                                                           [ngModelOptions]="{standalone: true}"
-                                                                           (ngModelChange)="calculateTotalAmount()"
-                                                                           placeholder="Enter Additional Expenses" required/>
-                                                                </div>
-                                                                <div class="col-sm-3 form-group text-left">
-                                                                    <label class="control-label">Total Amount <b class="mandatory-field">*</b></label>
-                                                                    <input class="form-control form-control-sm" type="number"
-                                                                           disabled
-                                                                           [(ngModel)]="initiatePo.totalAmount"
-                                                                           [ngModelOptions]="{standalone: true}"
-                                                                           placeholder="Enter Total Amount" required/>
-                                                                </div>
-<!--                                                                <div class="col-sm-3 form-group text-left">-->
-<!--                                                                    <label class="control-label">Vendor Gst Number</label>-->
-<!--                                                                    <input class="form-control form-control-sm" type="text"-->
-<!--                                                                              [(ngModel)]="initiatePo.vendorGstNumber"-->
-<!--                                                                              [ngModelOptions]="{standalone: true}"-->
-<!--                                                                              placeholder="Enter Vendor Gst Number" required/>-->
-<!--                                                                </div>-->
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Rate <b
+                                                                                class="mandatory-field">*</b></label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="number"
+                                                                               [(ngModel)]="initiatePo.rate"
+                                                                               (ngModelChange)="calculatePreGstAmount()"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               placeholder="Enter Rate" required/>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">PreGst Amount <b
+                                                                                class="mandatory-field">*</b></label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="number"
+                                                                               [(ngModel)]="initiatePo.preGstAmount"
+                                                                               disabled
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               placeholder="Enter PreGst Amount"
+                                                                               required/>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">GST Amount <b
+                                                                                class="mandatory-field">*</b></label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="number"
+                                                                               [(ngModel)]="initiatePo.gstAmount"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               (ngModelChange)="calculateTotalAmount()"
+                                                                               placeholder="Enter GST Amount" required/>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Additional
+                                                                            Expenses</label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="number"
+                                                                               [(ngModel)]="initiatePo.additionalExpenses"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               (ngModelChange)="calculateTotalAmount()"
+                                                                               placeholder="Enter Additional Expenses"
+                                                                               required/>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Total Amount <b
+                                                                                class="mandatory-field">*</b></label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="number"
+                                                                               disabled
+                                                                               [(ngModel)]="initiatePo.totalAmount"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               placeholder="Enter Total Amount"
+                                                                               required/>
+                                                                    </div>
+                                                                    <!--                                                                <div class="col-sm-3 form-group text-left">-->
+                                                                    <!--                                                                    <label class="control-label">Vendor Gst Number</label>-->
+                                                                    <!--                                                                    <input class="form-control form-control-sm" type="text"-->
+                                                                    <!--                                                                              [(ngModel)]="initiatePo.vendorGstNumber"-->
+                                                                    <!--                                                                              [ngModelOptions]="{standalone: true}"-->
+                                                                    <!--                                                                              placeholder="Enter Vendor Gst Number" required/>-->
+                                                                    <!--                                                                </div>-->
 
-                                                            </div>
+                                                                </div>
                                                             </fieldset>
                                                         </div>
                                                 <div class="tile-footer">
+
+
+                                                    <div class="row">
+                                                        <div class="col-md-12 col-md-offset-3">
+                                                            <div class="alert alert-danger col-md-12" role="alert" *ngIf="allErrors.length">
+                                                                <ul>
+                                                                    <li *ngFor="let error of allErrors">{{error}}</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                     <div class="row">
                                                         <div class="col-md-12 col-md-offset-3" *ngIf="currentUser.role === 31">
                                                             <div class="pull-right">

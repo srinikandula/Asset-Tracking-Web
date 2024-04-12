@@ -85,6 +85,7 @@ export class AssetRequisitionFormComponent implements OnInit {
   @ViewChild('viewRejectModal') viewRejectModal: any;
   public modalRef: any;
   public custodianUploadData: any = {};
+  public allErrors: Array<any> = [];
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
               public  apiService: ApiServiceService,
@@ -376,6 +377,8 @@ export class AssetRequisitionFormComponent implements OnInit {
                 'error'
             );
           }
+        }, error => {
+          this.allErrors = error;
         });
       }
     })
