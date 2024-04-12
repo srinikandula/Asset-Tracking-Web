@@ -19,7 +19,7 @@
             <div id="sampleTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
                 <div class="row">
                     <div class="col-sm-1 offset-11 text-right">
-                        <button type="button"
+                        <button type="button" *ngIf="currentUser.role !== 76"
                                 class="btn btn-sm btn-danger btn-all-shadow waves-effect waves-light form-group"
                                 title="Add Expense"
                                 [routerLink]="['AddAsset']"> Add Asset

@@ -117,11 +117,10 @@
                         </div>
                         <div class="col-sm-6 form-group">
                             <label class="control-label">Asset Description <b class="mandatory-field">*</b></label>
-                            <textarea class="form-control form-control-sm" type="text"
-                                      rows="5" cols="50"
+                            <input class="form-control form-control-sm" type="text"
                                       [(ngModel)]="assetQuery.description"
                                       [ngModelOptions]="{standalone: true}"
-                                      placeholder="Enter Asset Description" required></textarea>
+                                      placeholder="Enter Asset Description" required />
                         </div>
                         <div class="col-sm-6 form-group text-left">
                             <label class="control-label">Shipping Address</label>
@@ -149,7 +148,7 @@
                             <div class="pull-right">
                                 <button id="save-client-button"
                                         class="btn btn-sm btn-all-shadow waves-effect waves-light btn-danger"
-                                        (click)="addorUpdateAsset()">{{assetRequisitionId ? 'Update' : 'Save'}}
+                                        (click)="addorUpdateAsset()">{{assetRequisitionId ? 'Update' : 'Submit'}}
                                 </button>
                                 &nbsp;&nbsp;&nbsp;
                                 <button id="cancel-client-button"
