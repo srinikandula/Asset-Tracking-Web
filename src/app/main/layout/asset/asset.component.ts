@@ -21,6 +21,7 @@ export class AssetComponent implements OnInit {
    pageSizes: [],
 }
   public currentUser: any;
+  public tab = 2;
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
               public  apiService: ApiServiceService,
@@ -67,5 +68,18 @@ export class AssetComponent implements OnInit {
     this.query.size = event;
     this.query.page = 1;
     this.getCount();
+  }
+  changeTab(tabKey: any): void {
+    this.tab = tabKey ? tabKey : 1;
+    switch (this.tab) {
+      case 1:
+        // this.getCount()
+        break;
+      case 2:
+        this.getCount()
+        break;
+      default:
+        break;
+    }
   }
 }

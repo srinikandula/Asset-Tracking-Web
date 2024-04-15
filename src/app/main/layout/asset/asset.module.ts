@@ -22,7 +22,7 @@ import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
     NgbPaginationModule,
   ],
   providers: [
-    DatePipe
+    // DatePipe
   ],
 })
 export class AssetModule { }

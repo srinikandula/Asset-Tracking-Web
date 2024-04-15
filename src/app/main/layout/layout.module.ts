@@ -11,6 +11,7 @@ import { AssetTrackingComponent } from './asset-tracking/asset-tracking.componen
 import { AssetComponent } from './asset/asset.component';
 import { AddEditAssetComponent } from './asset/add-edit-asset/add-edit-asset.component';
 import {AssetTrackingModule} from "./asset-tracking/asset-tracking.module";
+import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 // import {FilterComponent} from './filters/filter/filter.component';
 
 @NgModule({
@@ -31,7 +32,9 @@ import {AssetTrackingModule} from "./asset-tracking/asset-tracking.module";
         FormsModule,
         NgSelectModule,
         NgbModule,
-        AssetTrackingModule
+        AssetTrackingModule,
+        BsDatepickerModule,
+        // BsDatepickerModule
     ]
 })
 export class LayoutModule { }

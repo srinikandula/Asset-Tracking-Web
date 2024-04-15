@@ -33,6 +33,7 @@ export class ApiUrls {
     rejectRequestForm = 'api/v1/assetTracking/indent/rejectRequestForm?id=';
     getRejectRequestForm = 'api/v1/assetTracking/indent/getRejectRequestForm'
     getRejectRequestFormCount = 'api/v1/assetTracking/indent/getRejectRequestFormCount'
+    updateQuantityByVL = 'api/v1/assetTracking/indent/updateQuantityByVL/';
 
 
 //  Asset or Add-Asset Api's
