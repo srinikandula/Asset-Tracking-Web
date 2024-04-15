@@ -24,6 +24,8 @@ export class AssetRequisitionFormComponent implements OnInit {
   public rejectedList: any;
   public rejectCount: any;
   public viewRejectAssetDetails: any;
+  editingQuantity: boolean = false;
+  editedQuantity: any;
   data: any = {
     page: 1,
     size: 10,
@@ -103,6 +105,27 @@ export class AssetRequisitionFormComponent implements OnInit {
     this.getCount();
     // this.getSitesForDropDownExpense();
     // this.getAllCategory();
+  }
+
+  startEditingQuantity() {
+    this.editingQuantity = true;
+  }
+
+  saveQuantity() {
+    // this.assetQuery.quantity = this.editedQuantity;
+    this.apiService.get(this.apiUrls.updateQuantityByVL + this.assetRequisitionId + '?quantity=' + this.assetQuery.quantity).subscribe((res: any) =>{
+      if (res){
+        this.editingQuantity = false;
+        this.getCount();
+      }
+    })
+  }
+
+  cancelEditingQuantity() {
+    // Reset the edited quantity to the original value
+    // this.editedQuantity = this.assetQuery.quantity || 0;
+    // Reset the editing flag
+    this.editingQuantity = false;
   }
   getAll(): void{
     this.apiService.getAll(this.apiUrls.getAllAssets, this.data).subscribe((res: any) => {
@@ -457,13 +480,17 @@ export class AssetRequisitionFormComponent implements OnInit {
                 if (response) {
                   if (i === this.imageArray.length) {
                     console.log(this.imageArray, '==========image Array');
-                    swal.fire('Success!', 'Invoice Uploaded Successfully  ' , 'success');
+                    swal.fire('Success!', 'Acknowledged Successfully  ' , 'success');
+                    this.getCount();
+                    this.ngModalService.dismissAll();
                     this.router.navigate(['AssetTracking/assetRequisitionForm']);
                   }
                 }
-              });
+              },error => {
+                console.log(error)
+                swal.fire('Error!', error[0], 'error');
+                  });
             }
-            this.ngModalService.dismissAll();
           }
     })
   }

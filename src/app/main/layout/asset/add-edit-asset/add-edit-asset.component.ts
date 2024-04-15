@@ -1,4 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import {DatePipe} from '@angular/common';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthenticationService} from "../../../../services/authentication.service";
 import {ApiServiceService} from "../../../../services/api-service.service";
@@ -18,6 +19,9 @@ export class AddEditAssetComponent implements OnInit {
   public assetTicketNumberList: Array<any> = [];
   public invoiceNumberList: Array<any> = [];
   public sitesStore: Array<any> = [];
+  expenseDate = new Date();
+  invoiceDate = new Date();
+  startExpenseDate = new Date(new Date().getFullYear() + '-' + new Date().getMonth() + '-' + 1);
   assetQuery: any ={
     invoiceOrVoucherNo: '',
     amountBeforeTax: 0,
@@ -34,20 +38,28 @@ export class AddEditAssetComponent implements OnInit {
     ],
     noOfRows: 1,
   }
-  public errors: Array<any> = [];
+  public assetErrors: Array<any> = [];
   taxArray: any = [{key: 'ITC claimed', value: 'ITC claimed'}, {key: 'Not Claimed', value: 'Not Claimed'}];
   previewUrl2: any;
   imageChangedEvent: any = ''
   private modalRef: any;
   @ViewChild('myModal2') myModal2: any;
+  public currentUser: any;
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
               public  apiService: ApiServiceService,
               private apiUrls: ApiUrls,
               private actRoute: ActivatedRoute,
               private ngModalService: NgbModal,
-              private toastr: ToastrService,) {
+              private toastr: ToastrService,
+              // private datePipe: DatePipe,
+              ) {
     this.assetId = this.actRoute.snapshot.paramMap.get('id');
+    this.authenticationService.currentUser.subscribe(x => {
+      this.currentUser = x;
+    })
+    // this.assetQuery.dateOfCapitalisation = this.datePipe.transform(this.assetQuery.dateOfCapitalisation, 'yyyy-MM-dd');
+      console.log(this.currentUser)
     console.log(this.assetId)
   }
 
@@ -66,11 +78,12 @@ export class AddEditAssetComponent implements OnInit {
     this.router.navigate(['dashboard']);
   }
   getSitesForDropDownExpense(): void {
-    this.apiService.getSites('').subscribe((res: any) => {
-      if (res) {
-        this.sitesStore = res;
-      }
-    });
+    // this.apiService.getSites('').subscribe((res: any) => {
+    //   if (res) {
+    //     this.sitesStore = res;
+    //     console.log(this.sitesStore, '====')
+    //   }
+    // });
   }
   addItem() {
     this.assetQuery.itemsList.push({ serialNumber: '', model: '' });
@@ -106,7 +119,11 @@ export class AddEditAssetComponent implements OnInit {
         this.assetQuery.description = res.description;
         this.assetQuery.invoiceDate = res.invoiceDate;
         this.assetQuery.indentNumber = res.indentNumber;
-        this.assetQuery.siteId = res.siteId;
+        // this.assetQuery.siteId = res.siteId;
+        this.assetQuery.attrs.siteNames = res.attrs.siteNames
+        this.assetQuery.gstAmount = res.gstAmount;
+        this.assetQuery.totalAmount = res.totalAmount;
+        this.assetQuery.itemsList[0].quantity = res.itemsList[0].quantity;
         this.invoiceNumberForCapitalisation(res.invoiceOrVoucherNo)
         console.log(res);
       }
@@ -116,6 +133,7 @@ export class AddEditAssetComponent implements OnInit {
     this.apiService.get(this.apiUrls.invoiceNumberForCapitalisation + invoiceNumber,).subscribe((res: any) => {
       if (res){
         console.log(res);
+        this.assetQuery.vendorName = res.vendorName;
         this.assetQuery.capitalisedValue = (res.additionalExpenses) + (res.preGstAmount) + (res.gstAmount)
       }
     })
@@ -126,18 +144,23 @@ export class AddEditAssetComponent implements OnInit {
     this.apiService.getAll(this.apiUrls.addAssetApi, this.assetQuery).subscribe((res: any) => {
       if (res){
         console.log(res);
-        swal.fire('Success!', 'Invoice Uploaded Successfully  ' , 'success');
+        swal.fire('Success!', 'Asset Added Successfully  ' , 'success');
         this.router.navigate(['Asset']);
       }
+    }, error => {
+      this.assetErrors = error;
     })
   }
-  getById(): void{
-  this.apiService.get(this.apiUrls.getForAssetById + this.assetId).subscribe((res: any) => {
-    if (res){
-      this.assetQuery = res;
-      this.invoiceNumberForCapitalisation(res.invoiceNumber)
-    }
-  })
+
+  getById(): void {
+    this.apiService.get(this.apiUrls.getForAssetById + this.assetId).subscribe((res: any) => {
+      if (res) {
+        this.assetQuery = res;
+        this.invoiceNumberForCapitalisation(res.invoiceNumber)
+      }
+    }, error => {
+      this.assetErrors = error
+    })
   }
 
   onClick(event: any): void {
@@ -145,9 +168,11 @@ export class AddEditAssetComponent implements OnInit {
     this.imageChangedEvent = event;
     this.modalRef = this.ngModalService.open(this.myModal2, {size: 'lg', backdrop: 'static', keyboard: false});
   }
+
   cancel(): void {
     this.router.navigate(['Asset']);
   }
+
   close(): void {
     this.ngModalService.dismissAll(this.modalRef);
   }

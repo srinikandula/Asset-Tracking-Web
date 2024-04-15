@@ -14,12 +14,22 @@
         </ul>
     </div>
 
-    <div class="tile">
+    <ul class="nav nav-tabs">
+        <li class="nav-item active-tab-nav" (click)="changeTab(1)">
+            <a class="nav-link" [ngClass]="{active:tab==1}">Active</a>
+        </li>
+        <li class="nav-item active-tab-nav" (click)="changeTab(2)">
+            <a class="nav-link" [ngClass]="{active:tab==2}">Pending</a>
+        </li>
+    </ul>
+    <!--    Pending Tab -->
+
+    <div class="tile" *ngIf="tab == 2">
         <div class="tile-body">
             <div id="sampleTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
                 <div class="row">
                     <div class="col-sm-1 offset-11 text-right">
-                        <button type="button" *ngIf="currentUser.role !== 76"
+                        <button type="button" *ngIf="currentUser.role === 74 || currentUser.role === 29"
                                 class="btn btn-sm btn-danger btn-all-shadow waves-effect waves-light form-group"
                                 title="Add Expense"
                                 [routerLink]="['AddAsset']"> Add Asset
@@ -45,26 +55,28 @@
                             </thead>
                             <tbody>
                             <tr *ngFor="let asset of listOfasset ; let i = index" style="cursor: pointer">
-                                <td>{{(query.page - 1) * query.size + i + 1}}</td>
-                                <td>{{asset.assetCategory}}</td>
-                                <td>{{asset.assetSubCategory}}</td>
-                                <td>{{asset.assetNumber}}</td>
-                                <td>{{asset.vendorName}}</td>
-                                <td>{{asset.model}}</td>
-                                <td>{{asset.invoiceNumber}}</td>
-                                <td>{{asset.invoiceDate}}</td>
-                                <td>{{asset.serialNumber}}</td>
+                                <td>{{ (query.page - 1) * query.size + i + 1 }}</td>
+                                <td>{{ asset.assetCategory }}</td>
+                                <td>{{ asset.assetSubCategory }}</td>
+                                <td>{{ asset.assetNumber }}</td>
+                                <td>{{ asset.vendorName }}</td>
+                                <td>{{ asset.model }}</td>
+                                <td>{{ asset.invoiceNumber }}</td>
+                                <td>{{ asset.invoiceDate }}</td>
+                                <td>{{ asset.serialNumber }}</td>
 
                                 <td class="td-active">
                                     <div>
-                                        <button class="action-icon-style waves-effect waves-blue" [routerLink]="['EditAsset/' + asset.id]"
-                                                title="Edit Asset" >
+                                        <button class="action-icon-style waves-effect waves-blue"
+                                                [disabled]="currentUser.role !== 70 && currentUser.role !== 27"
+                                                [routerLink]="['EditAsset/' + asset.id]"
+                                                title="Edit Asset">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </button>
-<!--                                        <button class="action-icon-style waves-effect waves-red cgreen"-->
-<!--                                                (click)="ApproveVehicle(pending)" title="Approve Vehicle" >-->
-<!--                                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>-->
-<!--                                        </button>-->
+                                        <!--                                        <button class="action-icon-style waves-effect waves-red cgreen"-->
+                                        <!--                                                (click)="ApproveVehicle(pending)" title="Approve Vehicle" >-->
+                                        <!--                                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>-->
+                                        <!--                                        </button>-->
                                     </div>
                                 </td>
                             </tr>
@@ -82,7 +94,7 @@
                                                 [maxSize]="10">
                                 </ngb-pagination>
                             </div>
-<!--                            style="margin-top: -49px !important;"-->
+                            <!--                            style="margin-top: -49px !important;"-->
                             <ul class="pagination pull-right"
                                 *ngIf="AssetListCount || AssetListCount !== 0">
                                 <li class="page-item" [ngClass]="size == query.size ? 'active' : ''"
@@ -93,11 +105,30 @@
                                     </button>
                                 </li>
                             </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-
+<!--    Active Tab -->
+    <div class="tile" *ngIf="tab == 1">
+        <div class="tile-body">
+            <div id="sampleTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table table-hover dataTable text-center" id="sampleTable">
+                            <thead>
+                            <tr class="table-bordered">
+                                <th>S.No</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+

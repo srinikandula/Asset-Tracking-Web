@@ -22,7 +22,7 @@
                 <div class="tile-body">
                     <div class="row">
                         <div class="col-sm-6 form-group">
-                                <label class="control-label">Asset Requisition Number<b
+                                <label class="control-label">Vendor Ticket Number<b
                                         class="mandatory-field">*</b></label>
                                 <ng-select [(ngModel)]="assetQuery.vendorNumber"
                                            [ngModelOptions]="{standalone: true}"
@@ -30,7 +30,8 @@
                                            bindLabel="key"
                                            placeholder="Select Ticket Number"
                                            [clearable]="false"
-                                           (ngModelChange)="getDataForTicketNumber(assetQuery.vendorNumber)">
+                                           (ngModelChange)="getDataForTicketNumber(assetQuery.vendorNumber)"
+                                           [ngClass]="currentUser.role === 27 ? 'inactive': ''">
                                     <ng-option value="" selected>Select Ticket Number</ng-option>
                                     <ng-option *ngFor="let ticket of assetTicketNumberList"
                                                [value]="ticket.value">{{ ticket.key }}
@@ -39,19 +40,24 @@
                         </div>
 
                         <div class="form-group col-sm-6 text-left">
-                            <label class="control-label">Select Site<b
+                            <label class="control-label">Enter Site Name<b
                                     class="mandatory-field">*</b></label>
-                            <ng-select [(ngModel)]="assetQuery.siteId" class="diabled-Drop"
-                                       [ngModelOptions]="{standalone: true}"
-                                       bindValue="id"
-                                       bindLabel="name"
-                                       placeholder="Select Site"
-                                       [clearable]="false"
-                            >
-                                <ng-option value="" selected>Select Site</ng-option>
-                                <ng-option *ngFor="let site of sitesStore"
-                                           [value]="site.id">{{site.name}}</ng-option>
-                            </ng-select>
+                            <input type="text" class="form-control form-control-sm" type="text"
+                                   [(ngModel)]="assetQuery.attrs.siteNames"
+                                   [ngModelOptions]="{standalone: true}"
+                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+                                   placeholder="Enter Site Name" required/>
+<!--                            <ng-select [(ngModel)]="assetQuery.siteId" class="diabled-Drop"-->
+<!--                                       [ngModelOptions]="{standalone: true}"-->
+<!--                                       bindValue="id"-->
+<!--                                       bindLabel="name"-->
+<!--                                       placeholder="Select Site"-->
+<!--                                       [clearable]="false"-->
+<!--                            >-->
+<!--                                <ng-option value="" selected>Select Site</ng-option>-->
+<!--                                <ng-option *ngFor="let site of sitesStore"-->
+<!--                                           [value]="site.id">{{site.name}}</ng-option>-->
+<!--                            </ng-select>-->
                         </div>
 
 
@@ -60,6 +66,7 @@
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.assetCategory"
                                    [ngModelOptions]="{standalone: true}"
+                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
                                    placeholder="Asset Category" required/>
                         </div>
 
@@ -69,16 +76,18 @@
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.assetSubCategory"
                                    [ngModelOptions]="{standalone: true}"
+                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
                                    placeholder="Asset Sub Category" required/>
                         </div>
 
-                        <div class="col-sm-6 form-group" >
+                        <div class="col-sm-6 form-group" > {{assetQuery.vendorName}}
                             <label class="control-label">Vendor Name <b
                                     class="mandatory-field">*</b></label>
                             <input type="text" class="form-control form-control-sm" type="text"
-                                   [(ngModel)]="assetQuery.attrs.vendorName"
+                                   [(ngModel)]="assetQuery.vendorName"
                                    [ngModelOptions]="{standalone: true}"
-                                   placeholder="Asset Custodian Name" required/>
+                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+                                   placeholder="Enter Vendor Name" required/>
                         </div>
                         <div class="col-sm-6 form-group">
                             <label class="control-label">Invoice Number <b
@@ -86,6 +95,7 @@
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.invoiceNumber"
                                    [ngModelOptions]="{standalone: true}"
+                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
                                    placeholder="Asset Invoice Number" required/>
                         </div>
 
@@ -95,6 +105,7 @@
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.invoiceDate"
                                    [ngModelOptions]="{standalone: true}"
+                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
                                    placeholder="Asset Invoice Date" required/>
                         </div>
                         <div class="col-sm-6 form-group">
@@ -103,6 +114,7 @@
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.indentNumber"
                                    [ngModelOptions]="{standalone: true}"
+                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
                                    placeholder="Asset Indent Number" required/>
                         </div>
 
@@ -112,7 +124,16 @@
                             <input type="text" class="form-control form-control-sm" type="number"
                                    [(ngModel)]="assetQuery.amountBeforeTax"
                                    [ngModelOptions]="{standalone: true}"
+                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
                                    placeholder="Amount Before Tax" required/>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">GST Amount <b
+                                    class="mandatory-field">*</b></label>
+                            <input type="text" class="form-control form-control-sm" type="number"
+                                   [(ngModel)]="assetQuery.gstAmount"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="GST Amount" required/>
                         </div>
                         <div class="col-sm-6 form-group">
                             <label class="control-label">Additional Expenses <b
@@ -120,7 +141,26 @@
                             <input type="text" class="form-control form-control-sm" type="number"
                                    [(ngModel)]="assetQuery.additionalExpenses"
                                    [ngModelOptions]="{standalone: true}"
+                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
                                    placeholder="Enter Additional Expenses" required/>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label class="control-label">Total Amount <b
+                                    class="mandatory-field">*</b></label>
+                            <input type="text" class="form-control form-control-sm" type="number"
+                                   [(ngModel)]="assetQuery.totalAmount"
+                                   [ngModelOptions]="{standalone: true}"
+                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+                                   placeholder="Enter Total Amount" required/>
+                        </div>
+                        <div class="col-sm-6 form-group" *ngIf="assetQuery.itemsList">
+                            <label class="control-label">Quantity <b
+                                    class="mandatory-field">*</b></label>
+                            <input type="text" class="form-control form-control-sm" type="text"
+                                   [(ngModel)]="assetQuery.itemsList[0].quantity"
+                                   [ngModelOptions]="{standalone: true}"
+                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+                                   placeholder="Enter Quantity" required/>
                         </div>
                         <div class="col-sm-6 form-group">
                             <label class="control-label">Description <b
@@ -128,6 +168,7 @@
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.description"
                                    [ngModelOptions]="{standalone: true}"
+                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
                                    placeholder="Enter Descriptions" required/>
                         </div>
                         </div>
@@ -167,11 +208,35 @@
                         </div>
 
                         <div class="col-sm-6 form-group">
+                            <label class="control-label">Date of capitalisation <b class="mandatory-field">*</b></label>
+                            <div class="input-group">
+                                <input class="form-control form-control-sm" placeholder=" Capitalisation Date"
+                                       [(ngModel)]="assetQuery.dateOfCapitalisation"
+                                       [ngModelOptions]="{standalone: true}"
+                                       #dp1="bsDatepicker"
+                                       [maxDate]="expenseDate"
+                                       [minDate]="startExpenseDate"
+                                       readonly
+                                       [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', containerClass: 'theme-red', showTodayButton: true, todayPosition: 'center',  isAnimated: true }"
+                                       bsDatepicker required >
+                                <div class="input-group-append">
+                                    <button class="btn btn-light btn-sm"
+                                            style="border: 1px solid #ced4da;"
+                                            (click)="dp1.show()"
+                                            [attr.aria-expanded]="dp1.isOpen"  >
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 form-group">
                             <label class="control-label">Model <b
                                     class="mandatory-field">*</b></label>
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.model"
                                    [ngModelOptions]="{standalone: true}"
+                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
                                    placeholder="Enter Model " required/>
                         </div>
                         <div class="col-sm-6 form-group">
@@ -180,12 +245,13 @@
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.serialNumber"
                                    [ngModelOptions]="{standalone: true}"
+                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
                                    placeholder="Enter Serial Number " required/>
                         </div>
 
                     </div>
-                        <div class="row" *ngIf="assetId">
-                            <div class="col-sm-4">
+                        <div class="row" *ngIf="assetId" >
+                            <div class="col-sm-4" [ngClass]="currentUser.role === 27 ? 'inactive': ''">
                                 <label class="control-label">Invoice Image</label>
                                 <div class="card">
                                     <img src="{{assetQuery.attrs.invoiceDocUrl || './assets/img/icons/emptyIconImage.png'}}" alt="Vehicle Image"
@@ -269,9 +335,9 @@
                 <div class="tile-footer">
                     <div class="row">
                         <div class="col-sm-12 col-sm-offset-3">
-                            <div class="alert alert-danger col-sm-12" role="alert" *ngIf="errors.length">
+                            <div class="alert alert-danger col-sm-12" role="alert" *ngIf="assetErrors.length">
                                 <ul style="margin-bottom: 0;">
-                                    <li *ngFor="let error of errors">{{error}}</li>
+                                    <li *ngFor="let error of assetErrors">{{error}}</li>
                                 </ul>
                             </div>
                         </div>
