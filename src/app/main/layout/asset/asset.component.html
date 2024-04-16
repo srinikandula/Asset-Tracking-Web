@@ -80,7 +80,19 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr *ngIf="!AssetListCount || AssetListCount === 0">
+                                <td colspan="11" style="text-align: center">No Records exist.</td>
+                            </tr>
                             </tbody>
+                            <tfoot>
+                            <tr *ngIf="AssetListCount !== 0">
+                                <th colSpan="11">
+                                    <div class="pull-right">
+                                        Total Count : {{ AssetListCount || 0}}
+                                    </div>
+                                </th>
+                            </tr>
+                            </tfoot>
                         </table>
 
                         <div class="form-group">
@@ -122,9 +134,68 @@
                             <thead>
                             <tr class="table-bordered">
                                 <th>S.No</th>
+                                <th>Asset Category</th>
+                                <th>Asset Sub Category</th>
+                                <th>Asset Number</th>
+                                <th>Vendor Name</th>
+                                <th>Model</th>
+                                <th>Invoice Number</th>
+                                <th>Invoice Date</th>
+                                <th>Serial Number</th>
+<!--                                <th>Actions</th>-->
                             </tr>
                             </thead>
+                            <tbody>
+                            <tr *ngFor="let asset of activeListData ; let i = index" style="cursor: pointer">
+                                <td>{{ (activeQuery.page - 1) * activeQuery.size + i + 1 }}</td>
+                                <td>{{ asset.assetCategory }}</td>
+                                <td>{{ asset.assetSubCategory }}</td>
+                                <td>{{ asset.assetNumber }}</td>
+                                <td>{{ asset.vendorName }}</td>
+                                <td>{{ asset.model }}</td>
+                                <td>{{ asset.invoiceNumber }}</td>
+                                <td>{{ asset.invoiceDate }}</td>
+                                <td>{{ asset.serialNumber }}</td>
+                            </tr>
+
+                            <tr *ngIf="!activeListCount || activeListCount === 0">
+                                <td colspan="11" style="text-align: center">No Records exist.</td>
+                            </tr>
+                            </tbody>
+
+                            <tfoot>
+                            <tr *ngIf="activeListCount !== 0">
+                                <th colSpan="11">
+                                    <div class="pull-right">
+                                        Total Count : {{ activeListCount || 0}}
+                                    </div>
+                                </th>
+                            </tr>
+                            </tfoot>
                         </table>
+                        <div class="form-group">
+                            <div class="list-row">
+                                <ngb-pagination *ngIf="activeQuery.count"
+                                                [(page)]="activeQuery.page"
+                                                [pageSize]="activeQuery.size"
+                                                [collectionSize]="activeQuery.count"
+                                                [boundaryLinks]="true"
+                                                (pageChange)="activehandlePageChange($event)"
+                                                [maxSize]="10">
+                                </ngb-pagination>
+                            </div>
+                            <!--                            style="margin-top: -49px !important;"-->
+                            <ul class="pagination pull-right"
+                                *ngIf="activeListCount || activeListCount !== 0">
+                                <li class="page-item" [ngClass]="size == activeQuery.size ? 'active' : ''"
+                                    *ngFor="let size of activeQuery.pageSizes" (click)="activehandlePageSizeChange(size)">
+
+                                    <button class="page-link"> {{ size }}
+                                        <span class="sr-only">(current)</span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

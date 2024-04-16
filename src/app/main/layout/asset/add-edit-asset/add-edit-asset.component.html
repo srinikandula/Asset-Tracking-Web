@@ -84,7 +84,7 @@
                             <label class="control-label">Vendor Name <b
                                     class="mandatory-field">*</b></label>
                             <input type="text" class="form-control form-control-sm" type="text"
-                                   [(ngModel)]="assetQuery.vendorName"
+                                   [(ngModel)]="assetQuery.attrs.vendorName"
                                    [ngModelOptions]="{standalone: true}"
                                    [ngClass]="currentUser.role === 27 ? 'inactive': ''"
                                    placeholder="Enter Vendor Name" required/>
@@ -198,14 +198,14 @@
                                    [ngModelOptions]="{standalone: true}"
                                    placeholder="Enter Capitalised Value" required/>
                         </div>
-                        <div class="col-sm-6 form-group">
-                            <label class="control-label">Date of capitalisation <b
-                                    class="mandatory-field">*</b></label>
-                            <input type="text" class="form-control form-control-sm" type="text"
-                                   [(ngModel)]="assetQuery.dateOfCapitalisation"
-                                   [ngModelOptions]="{standalone: true}"
-                                   placeholder="Enter Date of capitalisation " required/>
-                        </div>
+<!--                        <div class="col-sm-6 form-group">-->
+<!--                            <label class="control-label">Date of capitalisation <b-->
+<!--                                    class="mandatory-field">*</b></label>-->
+<!--                            <input type="text" class="form-control form-control-sm" type="text"-->
+<!--                                   [(ngModel)]="assetQuery.dateOfCapitalisation"-->
+<!--                                   [ngModelOptions]="{standalone: true}"-->
+<!--                                   placeholder="Enter Date of capitalisation " required/>-->
+<!--                        </div>-->
 
                         <div class="col-sm-6 form-group">
                             <label class="control-label">Date of capitalisation <b class="mandatory-field">*</b></label>
@@ -214,7 +214,7 @@
                                        [(ngModel)]="assetQuery.dateOfCapitalisation"
                                        [ngModelOptions]="{standalone: true}"
                                        #dp1="bsDatepicker"
-                                       [maxDate]="expenseDate"
+                                       [maxDate]="dateOfCapitalisation"
                                        [minDate]="startExpenseDate"
                                        readonly
                                        [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', containerClass: 'theme-red', showTodayButton: true, todayPosition: 'center',  isAnimated: true }"
@@ -351,7 +351,7 @@
                                     class="btn btn-sm btn-all-shadow waves-effect waves-light btn-info"
                                     (click)="saveAsset()">
                                 <i class="fa fa-fw fa-check-circle"></i>
-                                Add Asset
+                                {{currentUser.role === 27 ? 'Confirm' : 'Add Asset'}}
                             </button>
                             &nbsp;&nbsp;&nbsp;
                             <button id="cancel-client-button"

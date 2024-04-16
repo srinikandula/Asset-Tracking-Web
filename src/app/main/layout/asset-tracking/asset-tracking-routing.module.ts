@@ -10,22 +10,22 @@ const routes: Routes = [
   {
     path: '',
     component: AssetTrackingComponent,
-    data: {expectedRole: [45, 41, 40, 35, 31, 30, 29, 28, 27, 26, 25, 20, 19, 74, 72, 43, 78, 47,80, 70, 76]},
+    data: {expectedRole: [26, 31, 40, 70, 72, 74, 78, 80, 45, 76]},
   },
   {
     path: 'assetRequisitionForm',
     component: AssetRequisitionFormComponent,
-    data: {expectedRole: [45, 41, 40, 35, 31, 30, 29, 28, 27, 26, 25, 20, 19, 74, 72, 43, 78, 47,80, 70, 76]},
+    data: {expectedRole: [26, 31, 40, 70, 72, 74, 78, 80, 45, 76]},
   },
   {
     path: 'assetRequisitionForm/add',
     component: AddEditAssetRequisitionFormComponent,
-    data: {expectedRole: [45, 41, 40, 35, 31, 30, 29, 28, 27, 26, 25, 20, 19, 74, 72, 43, 78, 47,80, 70, 76]},
+    data: {expectedRole: [26, 31, 40, 70, 72, 74, 78, 80, 45, 76]},
   },
   {
     path: 'assetRequisitionForm/edit/:id',
     component: AddEditAssetRequisitionFormComponent,
-    data: {expectedRole: [45, 41, 40, 35, 31, 30, 29, 28, 27, 26, 25, 20, 19, 74, 72, 43, 78, 47,80, 70, 76]},
+    data: {expectedRole: [26, 31, 40, 70, 72, 74, 78, 80, 45, 76]},
   },
 
 ];

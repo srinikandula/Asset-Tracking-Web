@@ -255,20 +255,20 @@
 
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group">
-                                                                        <label class="cus-font-label">Actual Quantity: </label>&nbsp;
+                                                                        <label class="cus-font-label" style="margin-bottom: 10px !important;">Actual Quantity: </label>&nbsp;
                                                                         <span *ngIf="!editingQuantity; else editQuantity">
                                                                             <span class="shift-tem-text-Re">{{ assetQuery.quantity || 'NA' }}</span>
                                                                                 <button class="btn btn-sm btn-outline-info waves-effect waves-black edit-user-button"
                                                                                         *ngIf="assetQuery.status === 'OM_PENDING' || assetQuery.status === 'RM_PENDING' || assetQuery.status === 'VL_PENDING'"
-                                                                                        style="border-radius: 100%;padding: 8px 9px;" title="Edit"
+                                                                                        style="border-radius: 0;padding: 8px 9px; border: none !important; border-radius: 15px !important;" title="Edit"
                                                                                         (click)="startEditingQuantity()"
-                                                                                ><i class="fa fa-pencil"></i></button>
+                                                                                ><i class="fa fa-pencil" style="font-size: 20px !important;"></i></button>
                                                                             </span>
                                                                         <ng-template #editQuantity>
-                                                                            <input type="number" [(ngModel)]="assetQuery.quantity" class="form-control">
-                                                                            <button class="btn btn-sm btn-outline-info waves-effect waves-black btn-primary"
-                                                                                    (click)="saveQuantity()">Save</button>
-                                                                            <button class="btn btn-sm btn-outline-info waves-effect waves-black btn-danger"
+                                                                            <input type="number" [(ngModel)]="assetQuery.quantity" class="form-control form-group">
+                                                                            <button class="btn btn-success btn-sm btn-all-shadow waves-effect waves-light"
+                                                                                    (click)="saveQuantity()">Save</button> &nbsp;
+                                                                            <button class="btn btn-danger btn-sm btn-all-shadow waves-effect waves-light"
                                                                                     (click)="cancelEditingQuantity()">Cancel</button>
                                                                         </ng-template>
                                                                     </div>
@@ -795,7 +795,7 @@
         <div class="" style="width: 100%;">
             <div class="row">
                 <div class="col-md-9">
-                    <h5 class="modal-title form-head-line-style" style="color: #45a3c5">Upload Invoice</h5>
+                    <h5 class="modal-title form-head-line-style" style="color: #45a3c5">Upload Asset Image</h5>
                 </div>
                 <div class="col-md-3 text-center">
                 </div>
@@ -812,13 +812,13 @@
                            [ngModelOptions]="{standalone: true}"
                            placeholder="Enter Quantity" required/>
                 </div>
-                <div class="col-sm-6 form-group text-left">
-                    <label class="control-label">Invoice Number <b class="mandatory-field">*</b></label>
-                    <input class="form-control form-control-sm" type="text"
-                           [(ngModel)]="custodianUploadData.invoiceNumber"
-                           [ngModelOptions]="{standalone: true}"
-                           placeholder="Enter Invoice Number" required/>
-                </div>
+<!--                <div class="col-sm-6 form-group text-left">-->
+<!--                    <label class="control-label">Invoice Number <b class="mandatory-field">*</b></label>-->
+<!--                    <input class="form-control form-control-sm" type="text"-->
+<!--                           [(ngModel)]="custodianUploadData.invoiceNumber"-->
+<!--                           [ngModelOptions]="{standalone: true}"-->
+<!--                           placeholder="Enter Invoice Number" required/>-->
+<!--                </div>-->
 <!--            </div>-->
             <!--                   Images Upload     -->
 <!--            <div class="row">-->
