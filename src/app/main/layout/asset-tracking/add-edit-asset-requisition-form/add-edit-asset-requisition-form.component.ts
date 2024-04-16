@@ -63,7 +63,7 @@ getAllSubCategory(): void{
     })
 }
   getSitesForDropDownExpense(): void {
-    this.apiService.getSites('').subscribe((res: any) => {
+    this.apiService.get(this.apiUrls.getSitesDropDownForAsset).subscribe((res: any) => {
       if (res) {
         this.sitesStore = res;
       }

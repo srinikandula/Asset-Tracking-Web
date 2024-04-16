@@ -14,7 +14,8 @@ export class ApiUrls {
     // mainUrl = 'https://sapi.whizzard.in/';
 
 
-
+    getLoggedInUser = 'api/v1/test/user';
+    getSitesDropDownForAsset = 'api/v1/assetTracking/indent/getSitesDropDownForAsset';
 //     Asset Requisition Form Api's
     getAllAssets = 'api/v1/assetTracking/indent/searchRequestForm';
     getAssetCount = 'api/v1/assetTracking/indent/countRequestForm'
@@ -45,5 +46,8 @@ export class ApiUrls {
     addAssetApi = 'api/v1/assetTracking/asset/addAsset';
     invoiceNumberForCapitalisation = 'api/v1/assetTracking/asset/getCapitalisedValue?invoiceNumber=';
     getForAssetById = 'api/v1/assetTracking/asset/getAssetBasedOnId?id='
+    assetConfirmation = 'api/v1/assetTracking/asset/assetConfirmation/'
+    searchActiveAssets = 'api/v1/assetTracking/asset/searchActiveAssets';
+    countActiveAssets = 'api/v1/assetTracking/asset/countActiveAssets'
 
 }

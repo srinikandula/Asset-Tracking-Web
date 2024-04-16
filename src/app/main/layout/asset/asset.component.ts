@@ -14,7 +14,14 @@ import {OnlynumberDirective} from "../../../customDirectives/onlynumber.directiv
 export class AssetComponent implements OnInit {
   public listOfasset: any
   public AssetListCount: any;
- query = {
+  public activeListCount: any;
+  public activeListData: any;
+ query: any = {
+   page: 1,
+   size: 10,
+   pageSizes: [],
+}
+  activeQuery: any = {
    page: 1,
    size: 10,
    count: 0,
@@ -45,7 +52,7 @@ export class AssetComponent implements OnInit {
     this.apiService.getAll(this.apiUrls.countAssets, this.query).subscribe((res: any) =>{
       if (res > 0){
         this.AssetListCount = res;
-          this.getAll()
+        this.getAll()
         OnlynumberDirective.pagination(res, this.query);
       }
     })
@@ -54,6 +61,25 @@ export class AssetComponent implements OnInit {
    this.apiService.getAll(this.apiUrls.searchAssets, this.query).subscribe((res: any) => {
      if (res){
        this.listOfasset = res.content;
+       this.query.count = res.totalElements
+     }
+   })
+  }
+
+  getActiveCount(): void{
+    this.apiService.getAll(this.apiUrls.countActiveAssets, this.activeQuery).subscribe((res: any) =>{
+      if (res > 0){
+        this.activeListCount = res;
+          this.getAllActiveTab()
+        OnlynumberDirective.pagination(res, this.activeQuery);
+      }
+    })
+  }
+  getAllActiveTab(): void{
+   this.apiService.getAll(this.apiUrls.searchActiveAssets, this.activeQuery).subscribe((res: any) => {
+     if (res){
+       this.activeListData = res.content;
+       this.activeQuery.count = res.totalElements
      }
    })
   }
@@ -69,11 +95,22 @@ export class AssetComponent implements OnInit {
     this.query.page = 1;
     this.getCount();
   }
+
+  activehandlePageChange(event: any): void {
+    this.activeQuery.page = event;
+    this.getActiveCount();
+  }
+
+  activehandlePageSizeChange(event: any): void {
+    this.activeQuery.size = event;
+    this.activeQuery.page = 1;
+    this.getActiveCount();
+  }
   changeTab(tabKey: any): void {
     this.tab = tabKey ? tabKey : 1;
     switch (this.tab) {
       case 1:
-        // this.getCount()
+        this.getActiveCount()
         break;
       case 2:
         this.getCount()

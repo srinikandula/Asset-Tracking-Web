@@ -15,7 +15,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {ModalModule} from 'ngb-modal';
 // import {Multiselect} from './customDirectives/multiSelect/multiselect.component';
-import {DatePipe, HashLocationStrategy, LocationStrategy} from '@angular/common';
+import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {SpinnerComponent} from './spinner/spinner.component';
 import {SpinnerInterceptor} from './interceptors/spinner.interceptor';
 import {SpinnerService} from './spinner/spinner.service';

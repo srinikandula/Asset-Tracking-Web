@@ -54,21 +54,21 @@
                 </p>
             </div>
         </div>
-        <ul class="app-menu" id="dashboard-main-menu" >
-            <li class="treeview" >
-                <a class="app-menu__item" href="" data-toggle="treeview" [routerLinkActive]="['active']">
+        <ul class="app-menu" id="dashboard-main-menu" [hidden]="!adminRole">
+            <li class="treeview" [hidden]="!assetTrackingMenu">
+                <a class="app-menu__item" href="" data-toggle="treeview"  [routerLinkActive]="['active']">
                     <!--                    <i class="app-menu__icon fa fa-dashboard"></i>-->
                     <i class="icon svgIcon-menu OnboardingIcon" aria-hidden="true"></i>
                     <span class="app-menu__label">Asset Tracking</span>
                     <i class="treeview-indicator fa fa-angle-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="waves-effect waves-light">
+                    <li class="waves-effect waves-light" *ngIf="assetRequisitionFormMenu">
                         <a class="treeview-item" [routerLink]="['AssetTracking/assetRequisitionForm']" [routerLinkActive]="['active']">
                             <i class=" icon fa fa-laptop" aria-hidden="true"></i> Asset Requisition Form
                         </a>
                     </li>
-                    <li class="waves-effect waves-light">
+                    <li class="waves-effect waves-light" *ngIf="assetMenu">
                         <a class="treeview-item" [routerLink]="['Asset']" [routerLinkActive]="['active']">
                             <i class=" icon fa fa-laptop" aria-hidden="true"></i> Asset
                         </a>

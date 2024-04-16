@@ -274,7 +274,7 @@ export class AssetRequisitionFormComponent implements OnInit {
     })
   }
   getSitesForDropDownExpense(): void {
-    this.apiService.getSites('').subscribe((res: any) => {
+    this.apiService.get(this.apiUrls.getSitesDropDownForAsset).subscribe((res: any) => {
       if (res) {
         this.sitesStore = res;
       }
@@ -473,8 +473,8 @@ export class AssetRequisitionFormComponent implements OnInit {
               console.log(this.imageArray, '================')
               this.apiService.imageUpload(this.imageArray[i].subUrl
                   + this.assetRequisitionId
-                  +  '&qty=' + this.custodianUploadData.qty
-                  + '&invoiceNumber=' + this.custodianUploadData.invoiceNumber,
+                  +  '&qty=' + this.custodianUploadData.qty,
+                  // + '&invoiceNumber=' + this.custodianUploadData.invoiceNumber,
                   this.imageArray[i].file).subscribe
               ((response: any) => {
                 if (response) {
@@ -593,14 +593,22 @@ export class AssetRequisitionFormComponent implements OnInit {
     })
   }
   pdfDownload(data: any): void {
+    let today = new Date();
+    let day = String(today.getDate()).padStart(2, '0');
+    let month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    let year = today.getFullYear();
+// Get the time components
+    let hours = String(today.getHours()).padStart(2, '0');
+    let minutes = String(today.getMinutes()).padStart(2, '0');
+
+// Format the date and time with hyphen between hours and minutes
+    let formattedDateTime = `${day}-${month}-${year}: ${hours}:${minutes}`;
     if (data) {
       this.poData = data;
-      console.log(this.poData)
-      console.log(data);
       const elementToPrint = document.getElementById('pdfTable'); // The html element to become a pdf
       const opt = {
         margin: 0.5,
-        filename: data.name + '.pdf',
+        filename: this.currentUser.fullName +'_'+formattedDateTime + '.pdf',
         image: {type: 'jpeg', quality: 0.20},
         html2canvas: {
           quality: 1,

@@ -12,6 +12,7 @@ import { AssetComponent } from './asset/asset.component';
 import { AddEditAssetComponent } from './asset/add-edit-asset/add-edit-asset.component';
 import {AssetTrackingModule} from "./asset-tracking/asset-tracking.module";
 import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
+import { DatePipe } from '@angular/common';
 // import {FilterComponent} from './filters/filter/filter.component';
 
 @NgModule({
@@ -35,6 +36,7 @@ import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
         AssetTrackingModule,
         BsDatepickerModule,
         // BsDatepickerModule
-    ]
+    ],
+    providers: [DatePipe],
 })
 export class LayoutModule { }

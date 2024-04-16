@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import {CommonModule, DatePipe} from '@angular/common';
+import {CommonModule} from '@angular/common';
 
 import { AssetRoutingModule } from './asset-routing.module';
 import {AssetComponent} from "./asset.component";
@@ -21,8 +21,6 @@ import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
     AssetRoutingModule,
     NgbPaginationModule,
   ],
-  providers: [
-    // DatePipe
-  ],
+  providers: [],
 })
 export class AssetModule { }

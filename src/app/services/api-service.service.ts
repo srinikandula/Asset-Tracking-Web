@@ -168,10 +168,10 @@ export class ApiServiceService {
     get(subUrl: any) {
         return this.http.get(this.Apiurls.mainUrl + subUrl);
     }
-    getSites(subUrl: any) {
-        subUrl = 'https://sapi.whizzard.in/api/v1/expense/getSitesDropDownForExpense'
-        return this.http.get( subUrl);
-    }
+    // getSites(subUrl: any) {
+    //     subUrl = 'https://sapi.whizzard.in/api/v1/expense/getSitesDropDownForExpense'
+    //     return this.http.get( subUrl);
+    // }
 
     update(subUrl: any, data: any) {
         return this.http.put(this.Apiurls.mainUrl + subUrl, data);
