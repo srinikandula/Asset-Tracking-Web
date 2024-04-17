@@ -157,7 +157,7 @@
                             <label class="control-label">Quantity <b
                                     class="mandatory-field">*</b></label>
                             <input type="text" class="form-control form-control-sm" type="text"
-                                   [(ngModel)]="assetQuery.itemsList[0].quantity"
+                                   [(ngModel)]="assetQuery.itemsList.quantity"
                                    [ngModelOptions]="{standalone: true}"
                                    [ngClass]="currentUser.role === 27 ? 'inactive': ''"
                                    placeholder="Enter Quantity" required/>

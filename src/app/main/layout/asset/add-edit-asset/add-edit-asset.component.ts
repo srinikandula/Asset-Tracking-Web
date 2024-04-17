@@ -65,6 +65,7 @@ export class AddEditAssetComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.assetQuery.itemsList = []
     this.getPaidVendorNumberDropDownForAddAsset();
     // this.getSitesForDropDownExpense();
     if (this.assetId){
@@ -129,9 +130,12 @@ export class AddEditAssetComponent implements OnInit {
         this.assetQuery.attrs.siteNames = res.attrs.siteNames
         this.assetQuery.gstAmount = res.gstAmount;
         this.assetQuery.totalAmount = res.totalAmount;
-        this.assetQuery.itemsList[0].quantity = res.itemsList[0].quantity;
+        this.assetQuery.itemsList.quantity = res.itemsList[0].quantity;
+        for (let i = 0; i < this.assetQuery.itemsList.quantity; i++) {
+          this.assetQuery.itemsList.push({ serialNumber: '', model: '' });
+        }
         this.invoiceNumberForCapitalisation(res.invoiceOrVoucherNo)
-        this.initializeItemsList();
+        // this.initializeItemsList();
       }
     })
   }

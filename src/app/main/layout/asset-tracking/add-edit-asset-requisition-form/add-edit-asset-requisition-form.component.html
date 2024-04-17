@@ -39,20 +39,69 @@
                             </ng-select>
                         </div>
 
-                        <div class="form-group col-sm-6">
-                            <label class="control-label">Asset Sub Category<b
-                                    class="mandatory-field">*</b></label>
-                            <ng-select [(ngModel)]="assetQuery.assetSubCategory"
-                                       [ngModelOptions]="{standalone: true}"
-                                       bindValue="value"
-                                       bindLabel="key"
-                                       placeholder="Select Sub Category"
-                                       [clearable]="false">
-                                <ng-option value="" selected>Select Sub Category</ng-option>
-                                <ng-option *ngFor="let subCat of assetSubCategoryTypes"
-                                           [value]="subCat.value">{{subCat.key}}</ng-option>
+<!--                        <div class="form-group col-sm-6">-->
+<!--                            <label class="control-label">Asset Sub Category<b-->
+<!--                                    class="mandatory-field">*</b></label>-->
+<!--                            <ng-select [(ngModel)]="assetQuery.assetSubCategory"-->
+<!--                                       [ngModelOptions]="{standalone: true}"-->
+<!--                                       bindValue="value"-->
+<!--                                       bindLabel="key"-->
+<!--                                       placeholder="Select Sub Category"-->
+<!--                                       [clearable]="false">-->
+<!--                                <ng-option value="" selected>Select Sub Category</ng-option>-->
+<!--                                <ng-option *ngFor="let subCat of assetSubCategoryTypes"-->
+<!--                                           [value]="subCat.value">{{subCat.key}}</ng-option>-->
+<!--                            </ng-select>-->
+<!--                        </div>-->
+
+
+
+
+
+
+
+
+                        <div class="col-md-6 form-group">
+                            <label class="control-label">Select Asset SubCategory</label>
+                            <ng-select
+                                    [items]="assetSubCategoryTypes"
+                                    [multiple]="true"
+                                    bindLabel="key"
+                                    [closeOnSelect]="false"
+                                    bindValue="value"
+                                    placeholder="Select Asset Sub Type"
+                                    [(ngModel)]="assetQuery.assetSubCategory"
+                                    [ngModelOptions]="{standalone: true}"
+                                    (ngModelChange)="pushItemLists()">
+                                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                    <div class="ng-value" *ngFor="let item of items | slice:0:1; let i = index;" [hidden]="items.length > 1">
+                                        <span class="ng-value-label">{{items[i].key}}</span>
+                                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                    </div>
+                                    <div class="ng-value" *ngIf="items.length > 1">
+                                        <span class="ng-value-label">{{items.length}} Options Selected...</span>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <input id="item-{{index}}-assetSubCategory" type="checkbox" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}"/> {{item.key}}
+                                </ng-template>
+<!--                                <ng-template ng-header-tmp>-->
+<!--                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example" style="width: 100%">-->
+<!--                                        <button (click)="selectAll('subCatStore')" class="btn btn-sm btn-link">Select all</button>-->
+<!--                                        <button (click)="unselectAll('subCatStore')" class="btn btn-sm btn-link">Unselect all</button>-->
+<!--                                    </div>-->
+<!--                                </ng-template>-->
+                                <ng-template ng-footer-tmp>
+                                    <small class="p-1 flex-fill text-center">Selections Made: {{assetQuery.assetSubCategory.length}}</small>
+                                    <small class="p-1 flex-fill text-center">Options: {{assetSubCategoryTypes.length - assetQuery.assetSubCategory.length}}</small>
+                                </ng-template>
                             </ng-select>
                         </div>
+
+
+
+
+
 <!--                        <div class="col-sm-6 form-group">-->
 <!--                            <label class="control-label">Categories <b class="mandatory-field">*</b></label>-->
 <!--                            &nbsp;-->
@@ -108,13 +157,13 @@
 <!--                                   [ngModelOptions]="{standalone: true}"-->
 <!--                                   placeholder="Enter Model" required/>-->
 <!--                        </div>-->
-                        <div class="col-sm-6 form-group">
-                            <label class="control-label">Quantity <b class="mandatory-field">*</b></label>
-                            <input class="form-control form-control-sm" type="Number"
-                                   [(ngModel)]="assetQuery.quantity"
-                                   [ngModelOptions]="{standalone: true}"
-                                   placeholder="Enter Quantity" required/>
-                        </div>
+<!--                        <div class="col-sm-6 form-group">-->
+<!--                            <label class="control-label">Quantity <b class="mandatory-field">*</b></label>-->
+<!--                            <input class="form-control form-control-sm" type="Number"-->
+<!--                                   [(ngModel)]="assetQuery.quantity"-->
+<!--                                   [ngModelOptions]="{standalone: true}"-->
+<!--                                   placeholder="Enter Quantity" required/>-->
+<!--                        </div>-->
                         <div class="col-sm-6 form-group">
                             <label class="control-label">Asset Description <b class="mandatory-field">*</b></label>
                             <input class="form-control form-control-sm" type="text"
@@ -132,6 +181,66 @@
                                       placeholder="Enter Shipping Address" required></textarea>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 form-group">
+                            <table class="table table-hover text-center sticky-invoice">
+                                <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Asset SubCategory </th>
+                                    <th>Quantity</th>
+<!--                                    <th>Actions</th>-->
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="sticky-body" *ngFor="let item of assetQuery.itemsList; let i = index; let last = last;">
+                                    <td style="border: 2px solid #dee2e6">
+                                        {{ i + 1}}
+                                    </td>
+
+                                    <td class="widt-120" style="border: 2px solid #dee2e6">
+                                        <input placeholder="Enter Sub Categoryr" type="text"
+                                               class="form-control form-control-sm text-right" min="0"
+                                               [(ngModel)]="item.assetSubCategory"
+                                               [ngModelOptions]="{standalone: true}"  disabled/>
+                                    </td>
+                                    <td class="widt-120" style="border: 2px solid #dee2e6">
+                                        <input placeholder="Enter Quantity" type="text"
+                                               class="form-control form-control-sm text-right" minlength="0" maxlength="2"
+                                               [(ngModel)]="item.quantity"
+                                               [ngModelOptions]="{standalone: true}" />
+                                    </td>
+<!--                                    <td style="border: 2px solid #dee2e6">-->
+<!--                                        <div style="display: flex" >-->
+<!--                                            <button class="action-icon-style waves-effect waves-red delete-user-button"-->
+<!--                                                    (click)="deleteItem(i)" title="Delete Item"-->
+<!--                                                    *ngIf="assetQuery.itemsList.length != 1"-->
+<!--                                                    style="height: 30px;width: 30px;padding: 0;">-->
+<!--                                                <i class="fa fa-trash" aria-hidden="true" style="color: red;font-size: 15px"></i>-->
+<!--                                            </button>-->
+
+<!--                                            <button class="action-icon-style waves-effect waves-red delete-user-button"-->
+<!--                                                    title="Add Item"-->
+<!--                                                    style="height: 30px;width: 30px;padding: 0;" (click)="addItem()" *ngIf="last">-->
+<!--                                                <i class="fa fa-plus-circle" aria-hidden="true"-->
+<!--                                                   style="color: green; font-size: 15px"></i>-->
+<!--                                            </button>-->
+<!--                                        </div>-->
+<!--                                    </td>-->
+                                </tr>
+
+                                </tbody>
+                                <tfoot>
+                                <tr *ngIf="assetQuery.itemsList === null">
+                                    <th colspan="6" style="text-align: center">No Records exist.</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+
                 </div>
                 <div class="tile-footer">
                                     <div class="row">
