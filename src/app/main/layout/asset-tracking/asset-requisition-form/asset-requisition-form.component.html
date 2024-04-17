@@ -50,7 +50,7 @@
                                 <table class="table table-hover dataTable text-center" role="grid" id="rejectTableData"
                                        aria-describedby="sampleTable_info">
                                     <thead>
-                                    <tr role="row" class="table-bordered" >
+                                    <tr role="row" class="table-bordered" style="white-space: nowrap">
                                         <th>S.No</th>
                                         <th>Asset Req No</th>
                                         <th>Asset Category</th>
@@ -219,7 +219,7 @@
 
 <!--                                                            disabled Fields -->
                                                             <fieldset class="form-fieldset" *ngIf="getStatusCheck(asset.createdBy, asset.attrs.currentStatus, asset.attrs?.nextStatus)['staticBoo']">
-                                                            <legend style="width: unset; max-width: none">Requisition Details: </legend>
+                                                            <legend style="width: unset; max-width: none">Requisition Details 123: </legend>
                                                             <div class="row">
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group">
@@ -287,9 +287,59 @@
                                                                         <span class="shift-tem-text-Re">{{ assetQuery.custodianQty|| 'NA'}}</span>
                                                                     </div>
                                                                 </div>
-
-
                                                             </div>
+
+
+                                                                <div class="row">
+                                                                    <div class="col-sm-12 form-group">
+                                                                        <table class="table table-hover text-center sticky-invoice">
+                                                                            <thead>
+                                                                            <tr>
+                                                                                <th>S.No</th>
+                                                                                <th>Asset SubCategory</th>
+                                                                                <th>Quantity</th>
+<!--                                                                                <th>Actions</th>-->
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            <tr class="sticky-body" *ngFor="let item of assetQuery.itemsList; let i = index">
+                                                                                <td style="border: 2px solid #dee2e6">{{ i + 1 }}</td>
+                                                                                <td class="widt-120" style="border: 2px solid #dee2e6">{{ item.assetSubCategory }}</td>
+                                                                                <td class="widt-120" style="border: 2px solid #dee2e6">
+                                                                                    <span *ngIf="editIndex !== i; else editMode">
+                                                                                        {{ item.quantity }}
+                                                                                        <button class="btn btn-sm btn-outline-info waves-effect waves-black edit-user-button"
+                                                                                                *ngIf="assetQuery.status === 'OM_PENDING' || assetQuery.status === 'RM_PENDING' || assetQuery.status === 'VL_PENDING'"
+                                                                                                style="padding: 8px 9px; border: none !important; border-radius: 15px !important;" title="Edit"
+                                                                                                (click)="startEditing(i)">
+                                                                                            <i class="fa fa-pencil" style="font-size: 20px !important;"></i>
+                                                                                        </button>
+                                                                                    </span>
+                                                                                    <ng-template #editMode>
+                                                                                        <input type="number" class="form-control" [(ngModel)]="assetQuery.itemsList[editIndex!].quantity" />
+                                                                                    </ng-template>
+                                                                                </td>
+<!--                                                                                <td style="border: 2px solid #dee2e6">-->
+<!--                                                                                    &lt;!&ndash; No buttons here &ndash;&gt;-->
+<!--                                                                                </td>-->
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td style="border: 2px solid #dee2e6; text-align: end" colspan="3" >
+                                                                                    <button class="btn btn-success btn-sm" (click)="saveQuantity()">Update Qty</button>
+                                                                                </td>
+                                                                            </tr>
+                                                                            </tbody>
+                                                                            <tfoot>
+                                                                            <tr *ngIf="!assetQuery.itemsList || assetQuery.itemsList.length === 0">
+                                                                                <th colspan="4" style="text-align: center">No Records exist.</th>
+                                                                            </tr>
+                                                                            </tfoot>
+                                                                        </table>
+
+
+                                                                    </div>
+                                                                </div>
+
                                                         </fieldset>
 
                                                             <fieldset class="form-fieldset"
@@ -522,6 +572,109 @@
                                                                     <!--                                                                </div>-->
 
                                                                 </div>
+
+
+
+
+
+
+
+                                                                <div class="row" >
+                                                                    <div class="col-sm-12 form-group">
+                                                                        <table class="table table-hover text-center sticky-invoice">
+                                                                            <thead>
+                                                                            <tr>
+                                                                                <th>S.No</th>
+                                                                                <th>Quantity </th>
+                                                                                <th>Rate</th>
+                                                                                <th>PreGst Amount</th>
+                                                                                <th>GST Amount</th>
+                                                                                <th>Item Total Amount</th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            <tr class="sticky-body" *ngFor="let item of assetQuery.itemsList; let i = index; let last = last;">
+                                                                                <td style="border: 2px solid #dee2e6">
+                                                                                    {{ i + 1}}
+                                                                                </td>
+
+                                                                                <td class="widt-120" style="border: 2px solid #dee2e6">
+                                                                                    <input placeholder="Enter Quantity" type="number"
+                                                                                           class="form-control form-control-sm text-right" min="0"
+                                                                                           disabled
+                                                                                           [(ngModel)]="item.quantity"
+                                                                                           [ngModelOptions]="{standalone: true}" />
+                                                                                </td>
+                                                                                <td class="widt-120" style="border: 2px solid #dee2e6">
+                                                                                    <input placeholder="Enter Rate" type="number"
+                                                                                           class="form-control form-control-sm text-right" min="0"
+                                                                                           [(ngModel)]="item.rate"
+                                                                                           (input)="calculatePreGstAmountByItem(item)"
+                                                                                           [ngModelOptions]="{standalone: true}" />
+                                                                                </td>
+                                                                                <td class="widt-120" style="border: 2px solid #dee2e6">
+                                                                                    <input placeholder="Enter PreGst Amount" type="number"
+                                                                                           class="form-control form-control-sm text-right" min="0"
+                                                                                           [(ngModel)]="item.preGstAmount"
+                                                                                           [ngModelOptions]="{standalone: true}" />
+                                                                                </td>
+                                                                                <td class="widt-120" style="border: 2px solid #dee2e6">
+                                                                                    <input placeholder="Enter GST Amount" type="number"
+                                                                                           class="form-control form-control-sm text-right" min="0"
+                                                                                           [(ngModel)]="item.gstAmount"
+                                                                                           (input)="calculateTotalAmountByItem(item)"
+                                                                                           [ngModelOptions]="{standalone: true}" />
+                                                                                </td>
+                                                                                <td class="widt-120" style="border: 2px solid #dee2e6">
+                                                                                    <input placeholder="Enter Total Amount" type="number"
+                                                                                           class="form-control form-control-sm text-right" min="0"
+                                                                                           [(ngModel)]="item.totalAmount"
+                                                                                           [ngModelOptions]="{standalone: true}" />
+                                                                                </td>
+<!--                                                                                <td style="border: 2px solid #dee2e6">-->
+<!--                                                                                    <div style="display: flex" >-->
+<!--                                                                                        <button class="action-icon-style waves-effect waves-red delete-user-button"-->
+<!--                                                                                                (click)="deleteItem(i)" title="Delete Item"-->
+<!--                                                                                                *ngIf="assetQuery.itemsList.length != 1"-->
+<!--                                                                                                style="height: 30px;width: 30px;padding: 0;">-->
+<!--                                                                                            <i class="fa fa-trash" aria-hidden="true" style="color: red;font-size: 15px"></i>-->
+<!--                                                                                        </button>-->
+
+<!--                                                                                        <button class="action-icon-style waves-effect waves-red delete-user-button"-->
+<!--                                                                                                title="Add Item"-->
+<!--                                                                                                style="height: 30px;width: 30px;padding: 0;" (click)="addItem()" *ngIf="last">-->
+<!--                                                                                            <i class="fa fa-plus-circle" aria-hidden="true"-->
+<!--                                                                                               style="color: green; font-size: 15px"></i>-->
+<!--                                                                                        </button>-->
+<!--                                                                                    </div>-->
+<!--                                                                                </td>-->
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="widt-120" colspan="5" style="text-align: end"> Total Amount</td>
+                                                                                <td class="widt-120" >
+                                                                                    <input placeholder="Enter Total Amount" type="number"
+                                                                                           class="form-control form-control-sm text-right" min="0"
+                                                                                           disabled
+                                                                                           [(ngModel)]="this.initiatePo.totalAmount"
+                                                                                           [ngModelOptions]="{standalone: true}" />
+                                                                                </td>
+<!--                                                                                <td>{{this.initiatePo.totalAmount}}</td>-->
+                                                                            </tr>
+
+                                                                            </tbody>
+                                                                            <tfoot>
+                                                                            <tr *ngIf="assetQuery.itemsList === null">
+                                                                                <th colspan="6" style="text-align: center">No Records exist.</th>
+                                                                            </tr>
+                                                                            </tfoot>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+
+
+
+
+
                                                             </fieldset>
                                                         </div>
                                                 <div class="tile-footer">

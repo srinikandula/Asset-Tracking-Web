@@ -4,6 +4,7 @@ import {AuthenticationService} from "../../../../services/authentication.service
 import {ApiServiceService} from "../../../../services/api-service.service";
 import {ApiUrls} from "../../../../schemas/apiUrls";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-add-edit-asset-requisition-form',
@@ -21,10 +22,16 @@ export class AddEditAssetRequisitionFormComponent implements OnInit {
     model: '',
     description: '',
     assetCategory: '',
-    assetSubCategory: '',
+    assetSubCategory: [],
     category: '',
     custodianName: '',
-    quantity: 0
+    quantity: 0,
+    itemsList: [
+        {
+          assetSubCategory: '',
+          quantity: 0
+        }
+    ]
   }
   custodianDetails: any;
   allErrors: any = [];
@@ -33,7 +40,8 @@ export class AddEditAssetRequisitionFormComponent implements OnInit {
               public  apiService: ApiServiceService,
               private apiUrls: ApiUrls,
               private actRoute: ActivatedRoute,
-              private ngModalService: NgbModal) {
+              private ngModalService: NgbModal,
+              private toastr: ToastrService,) {
     this.authenticationService.currentUser.subscribe(x => {
       this.currentUser = x;
     });
@@ -41,6 +49,7 @@ export class AddEditAssetRequisitionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.assetQuery.itemsList = [];
     this.getAllCategory();
     this.getSitesForDropDownExpense();
     if (this.assetRequisitionId){
@@ -119,5 +128,55 @@ getAllSubCategory(): void{
   }
   cancel(): void {
     this.router.navigate(['AssetTracking/assetRequisitionForm']);
+  }
+
+  pushItemLists() {
+    console.log(this.assetQuery.assetSubCategory);
+
+    // Ensure itemsList is initialized as an array
+    if (!this.assetQuery.itemsList) {
+      this.assetQuery.itemsList = [];
+    }
+
+    // Iterate over each selected item
+    this.assetQuery.assetSubCategory.forEach((selectedItem: any) => {
+      // Check if the item is already present in itemsList
+      const isItemInList = this.assetQuery.itemsList.some((item: any) => item.assetSubCategory === selectedItem);
+
+      // If the item is not already in the list, add it with quantity 0
+      if (!isItemInList) {
+        this.assetQuery.itemsList.push({
+          assetSubCategory: selectedItem,
+          quantity: 0,
+        });
+      }
+    });
+
+    // Remove items from itemsList that are not present in assetSubCategory
+    this.assetQuery.itemsList = this.assetQuery.itemsList.filter((item: any) =>
+        this.assetQuery.assetSubCategory.includes(item.assetSubCategory)
+    );
+  }
+
+
+
+
+  deleteItem(index: any): void {
+    if (this.assetQuery.itemsList.length === 1) {
+      this.toastr.error('You can not Delete this (Please add at least one item)', 'Error');
+    } else {
+      this.assetQuery.itemsList.splice(index, 1);
+      this.assetQuery.noOfRows = this.assetQuery.noOfRows - 1;
+    }
+  }
+  selectAll(str: any): void {
+    if (str === 'subCatStore') {
+      this.assetQuery.assetSubCategory = this.assetSubCategoryTypes.map(x => x.id);
+    }
+  }
+  unselectAll(rstr: any): void {
+    if (rstr === 'subCatStore') {
+      this.assetQuery.assetSubCategory = [];
+    }
   }
 }

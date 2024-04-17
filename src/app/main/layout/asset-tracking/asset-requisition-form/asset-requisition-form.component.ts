@@ -70,7 +70,10 @@ export class AssetRequisitionFormComponent implements OnInit {
     totalAmount: 0,
     vendorGstNumber: '',
     vendorAddress: '',
-    panCardNumber: ''
+    panCardNumber: '',
+    // itemsList: [
+    //   { quantity: 0, rate: 0, preGstAmount: 0, gstAmount: 0, totalAmount: 0}
+    // ]
   }
   public poData: any = {};
   public checkStatus = {
@@ -88,6 +91,7 @@ export class AssetRequisitionFormComponent implements OnInit {
   public modalRef: any;
   public custodianUploadData: any = {};
   public allErrors: Array<any> = [];
+  editIndex: number | null = null;
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
               public  apiService: ApiServiceService,
@@ -112,13 +116,21 @@ export class AssetRequisitionFormComponent implements OnInit {
   }
 
   saveQuantity() {
+    console.log(this.assetQuery.itemsList, '====')
     // this.assetQuery.quantity = this.editedQuantity;
-    this.apiService.get(this.apiUrls.updateQuantityByVL + this.assetRequisitionId + '?quantity=' + this.assetQuery.quantity).subscribe((res: any) =>{
+    this.apiService.update(this.apiUrls.updateQuantityByVL + this.assetRequisitionId, {itemsList:this.assetQuery.itemsList}).subscribe((res: any) =>{
       if (res){
         this.editingQuantity = false;
         this.getCount();
       }
     })
+  }
+  startEditing(index: number) {
+    this.editIndex = index;
+  }
+
+  cancelEditing() {
+    this.editIndex = null;
   }
 
   cancelEditingQuantity() {
@@ -576,7 +588,24 @@ export class AssetRequisitionFormComponent implements OnInit {
     }
   }
 
-
+  calculatePreGstAmountByItem(item: any) {
+    item.preGstAmount = item.quantity * item.rate;
+  }
+  calculateTotalAmountByItem(item: any) {
+    // Calculate total amount
+    item.totalAmount = item.preGstAmount + item.gstAmount;
+    this.totalFun(item)
+  }
+  totalFun(data: any) {
+    this.assetQuery.itemsList
+    console.log(this.assetQuery.itemsList)
+    let totalAmount = 0;
+    this.assetQuery.itemsList.forEach((item: any) => {
+      totalAmount += item.totalAmount;
+    });
+    this.initiatePo.totalAmount = totalAmount;
+    console.log(totalAmount, '==========', this.initiatePo.totalAmount)
+  }
   calculatePreGstAmount(): void{
     this.initiatePo.preGstAmount = Number(this.assetQuery.quantity) * Number(this.initiatePo.rate);
   }
