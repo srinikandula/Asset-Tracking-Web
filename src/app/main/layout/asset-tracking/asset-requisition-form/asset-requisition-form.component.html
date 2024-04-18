@@ -253,26 +253,26 @@
 <!--                                                                </div>-->
 
 
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group">
-                                                                        <label class="cus-font-label" style="margin-bottom: 10px !important;">Actual Quantity: </label>&nbsp;
-                                                                        <span *ngIf="!editingQuantity; else editQuantity">
-                                                                            <span class="shift-tem-text-Re">{{ assetQuery.quantity || 'NA' }}</span>
-                                                                                <button class="btn btn-sm btn-outline-info waves-effect waves-black edit-user-button"
-                                                                                        *ngIf="assetQuery.status === 'OM_PENDING' || assetQuery.status === 'RM_PENDING' || assetQuery.status === 'VL_PENDING'"
-                                                                                        style="border-radius: 0;padding: 8px 9px; border: none !important; border-radius: 15px !important;" title="Edit"
-                                                                                        (click)="startEditingQuantity()"
-                                                                                ><i class="fa fa-pencil" style="font-size: 20px !important;"></i></button>
-                                                                            </span>
-                                                                        <ng-template #editQuantity>
-                                                                            <input type="number" [(ngModel)]="assetQuery.quantity" class="form-control form-group">
-                                                                            <button class="btn btn-success btn-sm btn-all-shadow waves-effect waves-light"
-                                                                                    (click)="saveQuantity()">Save</button> &nbsp;
-                                                                            <button class="btn btn-danger btn-sm btn-all-shadow waves-effect waves-light"
-                                                                                    (click)="cancelEditingQuantity()">Cancel</button>
-                                                                        </ng-template>
-                                                                    </div>
-                                                                </div>
+<!--                                                                <div class="col-sm-6">-->
+<!--                                                                    <div class="form-group">-->
+<!--                                                                        <label class="cus-font-label" style="margin-bottom: 10px !important;">Actual Quantity: </label>&nbsp;-->
+<!--                                                                        <span *ngIf="!editingQuantity; else editQuantity">-->
+<!--                                                                            <span class="shift-tem-text-Re">{{ assetQuery.quantity || 'NA' }}</span>-->
+<!--                                                                                <button class="btn btn-sm btn-outline-info waves-effect waves-black edit-user-button"-->
+<!--                                                                                        *ngIf="assetQuery.status === 'OM_PENDING' || assetQuery.status === 'RM_PENDING' || assetQuery.status === 'VL_PENDING'"-->
+<!--                                                                                        style="border-radius: 0;padding: 8px 9px; border: none !important; border-radius: 15px !important;" title="Edit"-->
+<!--                                                                                        (click)="startEditingQuantity()"-->
+<!--                                                                                ><i class="fa fa-pencil" style="font-size: 20px !important;"></i></button>-->
+<!--                                                                            </span>-->
+<!--                                                                        <ng-template #editQuantity>-->
+<!--                                                                            <input type="number" [(ngModel)]="assetQuery.quantity" class="form-control form-group">-->
+<!--                                                                            <button class="btn btn-success btn-sm btn-all-shadow waves-effect waves-light"-->
+<!--                                                                                    (click)="saveQuantity()">Save</button> &nbsp;-->
+<!--                                                                            <button class="btn btn-danger btn-sm btn-all-shadow waves-effect waves-light"-->
+<!--                                                                                    (click)="cancelEditingQuantity()">Cancel</button>-->
+<!--                                                                        </ng-template>-->
+<!--                                                                    </div>-->
+<!--                                                                </div>-->
 
 
                                                                 <div class="col-sm-6">
@@ -324,7 +324,8 @@
 <!--                                                                                </td>-->
                                                                             </tr>
                                                                             <tr>
-                                                                                <td style="border: 2px solid #dee2e6; text-align: end" colspan="3" >
+                                                                                <td style="border: 2px solid #dee2e6; text-align: end" colspan="3"
+                                                                                    *ngIf="assetQuery.status === 'OM_PENDING' || assetQuery.status === 'RM_PENDING' || assetQuery.status === 'VL_PENDING'">
                                                                                     <button class="btn btn-success btn-sm" (click)="saveQuantity()">Update Qty</button>
                                                                                 </td>
                                                                             </tr>
@@ -500,47 +501,47 @@
                                                                                [ngModelOptions]="{standalone: true}"
                                                                                placeholder="Enter Warranty" required/>
                                                                     </div>
-                                                                    <div class="col-sm-3 form-group text-left">
-                                                                        <label class="control-label">Quantity</label>
-                                                                        <input class="form-control form-control-sm"
-                                                                               type="number"
-                                                                               disabled
-                                                                               [(ngModel)]="assetQuery.quantity"
-                                                                               [ngModelOptions]="{standalone: true}"
-                                                                               placeholder="Enter Quantity" required/>
-                                                                    </div>
+<!--                                                                    <div class="col-sm-3 form-group text-left">-->
+<!--                                                                        <label class="control-label">Quantity</label>-->
+<!--                                                                        <input class="form-control form-control-sm"-->
+<!--                                                                               type="number"-->
+<!--                                                                               disabled-->
+<!--                                                                               [(ngModel)]="assetQuery.quantity"-->
+<!--                                                                               [ngModelOptions]="{standalone: true}"-->
+<!--                                                                               placeholder="Enter Quantity" required/>-->
+<!--                                                                    </div>-->
 
-                                                                    <div class="col-sm-3 form-group text-left">
-                                                                        <label class="control-label">Rate <b
-                                                                                class="mandatory-field">*</b></label>
-                                                                        <input class="form-control form-control-sm"
-                                                                               type="number"
-                                                                               [(ngModel)]="initiatePo.rate"
-                                                                               (ngModelChange)="calculatePreGstAmount()"
-                                                                               [ngModelOptions]="{standalone: true}"
-                                                                               placeholder="Enter Rate" required/>
-                                                                    </div>
-                                                                    <div class="col-sm-3 form-group text-left">
-                                                                        <label class="control-label">PreGst Amount <b
-                                                                                class="mandatory-field">*</b></label>
-                                                                        <input class="form-control form-control-sm"
-                                                                               type="number"
-                                                                               [(ngModel)]="initiatePo.preGstAmount"
-                                                                               disabled
-                                                                               [ngModelOptions]="{standalone: true}"
-                                                                               placeholder="Enter PreGst Amount"
-                                                                               required/>
-                                                                    </div>
-                                                                    <div class="col-sm-3 form-group text-left">
-                                                                        <label class="control-label">GST Amount <b
-                                                                                class="mandatory-field">*</b></label>
-                                                                        <input class="form-control form-control-sm"
-                                                                               type="number"
-                                                                               [(ngModel)]="initiatePo.gstAmount"
-                                                                               [ngModelOptions]="{standalone: true}"
-                                                                               (ngModelChange)="calculateTotalAmount()"
-                                                                               placeholder="Enter GST Amount" required/>
-                                                                    </div>
+<!--                                                                    <div class="col-sm-3 form-group text-left">-->
+<!--                                                                        <label class="control-label">Rate <b-->
+<!--                                                                                class="mandatory-field">*</b></label>-->
+<!--                                                                        <input class="form-control form-control-sm"-->
+<!--                                                                               type="number"-->
+<!--                                                                               [(ngModel)]="initiatePo.rate"-->
+<!--                                                                               (ngModelChange)="calculatePreGstAmount()"-->
+<!--                                                                               [ngModelOptions]="{standalone: true}"-->
+<!--                                                                               placeholder="Enter Rate" required/>-->
+<!--                                                                    </div>-->
+<!--                                                                    <div class="col-sm-3 form-group text-left">-->
+<!--                                                                        <label class="control-label">PreGst Amount <b-->
+<!--                                                                                class="mandatory-field">*</b></label>-->
+<!--                                                                        <input class="form-control form-control-sm"-->
+<!--                                                                               type="number"-->
+<!--                                                                               [(ngModel)]="initiatePo.preGstAmount"-->
+<!--                                                                               disabled-->
+<!--                                                                               [ngModelOptions]="{standalone: true}"-->
+<!--                                                                               placeholder="Enter PreGst Amount"-->
+<!--                                                                               required/>-->
+<!--                                                                    </div>-->
+<!--                                                                    <div class="col-sm-3 form-group text-left">-->
+<!--                                                                        <label class="control-label">GST Amount <b-->
+<!--                                                                                class="mandatory-field">*</b></label>-->
+<!--                                                                        <input class="form-control form-control-sm"-->
+<!--                                                                               type="number"-->
+<!--                                                                               [(ngModel)]="initiatePo.gstAmount"-->
+<!--                                                                               [ngModelOptions]="{standalone: true}"-->
+<!--                                                                               (ngModelChange)="calculateTotalAmount()"-->
+<!--                                                                               placeholder="Enter GST Amount" required/>-->
+<!--                                                                    </div>-->
                                                                     <div class="col-sm-3 form-group text-left">
                                                                         <label class="control-label">Additional
                                                                             Expenses</label>
@@ -548,7 +549,7 @@
                                                                                type="number"
                                                                                [(ngModel)]="initiatePo.additionalExpenses"
                                                                                [ngModelOptions]="{standalone: true}"
-                                                                               (ngModelChange)="calculateTotalAmount()"
+                                                                               (ngModelChange)="totalFun('')"
                                                                                placeholder="Enter Additional Expenses"
                                                                                required/>
                                                                     </div>
@@ -615,6 +616,7 @@
                                                                                 <td class="widt-120" style="border: 2px solid #dee2e6">
                                                                                     <input placeholder="Enter PreGst Amount" type="number"
                                                                                            class="form-control form-control-sm text-right" min="0"
+                                                                                           disabled
                                                                                            [(ngModel)]="item.preGstAmount"
                                                                                            [ngModelOptions]="{standalone: true}" />
                                                                                 </td>
@@ -628,6 +630,7 @@
                                                                                 <td class="widt-120" style="border: 2px solid #dee2e6">
                                                                                     <input placeholder="Enter Total Amount" type="number"
                                                                                            class="form-control form-control-sm text-right" min="0"
+                                                                                           disabled
                                                                                            [(ngModel)]="item.totalAmount"
                                                                                            [ngModelOptions]="{standalone: true}" />
                                                                                 </td>
