@@ -121,6 +121,8 @@ export class AssetRequisitionFormComponent implements OnInit {
     this.apiService.update(this.apiUrls.updateQuantityByVL + this.assetRequisitionId, {itemsList:this.assetQuery.itemsList}).subscribe((res: any) =>{
       if (res){
         this.editingQuantity = false;
+        this.editIndex = -1;
+        // this.editIndex = null
         this.getCount();
       }
     })
@@ -401,7 +403,12 @@ export class AssetRequisitionFormComponent implements OnInit {
       confirmButtonText: '<i class="fa fa-thumbs-up"></i> Yes, Submit it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.apiService.update(this.apiUrls.addPurchasingOrder + asset.id, {...this.initiatePo, ...this.assetQuery.description, ...this.assetQuery.quantity}).subscribe((res: any) => {
+        const payload = {
+          ...this.initiatePo,  // Include other properties from initiatePo
+          description: this.assetQuery.description, // Include description from assetQuery
+          itemsList: this.assetQuery.itemsList  // Include itemsList from assetQuery
+        };
+        this.apiService.update(this.apiUrls.addPurchasingOrder + asset.id, payload).subscribe((res: any) => {
           if (res){
             swal.fire('Success!', ' ' , 'success');
             this.getCount();
@@ -523,9 +530,17 @@ export class AssetRequisitionFormComponent implements OnInit {
             if (res) {
               this.initiatePo = res;
               this.initiatePo.additionalExpenses = 0;
-              this.initiatePo.rate = 0;
-              this.initiatePo.gstAmount = 0;
-              this.initiatePo.totalAmount = 0;
+              // this.initiatePo.rate = 0;
+              // this.initiatePo.gstAmount = 0;
+              // this.initiatePo.totalAmount = 0;
+
+              this.assetQuery.itemsList.forEach((item: any) => {
+                item.rate = 0;
+                item.gstAmount = 0;
+                item.preGstAmount = 0;
+                item.totalAmount = 0;
+                // Reset other properties here if needed
+              });
               this.initiatePo.billingAddress = '8th floor,801/A,krishe Block 1-89/3/B/40-42/KS/801A, Krishe Sapphire, Hi-Tech City Road, Madhapur, Hyderabad, Ranagareddy,500081,India,PAN Number: AABCZ2432M,GSTIN 36AABCZ2432M1Z4'
             }
           });
@@ -590,6 +605,7 @@ export class AssetRequisitionFormComponent implements OnInit {
 
   calculatePreGstAmountByItem(item: any) {
     item.preGstAmount = item.quantity * item.rate;
+    this.calculateTotalAmountByItem(item)
   }
   calculateTotalAmountByItem(item: any) {
     // Calculate total amount
@@ -604,6 +620,10 @@ export class AssetRequisitionFormComponent implements OnInit {
       totalAmount += item.totalAmount;
     });
     this.initiatePo.totalAmount = totalAmount;
+    let totalWithExpenses = totalAmount + this.initiatePo.additionalExpenses;
+
+    // Update initiatePo.totalAmount with the total amount including additional expenses
+    this.initiatePo.totalAmount = totalWithExpenses;
     console.log(totalAmount, '==========', this.initiatePo.totalAmount)
   }
   calculatePreGstAmount(): void{
@@ -637,7 +657,7 @@ export class AssetRequisitionFormComponent implements OnInit {
       const elementToPrint = document.getElementById('pdfTable'); // The html element to become a pdf
       const opt = {
         margin: 0.5,
-        filename: this.currentUser.fullName +'_'+formattedDateTime + '.pdf',
+        filename: this.currentUser.fullName +'_'+formattedDateTime + '_' + 'PO'+  '.pdf',
         image: {type: 'jpeg', quality: 0.20},
         html2canvas: {
           quality: 1,
