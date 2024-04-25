@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  testPath: 'https://assetapi.whizzard.in'
 };

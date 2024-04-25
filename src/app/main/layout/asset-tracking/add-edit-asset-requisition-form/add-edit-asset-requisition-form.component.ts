@@ -29,7 +29,8 @@ export class AddEditAssetRequisitionFormComponent implements OnInit {
     itemsList: [
         {
           assetSubCategory: '',
-          quantity: 0
+          quantity: 0,
+          serialNumber: 0
         }
     ]
   }
@@ -80,7 +81,15 @@ getAllSubCategory(): void{
   }
 
   addorUpdateAsset() {
-    console.log(this.allErrors)
+    let serialNumber = 1;
+
+    // Loop through each item in itemsList to assign serial numbers
+    this.assetQuery.itemsList.forEach((item: any) => {
+      // Assign serial number to the item
+      item.serialNumber = serialNumber;
+      // Increment serial number for the next item
+      serialNumber++;
+    });
     if (this.assetRequisitionId) {
       this.apiService.update(this.apiUrls.updateAsset  +  this.assetRequisitionId, this.assetQuery).subscribe((res: any) => {
         if (res) {
@@ -91,7 +100,7 @@ getAllSubCategory(): void{
         this.allErrors = error;
       })
     } else {
-      this.apiService.getAll(this.apiUrls.addAsset, this.assetQuery).subscribe((res: any) => {
+      this.apiService.create(this.apiUrls.addAsset, this.assetQuery).subscribe((res: any) => {
         if (res) {
           console.log(res);
           this.router.navigate(['AssetTracking/assetRequisitionForm']);
@@ -116,6 +125,7 @@ getAllSubCategory(): void{
     this.apiService.get(this.apiUrls.getCustodianDetails + 'id='  + this.assetQuery.siteId).subscribe((res: any) => {
       if (res){
         this.custodianDetails = res;
+        this.assetQuery.shippingAddress = res[0].siteAddress;
         // this.assetQuery.custodianName = res[0].custodianName;
         // this.assetQuery.custodianNumber = res[0].custodianNumber;
 
@@ -178,5 +188,18 @@ getAllSubCategory(): void{
     if (rstr === 'subCatStore') {
       this.assetQuery.assetSubCategory = [];
     }
+  }
+
+  cloneItem(i: number, assetSubCategory: any) {
+    this.assetQuery.itemsList.splice(i + 1, 0, {
+      assetSubCategory: assetSubCategory,
+      quantity: 0
+    })
+  }
+  cloneRow(i: any, assetSubCategory: any) {
+    this.assetQuery.itemsList.splice(i + 1, 0, {
+      assetSubCategory: assetSubCategory,
+      quantity: 0
+    })
   }
 }

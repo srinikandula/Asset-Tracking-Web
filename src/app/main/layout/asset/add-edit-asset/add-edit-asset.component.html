@@ -21,7 +21,7 @@
                 <hr>
                 <div class="tile-body">
                     <div class="row">
-                        <div class="col-sm-6 form-group">
+                        <div class="col-sm-6 form-group" *ngIf="!assetId">
                                 <label class="control-label">Vendor Ticket Number<b
                                         class="mandatory-field">*</b></label>
                                 <ng-select [(ngModel)]="assetQuery.vendorNumber"
@@ -38,14 +38,23 @@
                                     </ng-option>
                                 </ng-select>
                         </div>
+                        <div class="col-sm-6 form-group" *ngIf="assetId">
+                            <label class="control-label">Vendor Ticket Number<b
+                                    class="mandatory-field">*</b></label>
+                            <input type="text" class="form-control form-control-sm" type="text"
+                                   [(ngModel)]="assetQuery.vendorNumber"
+                                   [ngModelOptions]="{standalone: true}"
+                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+                                   placeholder="Asset Category" required />
 
+                        </div>
                         <div class="form-group col-sm-6 text-left">
                             <label class="control-label">Enter Site Name<b
                                     class="mandatory-field">*</b></label>
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.attrs.siteNames"
                                    [ngModelOptions]="{standalone: true}"
-                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+                                   [ngClass]="(currentUser.role === 27 || currentUser.role === 29) ? 'inactive': ''"
                                    placeholder="Enter Site Name" required/>
 <!--                            <ng-select [(ngModel)]="assetQuery.siteId" class="diabled-Drop"-->
 <!--                                       [ngModelOptions]="{standalone: true}"-->
@@ -66,7 +75,7 @@
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.assetCategory"
                                    [ngModelOptions]="{standalone: true}"
-                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+                                   [ngClass]="(currentUser.role === 27 || currentUser.role === 29) ? 'inactive': ''"
                                    placeholder="Asset Category" required/>
                         </div>
 
@@ -76,7 +85,7 @@
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.assetSubCategory"
                                    [ngModelOptions]="{standalone: true}"
-                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+                                   [ngClass]="(currentUser.role === 27 || currentUser.role === 29) ? 'inactive': ''"
                                    placeholder="Asset Sub Category" required/>
                         </div>
 
@@ -86,7 +95,7 @@
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.attrs.vendorName"
                                    [ngModelOptions]="{standalone: true}"
-                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+                                   [ngClass]="(currentUser.role === 27 || currentUser.role === 29)? 'inactive': ''"
                                    placeholder="Enter Vendor Name" required/>
                         </div>
                         <div class="col-sm-6 form-group">
@@ -95,7 +104,7 @@
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.invoiceNumber"
                                    [ngModelOptions]="{standalone: true}"
-                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+                                   [ngClass]="(currentUser.role === 27 || currentUser.role === 29) ? 'inactive': ''"
                                    placeholder="Asset Invoice Number" required/>
                         </div>
 
@@ -105,7 +114,7 @@
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.invoiceDate"
                                    [ngModelOptions]="{standalone: true}"
-                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+                                   [ngClass]="(currentUser.role === 27 || currentUser.role === 29) ? 'inactive': ''"
                                    placeholder="Asset Invoice Date" required/>
                         </div>
                         <div class="col-sm-6 form-group">
@@ -114,7 +123,7 @@
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.indentNumber"
                                    [ngModelOptions]="{standalone: true}"
-                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+                                   [ngClass]="(currentUser.role === 27 || currentUser.role === 29) ? 'inactive': ''"
                                    placeholder="Asset Indent Number" required/>
                         </div>
 
@@ -124,7 +133,7 @@
                             <input type="text" class="form-control form-control-sm" type="number"
                                    [(ngModel)]="assetQuery.amountBeforeTax"
                                    [ngModelOptions]="{standalone: true}"
-                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+                                   [ngClass]="(currentUser.role === 27 || currentUser.role === 29) ? 'inactive': ''"
                                    placeholder="Amount Before Tax" required/>
                         </div>
                         <div class="col-sm-6 form-group">
@@ -133,6 +142,7 @@
                             <input type="text" class="form-control form-control-sm" type="number"
                                    [(ngModel)]="assetQuery.gstAmount"
                                    [ngModelOptions]="{standalone: true}"
+                                   [ngClass]="currentUser.role === 29 ? 'inactive' : ''"
                                    placeholder="GST Amount" required/>
                         </div>
                         <div class="col-sm-6 form-group">
@@ -141,7 +151,7 @@
                             <input type="text" class="form-control form-control-sm" type="number"
                                    [(ngModel)]="assetQuery.additionalExpenses"
                                    [ngModelOptions]="{standalone: true}"
-                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+                                   [ngClass]="(currentUser.role === 27 || currentUser.role === 29) ? 'inactive': ''"
                                    placeholder="Enter Additional Expenses" required/>
                         </div>
                         <div class="col-sm-6 form-group">
@@ -150,7 +160,7 @@
                             <input type="text" class="form-control form-control-sm" type="number"
                                    [(ngModel)]="assetQuery.totalAmount"
                                    [ngModelOptions]="{standalone: true}"
-                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+                                   [ngClass]="(currentUser.role === 27 || currentUser.role === 29) ? 'inactive': ''"
                                    placeholder="Enter Total Amount" required/>
                         </div>
                         <div class="col-sm-6 form-group" *ngIf="assetQuery.itemsList">
@@ -159,7 +169,8 @@
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.itemsList.quantity"
                                    [ngModelOptions]="{standalone: true}"
-                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+                                   (ngModelChange)="onQuantityChange()"
+                                   [ngClass]="(currentUser.role === 27 || currentUser.role === 29)? 'inactive': ''"
                                    placeholder="Enter Quantity" required/>
                         </div>
                         <div class="col-sm-6 form-group">
@@ -168,7 +179,7 @@
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.description"
                                    [ngModelOptions]="{standalone: true}"
-                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+                                   [ngClass]="(currentUser.role === 27 || currentUser.role === 29) ? 'inactive': ''"
                                    placeholder="Enter Descriptions" required/>
                         </div>
                         </div>
@@ -236,7 +247,7 @@
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.model"
                                    [ngModelOptions]="{standalone: true}"
-                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
+
                                    placeholder="Enter Model " required/>
                         </div>
                         <div class="col-sm-6 form-group">
@@ -245,33 +256,69 @@
                             <input type="text" class="form-control form-control-sm" type="text"
                                    [(ngModel)]="assetQuery.serialNumber"
                                    [ngModelOptions]="{standalone: true}"
-                                   [ngClass]="currentUser.role === 27 ? 'inactive': ''"
                                    placeholder="Enter Serial Number " required/>
                         </div>
 
                     </div>
-                        <div class="row" *ngIf="assetId" >
-                            <div class="col-sm-4" [ngClass]="currentUser.role === 27 ? 'inactive': ''">
-                                <label class="control-label">Invoice Image</label>
-                                <div class="card">
-                                    <img src="{{assetQuery.attrs.invoiceDocUrl || './assets/img/icons/emptyIconImage.png'}}" alt="Vehicle Image"
-                                         class="card-img-top" height="168px">
-                                    <div class="btn-group btn-group-deAndrem" role="group"
-                                         *ngIf="assetQuery.attrs.invoiceDocUrl">
+
+
+
+
+<!--                        <div class="row" >-->
+<!--                            <div class="col-sm-4" >-->
+<!--                                <label class="control-label">Invoice Image</label>-->
+<!--                                <div class="card">-->
+<!--                                    <img src="{{assetQuery.attrs.assetDocUrl || './assets/img/icons/emptyIconImage.png'}}" alt="Vehicle Image"-->
+<!--                                         class="card-img-top" height="168px">-->
+<!--                                    <div class="btn-group btn-group-deAndrem" role="group"-->
+<!--                                         *ngIf="assetQuery.attrs.assetDocUrl">-->
+<!--                                        <button type="button" class="btn btn-sm"-->
+<!--                                                (click)="onClick(assetQuery.attrs.assetDocUrl)"-->
+<!--                                                data-toggle="modal" data-target="#insuranceUploadModal">-->
+<!--                                            <i class="fa fa-info-circle fa-2x"></i>-->
+<!--                                        </button>-->
+<!--                                        <button type="button" class="btn btn-sm" *ngIf="false">-->
+<!--                                            <i class="fa fa-info-circle fa-2x"></i>-->
+<!--                                        </button>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                    </div>-->
+
+
+
+
+
+
+
+
+                    <div class="row mb-4">
+                        <div class="col-sm-3 form-group my-auto"
+                             *ngFor="let image of imageUrls; let im = index">
+                                <label class="control-label">Asset Image - {{im + 1}}</label>
+                                <div class="card" style="margin-bottom: 0">
+                                    <img alt=" Image"
+                                         src="{{image}}"
+                                         class="card-img-top"
+                                         height="168px">
+                                    <div class="btn-group btn-group-deAndrem" role="group">
                                         <button type="button" class="btn btn-sm"
-                                                (click)="onClick(assetQuery.attrs.invoiceDocUrl)"
+                                                (click)="onClick(image)"
                                                 data-toggle="modal" data-target="#insuranceUploadModal">
                                             <i class="fa fa-info-circle fa-2x"></i>
                                         </button>
-                                        <button type="button" class="btn btn-sm" *ngIf="false">
-                                            <i class="fa fa-info-circle fa-2x"></i>
-                                        </button>
+<!--                                        <ng-template #imageDetailsInfo>-->
+<!--                                            <img alt=" Image" src="{{image}}" width="600" height="300px">-->
+<!--                                        </ng-template>-->
+<!--                                        <button type="button" class="btn btn-sm" (click)="removeUploadImage(image, im)">-->
+<!--                                            <i class="fa fa-times-circle fa-2x"></i>-->
+<!--                                        </button>-->
                                     </div>
                                 </div>
-                            </div>
                         </div>
-
-<!--                    </div>-->
+                    </div>
 
                     <div class="row" *ngIf="!assetId">
                         <div class="col-sm-12 form-group">
@@ -281,7 +328,7 @@
                                     <th>S.No</th>
                                     <th>Serial Number </th>
                                     <th>Model</th>
-                                    <th>Actions</th>
+<!--                                    <th>Actions</th>-->
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -302,23 +349,23 @@
                                                [(ngModel)]="item.model"
                                                [ngModelOptions]="{standalone: true}" />
                                     </td>
-                                    <td style="border: 2px solid #dee2e6">
-                                        <div style="display: flex" >
-                                            <button class="action-icon-style waves-effect waves-red delete-user-button"
-                                                    (click)="deleteItem(i)" title="Delete Item"
-                                                    *ngIf="assetQuery.itemsList.length != 1"
-                                                    style="height: 30px;width: 30px;padding: 0;">
-                                                <i class="fa fa-trash" aria-hidden="true" style="color: red;font-size: 15px"></i>
-                                            </button>
+<!--                                    <td style="border: 2px solid #dee2e6">-->
+<!--                                        <div style="display: flex" >-->
+<!--                                            <button class="action-icon-style waves-effect waves-red delete-user-button"-->
+<!--                                                    (click)="deleteItem(i)" title="Delete Item"-->
+<!--                                                    *ngIf="assetQuery.itemsList.length != 1"-->
+<!--                                                    style="height: 30px;width: 30px;padding: 0;">-->
+<!--                                                <i class="fa fa-trash" aria-hidden="true" style="color: red;font-size: 15px"></i>-->
+<!--                                            </button>-->
 
-                                            <button class="action-icon-style waves-effect waves-red delete-user-button"
-                                                    title="Add Item"
-                                                    style="height: 30px;width: 30px;padding: 0;" (click)="addItem()" *ngIf="last">
-                                                <i class="fa fa-plus-circle" aria-hidden="true"
-                                                   style="color: green; font-size: 15px"></i>
-                                            </button>
-                                        </div>
-                                    </td>
+<!--                                            <button class="action-icon-style waves-effect waves-red delete-user-button"-->
+<!--                                                    title="Add Item"-->
+<!--                                                    style="height: 30px;width: 30px;padding: 0;" (click)="addItem()" *ngIf="last">-->
+<!--                                                <i class="fa fa-plus-circle" aria-hidden="true"-->
+<!--                                                   style="color: green; font-size: 15px"></i>-->
+<!--                                            </button>-->
+<!--                                        </div>-->
+<!--                                    </td>-->
                                 </tr>
 
                                 </tbody>

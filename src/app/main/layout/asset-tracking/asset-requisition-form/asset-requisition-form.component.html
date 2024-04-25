@@ -34,8 +34,40 @@
                 <div class="tile-body">
                     <div class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
                         <div class="row">
-                            <div class="col-sm-2"></div>
-                            <div class="col-sm-12 p-0 text-right">
+                            <div class="col-sm-2 form-group">
+                                <input class="form-control form-control-sm" type="text" [(ngModel)]="data.indentNumber"
+                                       placeholder="Search By Requisition Number" required
+                                       (ngModelChange)="getCount()"
+                                       autocomplete="false">
+                            </div>
+                            <div class="col-sm-2 form-group">
+                                <input class="form-control form-control-sm" type="text" [(ngModel)]="data.custodianName"
+                                       placeholder="Search By Custodian Name" required
+                                       (ngModelChange)="getCount()"
+                                       autocomplete="false">
+                            </div>
+                            <div class="col-sm-2 form-group">
+                                <input class="form-control form-control-sm" type="text" [(ngModel)]="data.vendorName"
+                                       placeholder="Search By Vendor Name" required
+                                       (ngModelChange)="getCount()"
+                                       autocomplete="false">
+                            </div>
+
+                            <div class="form-group col-sm-2">
+                                <ng-select [(ngModel)]="data.siteId"
+                                           [ngModelOptions]="{standalone: true}"
+                                           bindValue="id"
+                                           bindLabel="attrs.siteLable"
+                                           placeholder="Select Site"
+                                           (change)="getCount()"
+                                           [clearable]="false">
+                                    <ng-option value="" selected>Select Site</ng-option>
+                                    <ng-option *ngFor="let site of sitesStore"
+                                               [value]="site.id">{{site.attrs.siteLable}}</ng-option>
+                                </ng-select>
+                            </div>
+
+                            <div class="col-sm-2 p-0 text-right form-group">
                                 <button type="button" *ngIf="currentUser.role !== 76"
                                         class="btn btn-sm btn-danger btn-all-shadow waves-effect waves-light form-group"
                                         title="Add Expense"
@@ -56,8 +88,8 @@
                                         <th>Asset Category</th>
                                         <th>Asset Sub Category</th>
                                         <th>Site</th>
-                                        <th>Quantity</th>
-                                        <th>Description</th>
+<!--                                        <th>Quantity</th>-->
+<!--                                        <th>Description</th>-->
                                         <th>Custodian </th>
                                         <th>Created By </th>
 <!--                                        <th>Next Status</th>-->
@@ -71,8 +103,8 @@
                                         <td>{{asset.assetCategory}}</td>
                                         <td>{{asset.assetSubCategory}}</td>
                                         <td>{{asset.attrs?.siteCode}}</td>
-                                        <td>{{asset.quantity }}</td>
-                                        <td>{{asset.description}}</td>
+<!--                                        <td>{{asset.quantity }}</td>-->
+<!--                                        <td>{{asset.description}}</td>-->
                                         <td >{{asset.custodianName}}</td>
                                         <td >{{asset.attrs.createdByName}}</td>
                                         <td>
@@ -215,6 +247,59 @@
                                                                 </div>
 
                                                             </div>
+
+
+
+                                                                <div class="row">
+                                                                    <div class="col-sm-12 form-group">
+                                                                        <table class="table table-hover text-center sticky-invoice">
+                                                                            <thead>
+                                                                            <tr>
+                                                                                <th>S.No</th>
+                                                                                <th>Asset SubCategory</th>
+                                                                                <th>Quantity</th>
+                                                                                <!--                                                                                <th>Actions</th>-->
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            <tr class="sticky-body" *ngFor="let item of assetQuery.itemsList; let i = index">
+                                                                                <td style="border: 2px solid #dee2e6">{{ i + 1 }}</td>
+                                                                                <td class="widt-120" style="border: 2px solid #dee2e6">{{ item.assetSubCategory }}</td>
+                                                                                <td class="widt-120" style="border: 2px solid #dee2e6">
+                                                                                    <span *ngIf="editIndex !== i; else editMode">
+                                                                                        {{ item.quantity }}
+                                                                                        <button class="btn btn-sm btn-outline-info waves-effect waves-black edit-user-button"
+                                                                                                *ngIf="assetQuery.status === 'OM_PENDING' || assetQuery.status === 'RM_PENDING' || assetQuery.status === 'VL_PENDING'"
+                                                                                                style="padding: 8px 9px; border: none !important; border-radius: 15px !important;" title="Edit"
+                                                                                                (click)="startEditing(i)">
+                                                                                            <i class="fa fa-pencil" style="font-size: 20px !important;"></i>
+                                                                                        </button>
+                                                                                    </span>
+                                                                                    <ng-template #editMode>
+                                                                                        <input type="number" class="form-control" [(ngModel)]="assetQuery.itemsList[editIndex!].quantity" />
+                                                                                    </ng-template>
+                                                                                </td>
+                                                                                <!--                                                                                <td style="border: 2px solid #dee2e6">-->
+                                                                                <!--                                                                                    &lt;!&ndash; No buttons here &ndash;&gt;-->
+                                                                                <!--                                                                                </td>-->
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td style="border: 2px solid #dee2e6; text-align: end" colspan="3"
+                                                                                    *ngIf="assetQuery.status === 'OM_PENDING' || assetQuery.status === 'RM_PENDING' || assetQuery.status === 'VL_PENDING'">
+                                                                                    <button class="btn btn-success btn-sm" (click)="saveQuantity()">Update Qty</button>
+                                                                                </td>
+                                                                            </tr>
+                                                                            </tbody>
+                                                                            <tfoot>
+                                                                            <tr *ngIf="!assetQuery.itemsList || assetQuery.itemsList.length === 0">
+                                                                                <th colspan="4" style="text-align: center">No Records exist.</th>
+                                                                            </tr>
+                                                                            </tfoot>
+                                                                        </table>
+
+
+                                                                    </div>
+                                                                </div>
                                                             </fieldset>
 
 <!--                                                            disabled Fields -->
@@ -227,12 +312,12 @@
                                                                         <span class="shift-tem-text-Re">{{ assetQuery.assetCategory|| 'NA'}}</span>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group">
-                                                                        <label class="cus-font-label">Asset Sub Category: </label>&nbsp;
-                                                                        <span class="shift-tem-text-Re">{{ assetQuery.assetSubCategory|| 'NA'}}</span>
-                                                                    </div>
-                                                                </div>
+<!--                                                                <div class="col-sm-6">-->
+<!--                                                                    <div class="form-group">-->
+<!--                                                                        <label class="cus-font-label">Asset Sub Category: </label>&nbsp;-->
+<!--                                                                        <span class="shift-tem-text-Re">{{ assetQuery.assetSubCategory|| 'NA'}}</span>-->
+<!--                                                                    </div>-->
+<!--                                                                </div>-->
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group">
                                                                         <label class="cus-font-label">Site: </label>&nbsp;
@@ -275,12 +360,12 @@
 <!--                                                                </div>-->
 
 
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group">
-                                                                        <label class="cus-font-label">Asset Description: </label>&nbsp;
-                                                                        <span class="shift-tem-text-Re">{{ assetQuery.description|| 'NA'}}</span>
-                                                                    </div>
-                                                                </div>
+<!--                                                                <div class="col-sm-6">-->
+<!--                                                                    <div class="form-group">-->
+<!--                                                                        <label class="cus-font-label">Asset Description: </label>&nbsp;-->
+<!--                                                                        <span class="shift-tem-text-Re">{{ assetQuery.description|| 'NA'}}</span>-->
+<!--                                                                    </div>-->
+<!--                                                                </div>-->
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group">
                                                                         <label class="cus-font-label">Acknowledged Qty: </label>&nbsp;
@@ -296,6 +381,7 @@
                                                                             <thead>
                                                                             <tr>
                                                                                 <th>S.No</th>
+                                                                                <th>Description</th>
                                                                                 <th>Asset SubCategory</th>
                                                                                 <th>Quantity</th>
 <!--                                                                                <th>Actions</th>-->
@@ -303,7 +389,8 @@
                                                                             </thead>
                                                                             <tbody>
                                                                             <tr class="sticky-body" *ngFor="let item of assetQuery.itemsList; let i = index">
-                                                                                <td style="border: 2px solid #dee2e6">{{ i + 1 }}</td>
+                                                                                <td style="border: 2px solid #dee2e6">{{ item.serialNumber }}</td>
+                                                                                <td style="border: 2px solid #dee2e6">{{ item.description }}</td>
                                                                                 <td class="widt-120" style="border: 2px solid #dee2e6">{{ item.assetSubCategory }}</td>
                                                                                 <td class="widt-120" style="border: 2px solid #dee2e6">
                                                                                     <span *ngIf="editIndex !== i; else editMode">
@@ -324,7 +411,7 @@
 <!--                                                                                </td>-->
                                                                             </tr>
                                                                             <tr>
-                                                                                <td style="border: 2px solid #dee2e6; text-align: end" colspan="3"
+                                                                                <td style="border: 2px solid #dee2e6; text-align: end" colspan="4"
                                                                                     *ngIf="assetQuery.status === 'OM_PENDING' || assetQuery.status === 'RM_PENDING' || assetQuery.status === 'VL_PENDING'">
                                                                                     <button class="btn btn-success btn-sm" (click)="saveQuantity()">Update Qty</button>
                                                                                 </td>
@@ -485,8 +572,7 @@
                                                                                required/>
                                                                     </div>
                                                                     <div class="col-sm-3 form-group text-left">
-                                                                        <label class="control-label">Terms <b
-                                                                                class="mandatory-field">*</b></label>
+                                                                        <label class="control-label">Terms </label>
                                                                         <input class="form-control form-control-sm"
                                                                                type="text"
                                                                                [(ngModel)]="initiatePo.terms"
@@ -586,6 +672,8 @@
                                                                             <thead>
                                                                             <tr>
                                                                                 <th>S.No</th>
+                                                                                <th>Description</th>
+                                                                                <th>Asset Sub Category</th>
                                                                                 <th>Quantity </th>
                                                                                 <th>Rate</th>
                                                                                 <th>PreGst Amount</th>
@@ -598,7 +686,18 @@
                                                                                 <td style="border: 2px solid #dee2e6">
                                                                                     {{ i + 1}}
                                                                                 </td>
-
+                                                                                <td class="widt-120" style="border: 2px solid #dee2e6">
+                                                                                    <input placeholder="Asset description" type="text"
+                                                                                           class="form-control form-control-sm text-right" min="0"
+                                                                                           [(ngModel)]="item.description"
+                                                                                           [ngModelOptions]="{standalone: true}" />
+                                                                                </td>
+                                                                                <td class="widt-120" style="border: 2px solid #dee2e6">
+                                                                                    <input placeholder="Asset Sub Category" type="text"
+                                                                                           class="form-control form-control-sm text-right" min="0"
+                                                                                           [(ngModel)]="item.assetSubCategory"
+                                                                                           [ngModelOptions]="{standalone: true}" />
+                                                                                </td>
                                                                                 <td class="widt-120" style="border: 2px solid #dee2e6">
                                                                                     <input placeholder="Enter Quantity" type="number"
                                                                                            class="form-control form-control-sm text-right" min="0"
@@ -653,7 +752,7 @@
 <!--                                                                                </td>-->
                                                                             </tr>
                                                                             <tr>
-                                                                                <td class="widt-120" colspan="5" style="text-align: end"> Total Amount</td>
+                                                                                <td class="widt-120" colspan="7" style="text-align: end"> Total Amount</td>
                                                                                 <td class="widt-120" >
                                                                                     <input placeholder="Enter Total Amount" type="number"
                                                                                            class="form-control form-control-sm text-right" min="0"
@@ -759,7 +858,7 @@
                                                         <div class="col-md-12 col-md-offset-3">
                                                             <div class="pull-right">
                                                                 <button class="btn btn-sm btn-all-shadow waves-effect waves-light btn-primary"
-                                                                        *ngIf="(currentUser.id === asset.custodianId) && (asset.status === 'ACK_PENDING')"
+                                                                        *ngIf="(currentUser.id === asset.custodianId) && (asset.status === 'ACK_PENDING' || asset.status === 'ACK_PARTIALLY')"
                                                                         (click)="acknowledgeOpenPopUp(asset)"
                                                                         > Acknowledge
                                                                 </button>&nbsp;&nbsp;
@@ -1142,7 +1241,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="font-size: 14px; font-weight: 700; padding: 5px">Rupees: Fifty One Thousand Three Hundred Thirty Only.</td>
+                <td style="font-size: 14px; font-weight: 700; padding: 5px">Rupees: {{poData.totalAmount | amountWords}}.</td>
                 <td></td>
                 <td></td>
             </tr>
