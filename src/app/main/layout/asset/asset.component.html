@@ -28,12 +28,91 @@
         <div class="tile-body">
             <div id="sampleTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
                 <div class="row">
-                    <div class="col-sm-1 offset-11 text-right">
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control form-control-sm" type="text" [(ngModel)]="query.assetNumber"
+                               placeholder="Search By Asset Number" required
+                               (ngModelChange)="getCount()"
+                               autocomplete="false">
+                    </div>
+
+                    <div class="form-group col-sm-2 ">
+<!--                        <label class="control-label">Asset Category<b-->
+<!--                                class="mandatory-field">*</b></label>-->
+                        <ng-select [(ngModel)]="query.assetCategory"
+                                   [ngModelOptions]="{standalone: true}"
+                                   bindValue="value"
+                                   bindLabel="key"
+                                   placeholder="Select Asset"
+                                   (ngModelChange)="getAllSubCategory()"
+                                   [clearable]="false">
+                            <ng-option value="" selected>Select Asset Category</ng-option>
+                            <ng-option *ngFor="let Asset of assetCategoryTypes"
+                                       [value]="Asset.value">{{Asset.key}}</ng-option>
+                        </ng-select>
+                    </div>
+
+                    <div class="col-md-2 form-group">
+<!--                        <label class="control-label">Select Asset SubCategory</label>-->
+                        <ng-select
+                                [items]="assetSubCategoryTypes"
+                                [multiple]="true"
+                                bindLabel="key"
+                                [closeOnSelect]="false"
+                                bindValue="value"
+                                placeholder="Select Asset Sub Type"
+                                [(ngModel)]="query.assetSubCategory"
+                                [ngModelOptions]="{standalone: true}"
+                                (ngModelChange)="getCount()">
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                <div class="ng-value" *ngFor="let item of items | slice:0:1; let i = index;" [hidden]="items.length > 1">
+                                    <span class="ng-value-label">{{items[i].key}}</span>
+                                    <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                </div>
+                                <div class="ng-value" *ngIf="items.length > 1">
+                                    <span class="ng-value-label">{{items.length}} Options Selected...</span>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                <input id="item-{{index}}-assetSubCategory" type="checkbox" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}"/> {{item.key}}
+                            </ng-template>
+                            <!--                                <ng-template ng-header-tmp>-->
+                            <!--                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example" style="width: 100%">-->
+                            <!--                                        <button (click)="selectAll('subCatStore')" class="btn btn-sm btn-link">Select all</button>-->
+                            <!--                                        <button (click)="unselectAll('subCatStore')" class="btn btn-sm btn-link">Unselect all</button>-->
+                            <!--                                    </div>-->
+                            <!--                                </ng-template>-->
+                            <ng-template ng-footer-tmp>
+                                <small class="p-1 flex-fill text-center">Selections Made: {{query.assetSubCategory.length}}</small>
+                                <small class="p-1 flex-fill text-center">Options: {{assetSubCategoryTypes.length - query.assetSubCategory.length}}</small>
+                            </ng-template>
+                        </ng-select>
+                    </div>
+
+                    <div class="form-group col-sm-2">
+<!--                        <label class="control-label">Select Site<b-->
+<!--                                class="mandatory-field">*</b></label>-->
+                        <ng-select [(ngModel)]="query.siteId"
+                                   [ngModelOptions]="{standalone: true}"
+                                   bindValue="id"
+                                   bindLabel="attrs.siteLable"
+                                   placeholder="Select Site"
+                                   (change)="getCount()"
+                                   [clearable]="false">
+                            <ng-option value="" selected>Select Site</ng-option>
+                            <ng-option *ngFor="let site of sitesStore"
+                                       [value]="site.id">{{site.attrs.siteLable}}</ng-option>
+                        </ng-select>
+                    </div>
+
+                    <div class="col-sm-3 offset-1 text-right">
                         <button type="button" *ngIf="currentUser.role === 74 || currentUser.role === 29"
                                 class="btn btn-sm btn-danger btn-all-shadow waves-effect waves-light form-group"
                                 title="Add Expense"
                                 [routerLink]="['AddAsset']"> Add Asset
-                        </button>
+                        </button>&nbsp;
+                            <button class="btn btn-default btn-sm btn-all-shadow waves-effect waves-light form-group" (click)="pendingExcelExport()">
+                                <span class="xls"></span>Export to xls<i class="xlsUpload fa fa-upload"></i>
+                            </button>
                     </div>
                 </div>
                 <div class="row">
@@ -59,25 +138,19 @@
                                 <td>{{ asset.assetCategory }}</td>
                                 <td>{{ asset.assetSubCategory }}</td>
                                 <td>{{ asset.assetNumber }}</td>
-                                <td>{{ asset.vendorName }}</td>
+                                <td>{{ asset.attrs.vendorName }}</td>
                                 <td>{{ asset.model }}</td>
                                 <td>{{ asset.invoiceNumber }}</td>
                                 <td>{{ asset.invoiceDate }}</td>
                                 <td>{{ asset.serialNumber }}</td>
 
                                 <td class="td-active">
-                                    <div>
                                         <button class="action-icon-style waves-effect waves-blue"
                                                 [disabled]="currentUser.role !== 70 && currentUser.role !== 27"
                                                 [routerLink]="['EditAsset/' + asset.id]"
                                                 title="Edit Asset">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </button>
-                                        <!--                                        <button class="action-icon-style waves-effect waves-red cgreen"-->
-                                        <!--                                                (click)="ApproveVehicle(pending)" title="Approve Vehicle" >-->
-                                        <!--                                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>-->
-                                        <!--                                        </button>-->
-                                    </div>
                                 </td>
                             </tr>
                             <tr *ngIf="!AssetListCount || AssetListCount === 0">
@@ -129,6 +202,90 @@
         <div class="tile-body">
             <div id="sampleTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
                 <div class="row">
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control form-control-sm" type="text" [(ngModel)]="activeQuery.assetNumber"
+                               placeholder="Search By Asset Number" required
+                               (ngModelChange)="getActiveCount()"
+                               autocomplete="false">
+                    </div>
+
+                    <div class="form-group col-sm-2 ">
+                        <!--                        <label class="control-label">Asset Category<b-->
+                        <!--                                class="mandatory-field">*</b></label>-->
+                        <ng-select [(ngModel)]="activeQuery.assetCategory"
+                                   [ngModelOptions]="{standalone: true}"
+                                   bindValue="value"
+                                   bindLabel="key"
+                                   placeholder="Select Asset"
+                                   (ngModelChange)="getAllSubCategory()"
+                                   [clearable]="false">
+                            <ng-option value="" selected>Select Asset Category</ng-option>
+                            <ng-option *ngFor="let Asset of assetCategoryTypes"
+                                       [value]="Asset.value">{{Asset.key}}</ng-option>
+                        </ng-select>
+                    </div>
+
+                    <div class="col-md-2 form-group">
+                        <!--                        <label class="control-label">Select Asset SubCategory</label>-->
+                        <ng-select
+                                [items]="assetSubCategoryTypes"
+                                [multiple]="true"
+                                bindLabel="key"
+                                [closeOnSelect]="false"
+                                bindValue="value"
+                                placeholder="Select Asset Sub Type"
+                                [(ngModel)]="activeQuery.assetSubCategory"
+                                [ngModelOptions]="{standalone: true}"
+                                (ngModelChange)="getActiveCount()">
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                <div class="ng-value" *ngFor="let item of items | slice:0:1; let i = index;" [hidden]="items.length > 1">
+                                    <span class="ng-value-label">{{items[i].key}}</span>
+                                    <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                                </div>
+                                <div class="ng-value" *ngIf="items.length > 1">
+                                    <span class="ng-value-label">{{items.length}} Options Selected...</span>
+                                </div>
+                            </ng-template>
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                <input id="item-{{index}}-assetSubCategory" type="checkbox" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}"/> {{item.key}}
+                            </ng-template>
+                            <!--                                <ng-template ng-header-tmp>-->
+                            <!--                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example" style="width: 100%">-->
+                            <!--                                        <button (click)="selectAll('subCatStore')" class="btn btn-sm btn-link">Select all</button>-->
+                            <!--                                        <button (click)="unselectAll('subCatStore')" class="btn btn-sm btn-link">Unselect all</button>-->
+                            <!--                                    </div>-->
+                            <!--                                </ng-template>-->
+                            <ng-template ng-footer-tmp>
+                                <small class="p-1 flex-fill text-center">Selections Made: {{query.assetSubCategory.length}}</small>
+                                <small class="p-1 flex-fill text-center">Options: {{assetSubCategoryTypes.length - query.assetSubCategory.length}}</small>
+                            </ng-template>
+                        </ng-select>
+                    </div>
+
+                    <div class="form-group col-sm-2">
+                        <!--                        <label class="control-label">Select Site<b-->
+                        <!--                                class="mandatory-field">*</b></label>-->
+                        <ng-select [(ngModel)]="activeQuery.siteId"
+                                   [ngModelOptions]="{standalone: true}"
+                                   bindValue="id"
+                                   bindLabel="attrs.siteLable"
+                                   placeholder="Select Site"
+                                   (change)="getActiveCount()"
+                                   [clearable]="false">
+                            <ng-option value="" selected>Select Site</ng-option>
+                            <ng-option *ngFor="let site of sitesStore"
+                                       [value]="site.id">{{site.attrs.siteLable}}</ng-option>
+                        </ng-select>
+                    </div>
+
+                    <div class="col-sm-2 offset-2 text-right">
+                        <button class="btn btn-default btn-sm btn-all-shadow waves-effect waves-light form-group" (click)="activeExcelExport()">
+                            <span class="xls"></span>Export to xls<i class="xlsUpload fa fa-upload"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="table-responsive">
                         <table class="table table-hover dataTable text-center" id="sampleTable">
                             <thead>
@@ -142,7 +299,7 @@
                                 <th>Invoice Number</th>
                                 <th>Invoice Date</th>
                                 <th>Serial Number</th>
-<!--                                <th>Actions</th>-->
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -151,11 +308,17 @@
                                 <td>{{ asset.assetCategory }}</td>
                                 <td>{{ asset.assetSubCategory }}</td>
                                 <td>{{ asset.assetNumber }}</td>
-                                <td>{{ asset.vendorName }}</td>
+                                <td>{{ asset.attrs.vendorName }}</td>
                                 <td>{{ asset.model }}</td>
                                 <td>{{ asset.invoiceNumber }}</td>
                                 <td>{{ asset.invoiceDate }}</td>
                                 <td>{{ asset.serialNumber }}</td>
+                                <td class="td-active">
+                                    <button class="action-icon-style waves-effect waves-blue" style="padding: 10px 15px !important;"
+                                            (click)="viewAssetData(asset)" title="Info" >
+                                        <i class="fa fa-info" aria-hidden="true"></i>
+                                    </button>
+                                </td>
                             </tr>
 
                             <tr *ngIf="!activeListCount || activeListCount === 0">
@@ -203,3 +366,218 @@
     </div>
 </div>
 
+<ng-template #viewAssetDetails let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <div class="col-sm-12 row">
+            <div class="col-sm-8">
+                <h4 class="modal-title">Asset Details</h4>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="tile">
+            <div class="tile-body row">
+                <div class="col-md-12">
+                    <div class="row viewRental">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="cus-font-label">Asset Category: </label>&nbsp;
+                                <span class="shift-tem-text-Re">{{ assetDetails.assetCategory|| 'NA'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="cus-font-label">Asset Sub Category: </label>&nbsp;
+                                <span class="shift-tem-text-Re">{{ assetDetails.assetSubCategory|| 'NA'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="cus-font-label">Indent Number: </label>&nbsp;
+                                <span class="shift-tem-text-Re">{{ assetDetails.indentNumber || 'NA'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="cus-font-label">Asset Number: </label>&nbsp;
+                                <span class="shift-tem-text-Re">{{ assetDetails.assetNumber || 'NA'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="cus-font-label">Vendor Name: </label>&nbsp;
+                                <span class="shift-tem-text-Re">{{ assetDetails.attrs.vendorName || 'NA'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="cus-font-label">Vendor Number: </label>&nbsp;
+                                <span class="shift-tem-text-Re">{{ assetDetails.vendorNumber || 'NA'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="cus-font-label">Model: </label>&nbsp;
+                                <span class="shift-tem-text-Re">{{ assetDetails.model || 'NA'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="cus-font-label">SerialNumber: </label>&nbsp;
+                                <span class="shift-tem-text-Re">{{ assetDetails.serialNumber || 'NA'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="cus-font-label">Invoice Number: </label>&nbsp;
+                                <span class="shift-tem-text-Re">{{ assetDetails.invoiceNumber || 'NA'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="cus-font-label">Invoice Date: </label>&nbsp;
+                                <span class="shift-tem-text-Re">{{ assetDetails.invoiceDate || 'NA'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="cus-font-label">Description: </label>&nbsp;
+                                <span class="shift-tem-text-Re">{{ assetDetails.description || 'NA'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="cus-font-label">Additional Expenses: </label>&nbsp;
+                                <span class="shift-tem-text-Re">{{ assetDetails.additionalExpenses || 'NA'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="cus-font-label">Amount Before Tax: </label>&nbsp;
+                                <span class="shift-tem-text-Re">{{ assetDetails.amountBeforeTax || 'NA'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="cus-font-label">GST Amount: </label>&nbsp;
+                                <span class="shift-tem-text-Re">{{ assetDetails.gstAmount || 'NA'}}</span>
+                            </div>
+                        </div>
+<!--                        <div class="col-sm-6">-->
+<!--                            <div class="form-group">-->
+<!--                                <label class="cus-font-label">Total Amount: </label>&nbsp;-->
+<!--                                <span class="shift-tem-text-Re">{{ assetDetails.totalAmount || 'NA'}}</span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="cus-font-label">Date Of Capitalisation : </label>&nbsp;
+                                <span class="shift-tem-text-Re">{{ assetDetails.dateOfCapitalisation || 'NA'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="cus-font-label">Capitalised Value: </label>&nbsp;
+                                <span class="shift-tem-text-Re">{{ assetDetails.capitalisedValue || 'NA'}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="assetDetails">
+                        <div class="table-responsive">
+                            <table class="table table-hover dataTable text-center" id="sampleTable">
+                                <thead>
+                                <tr class="table-bordered">
+                                    <th>S.No</th>
+                                    <th>User Mobile Number</th>
+                                    <th>Action By</th>
+                                    <th>Role</th>
+                                    <th>Action Time</th>
+<!--                                    <th>Action Status</th>-->
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let data of assetDetails.comment; let i = index">
+                                    <td>{{i + 1}}</td>
+                                    <td>{{data.userMobileNumber || 'NA'}}</td>
+                                    <td>{{data.actionBy || 'NA'}}</td>
+                                    <td>{{data.userRoleName}}</td>
+                                    <td>{{data.actionTime | date}}</td>
+<!--                                    <td>{{data.actionStatus}}</td>-->
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-all-shadow waves-effect waves-light btn-danger"
+                (click)="c('Close click')">Close
+        </button>
+    </div>
+
+</ng-template>
+
+
+<!--export Excel For Pending Tab-->
+
+
+<table class="table table-hover dataTable text-center d-none" id="pendingExcelExportTable">
+    <thead>
+    <tr class="table-bordered">
+        <th>S.No</th>
+        <th>Asset Category</th>
+        <th>Asset Sub Category</th>
+        <th>Asset Number</th>
+        <th>Vendor Name</th>
+        <th>Model</th>
+        <th>Invoice Number</th>
+        <th>Invoice Date</th>
+        <th>Serial Number</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let asset of listOfasset ; let i = index" style="cursor: pointer">
+        <td>{{ (query.page - 1) * query.size + i + 1 }}</td>
+        <td>{{ asset.assetCategory }}</td>
+        <td>{{ asset.assetSubCategory }}</td>
+        <td>{{ asset.assetNumber }}</td>
+        <td>{{ asset.attrs.vendorName }}</td>
+        <td>{{ asset.model }}</td>
+        <td>{{ asset.invoiceNumber }}</td>
+        <td>{{ asset.invoiceDate }}</td>
+        <td>{{ asset.serialNumber }}</td>
+</table>
+
+
+<table class="table table-hover dataTable text-center d-none" id="activeExcelExportTable">
+    <thead>
+    <tr class="table-bordered">
+        <th>S.No</th>
+        <th>Asset Category</th>
+        <th>Asset Sub Category</th>
+        <th>Asset Number</th>
+        <th>Vendor Name</th>
+        <th>Model</th>
+        <th>Invoice Number</th>
+        <th>Invoice Date</th>
+        <th>Serial Number</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let asset of activeListData ; let i = index" style="cursor: pointer">
+        <td>{{ (activeQuery.page - 1) * activeQuery.size + i + 1 }}</td>
+        <td>{{ asset.assetCategory }}</td>
+        <td>{{ asset.assetSubCategory }}</td>
+        <td>{{ asset.assetNumber }}</td>
+        <td>{{ asset.attrs.vendorName }}</td>
+        <td>{{ asset.model }}</td>
+        <td>{{ asset.invoiceNumber }}</td>
+        <td>{{ asset.invoiceDate }}</td>
+        <td>{{ asset.serialNumber }}</td>
+</table>

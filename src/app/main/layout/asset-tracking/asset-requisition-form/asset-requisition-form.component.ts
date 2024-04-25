@@ -30,6 +30,8 @@ export class AssetRequisitionFormComponent implements OnInit {
     page: 1,
     size: 10,
     pageSizes: [],
+    siteId: '',
+    indentNumber: '',
   };
   rejectQuery: any = {
     page: 1,
@@ -106,7 +108,11 @@ export class AssetRequisitionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getCount();
+
+    if (this.tab === 1){
+      this.getCount();
+      this.getSitesForDropDownExpense();
+    }
     // this.getSitesForDropDownExpense();
     // this.getAllCategory();
   }
@@ -120,10 +126,11 @@ export class AssetRequisitionFormComponent implements OnInit {
     // this.assetQuery.quantity = this.editedQuantity;
     this.apiService.update(this.apiUrls.updateQuantityByVL + this.assetRequisitionId, {itemsList:this.assetQuery.itemsList}).subscribe((res: any) =>{
       if (res){
+        this.getCount();
         this.editingQuantity = false;
         this.editIndex = -1;
         // this.editIndex = null
-        this.getCount();
+
       }
     })
   }
@@ -150,11 +157,11 @@ export class AssetRequisitionFormComponent implements OnInit {
   }
   getCount(): void{
     this.apiService.getCount(this.apiUrls.getAssetCount, this.data).subscribe((res: any) => {
-      if (res){
+      // if (res){
         this.assetCount = res;
         OnlynumberDirective.pagination(this.assetCount, this.data);
         this.getAll();
-      }
+      // }
     })
 
   }
@@ -327,6 +334,7 @@ export class AssetRequisitionFormComponent implements OnInit {
         this.getSitesForDropDownExpense();
         this.getCustodianDetails();
         this.assetQuery = res;
+        this.initiatePo.shippingAddress = res.shippingAddress
         // this.assetQuery.custodianId = res.custodianId;
       }
     })
@@ -406,6 +414,7 @@ export class AssetRequisitionFormComponent implements OnInit {
         const payload = {
           ...this.initiatePo,  // Include other properties from initiatePo
           description: this.assetQuery.description, // Include description from assetQuery
+          shippingAddress: this.assetQuery.shippingAddress,
           itemsList: this.assetQuery.itemsList  // Include itemsList from assetQuery
         };
         this.apiService.update(this.apiUrls.addPurchasingOrder + asset.id, payload).subscribe((res: any) => {
@@ -507,10 +516,12 @@ export class AssetRequisitionFormComponent implements OnInit {
                 }
               },error => {
                 console.log(error)
-                swal.fire('Error!', error[0], 'error');
+                swal.fire('Error!', error, 'error');
                   });
             }
           }
+    }, error => {
+      swal.fire('Error!', error[0], 'error');
     })
   }
   acknowledgeOpenPopUp(data: any) {

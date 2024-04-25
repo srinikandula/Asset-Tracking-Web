@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ApiUrls} from '../schemas/apiUrls';
 import {map} from 'rxjs/operators';
 import {AuthenticationService} from './authentication.service';
-// import * as XLSX from 'xlsx';
+import * as XLSX from 'xlsx';
 
 @Injectable({
     providedIn: 'root'
@@ -194,5 +194,33 @@ export class ApiServiceService {
         formData.append('fileKey', data, data.name);
         return this.http.post(this.Apiurls.mainUrl + subUrl, formData);
     }
+
+
+
+
+//     excel Export
+    exportExcel(tableId: any, xlfileName: any, col1: any, col2: any): void {
+        const element = document.getElementById(tableId);
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element, {raw: true});
+        ws['!cols'] = [];
+        ws['!cols'][col1] = {hidden: true};
+        ws['!cols'][col2] = {hidden: true};
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        XLSX.writeFile(wb, this.fileName + '' + xlfileName + '.xlsx');
+    }
+    exportExcelExpenses(tableId: any, xlfileName: any, col1: any, col2: any, rowLast: any): void {
+        const element = document.getElementById(tableId);
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+        ws['!cols'] = [];
+        ws['!cols'][col1] = {hidden: true};
+        ws['!cols'][col2] = {hidden: true};
+        // @ts-ignore
+        ws['!rows'][rowLast + 1] = {hidden: true};
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        XLSX.writeFile(wb, xlfileName + '.xlsx');
+    }
+
 }
 

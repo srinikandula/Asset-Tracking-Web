@@ -10,14 +10,16 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {ImageCropperModule} from "ngx-image-cropper";
 import {ImageuploadComponent} from "../imageupload/imageupload.component";
 import {ModalModule} from "ngb-modal";
+import {AmountWordsPipe} from "../../../customDirectives/customPipes/amount-words.pipe";
 
 
 @NgModule({
-  declarations: [
-    AssetRequisitionFormComponent,
-    AddEditAssetRequisitionFormComponent,
-      ImageuploadComponent
-  ],
+    declarations: [
+        AssetRequisitionFormComponent,
+        AddEditAssetRequisitionFormComponent,
+        ImageuploadComponent,
+        AmountWordsPipe
+    ],
     imports: [
         CommonModule,
         AssetTrackingRoutingModule,

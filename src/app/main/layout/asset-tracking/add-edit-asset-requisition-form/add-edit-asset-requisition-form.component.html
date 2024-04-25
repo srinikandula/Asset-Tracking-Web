@@ -134,7 +134,15 @@
                                            [value]="site.id">{{site.attrs.siteLable}}</ng-option>
                             </ng-select>
                         </div>
-
+                        <div class="col-sm-6 form-group text-left">
+                            <label class="control-label">Shipping Address <b class="mandatory-field">*</b> </label>
+                            <textarea class="form-control form-control-sm" type="text"
+                                      disabled
+                                      [(ngModel)]="assetQuery.shippingAddress"
+                                      [ngModelOptions]="{standalone: true}"
+                                      rows="3" cols="50"
+                                      placeholder="Enter Shipping Address" required></textarea>
+                        </div>
                         <div class="form-group col-sm-6">
                             <label class="control-label">Select Custodian Name<b
                                     class="mandatory-field">*</b></label>
@@ -164,22 +172,13 @@
 <!--                                   [ngModelOptions]="{standalone: true}"-->
 <!--                                   placeholder="Enter Quantity" required/>-->
 <!--                        </div>-->
-                        <div class="col-sm-6 form-group">
-                            <label class="control-label">Asset Description <b class="mandatory-field">*</b></label>
-                            <input class="form-control form-control-sm" type="text"
-                                      [(ngModel)]="assetQuery.description"
-                                      [ngModelOptions]="{standalone: true}"
-                                      placeholder="Enter Asset Description" required />
-                        </div>
-                        <div class="col-sm-6 form-group text-left">
-                            <label class="control-label">Shipping Address <b class="mandatory-field">*</b> </label>
-                            <textarea class="form-control form-control-sm" type="text"
-
-                                      [(ngModel)]="assetQuery.shippingAddress"
-                                      [ngModelOptions]="{standalone: true}"
-                                      rows="3" cols="50"
-                                      placeholder="Enter Shipping Address" required></textarea>
-                        </div>
+<!--                        <div class="col-sm-6 form-group">-->
+<!--                            <label class="control-label">Asset Description <b class="mandatory-field">*</b></label>-->
+<!--                            <input class="form-control form-control-sm" type="text"-->
+<!--                                      [(ngModel)]="assetQuery.description"-->
+<!--                                      [ngModelOptions]="{standalone: true}"-->
+<!--                                      placeholder="Enter Asset Description" required />-->
+<!--                        </div>-->
                     </div>
 
                     <div class="row">
@@ -188,9 +187,10 @@
                                 <thead>
                                 <tr>
                                     <th>S.No</th>
+                                    <th>Description</th>
                                     <th>Asset SubCategory </th>
                                     <th>Quantity</th>
-<!--                                    <th>Actions</th>-->
+                                    <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -199,6 +199,12 @@
                                         {{ i + 1}}
                                     </td>
 
+                                    <td class="widt-120" style="border: 2px solid #dee2e6">
+                                        <input placeholder="Enter description" type="text"
+                                               class="form-control form-control-sm text-right" min="0"
+                                               [(ngModel)]="item.description"
+                                               [ngModelOptions]="{standalone: true}"  />
+                                    </td>
                                     <td class="widt-120" style="border: 2px solid #dee2e6">
                                         <input placeholder="Enter Sub Categoryr" type="text"
                                                class="form-control form-control-sm text-right" min="0"
@@ -211,8 +217,15 @@
                                                [(ngModel)]="item.quantity"
                                                [ngModelOptions]="{standalone: true}" />
                                     </td>
-<!--                                    <td style="border: 2px solid #dee2e6">-->
-<!--                                        <div style="display: flex" >-->
+                                    <td style="border: 2px solid #dee2e6">
+                                        <div style="display: flex" >
+
+                                            <button class="action-icon-style waves-effect waves-red delete-user-button"
+                                                    (click)="cloneItem(i, item.assetSubCategory)" title="Clone Item"
+                                                    style="height: 30px;width: 30px;padding: 0;">
+                                                <i class="fa fa-clone" aria-hidden="true"
+                                                   style="color: red;font-size: 15px"></i>
+                                            </button> &nbsp;
 <!--                                            <button class="action-icon-style waves-effect waves-red delete-user-button"-->
 <!--                                                    (click)="deleteItem(i)" title="Delete Item"-->
 <!--                                                    *ngIf="assetQuery.itemsList.length != 1"-->
@@ -226,8 +239,8 @@
 <!--                                                <i class="fa fa-plus-circle" aria-hidden="true"-->
 <!--                                                   style="color: green; font-size: 15px"></i>-->
 <!--                                            </button>-->
-<!--                                        </div>-->
-<!--                                    </td>-->
+                                        </div>
+                                    </td>
                                 </tr>
 
                                 </tbody>
