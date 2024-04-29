@@ -552,6 +552,7 @@ export class AssetRequisitionFormComponent implements OnInit {
                 item.totalAmount = 0;
                 // Reset other properties here if needed
               });
+              this.initiatePo.shippingAddress =this.assetQuery.shippingAddress
               this.initiatePo.billingAddress = '8th floor,801/A,krishe Block 1-89/3/B/40-42/KS/801A, Krishe Sapphire, Hi-Tech City Road, Madhapur, Hyderabad, Ranagareddy,500081,India,PAN Number: AABCZ2432M,GSTIN 36AABCZ2432M1Z4'
             }
           });
@@ -653,6 +654,7 @@ export class AssetRequisitionFormComponent implements OnInit {
     })
   }
   pdfDownload(data: any): void {
+    console.log(data)
     let today = new Date();
     let day = String(today.getDate()).padStart(2, '0');
     let month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!

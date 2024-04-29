@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  testPath : ''
+  testPath : 'https://assetqaapi.whizzard.in/',
 };
 
 /*
