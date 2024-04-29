@@ -304,7 +304,7 @@
 
 <!--                                                            disabled Fields -->
                                                             <fieldset class="form-fieldset" *ngIf="getStatusCheck(asset.createdBy, asset.attrs.currentStatus, asset.attrs?.nextStatus)['staticBoo']">
-                                                            <legend style="width: unset; max-width: none">Requisition Details 123: </legend>
+                                                            <legend style="width: unset; max-width: none">Requisition Details: </legend>
                                                             <div class="row">
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group">
@@ -675,7 +675,7 @@
                                                                                 <th>Description</th>
                                                                                 <th>Asset Sub Category</th>
                                                                                 <th>Quantity </th>
-                                                                                <th>Rate</th>
+                                                                                <th>Rate<b class="mandatory-field">*</b></th>
                                                                                 <th>PreGst Amount</th>
                                                                                 <th>GST Amount</th>
                                                                                 <th>Item Total Amount</th>
@@ -1203,7 +1203,8 @@
                             <th style="font-size: 14px;padding: 5px; border-top: 1px solid;">#item</th>
                             <th style="border-right: 1px solid; font-size: 14px;padding: 5px">Description</th>
                             <th style="border-right: 1px solid; font-size: 14px;padding: 5px">Qty</th>
-                            <th style="font-size: 14px;padding: 5px">Unit Price</th>
+                            <th style="border-right: 1px solid; font-size: 14px;padding: 5px">Rate</th>
+<!--                            <th style="font-size: 14px;padding: 5px">Unit Price</th>-->
                             <th style="font-size: 14px;padding: 5px">Total Price</th>
                         </tr>
                         <tr>

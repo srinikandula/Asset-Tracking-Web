@@ -11,7 +11,7 @@ export class ApiUrls {
     //  mainUrl = 'http://192.168.0.105:8090/';
     mainUrl = 'http://10.72.25.219:8091/';
     // mainUrl = environment.testPath;
-    // mainUrl = 'https://sapi.whizzard.in/';
+    // mainUrl = 'https://assetapi.whizzard.in/';
 
 
     getLoggedInUser = 'api/v1/test/user';
