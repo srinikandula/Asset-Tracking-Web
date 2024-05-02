@@ -11,6 +11,7 @@ import {ImageCropperModule} from "ngx-image-cropper";
 import {ImageuploadComponent} from "../imageupload/imageupload.component";
 import {ModalModule} from "ngb-modal";
 import {AmountWordsPipe} from "../../../customDirectives/customPipes/amount-words.pipe";
+import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import {AmountWordsPipe} from "../../../customDirectives/customPipes/amount-word
         NgbPopoverModule,
         ImageCropperModule,
         ModalModule,
+        BsDatepickerModule,
     ],
     exports: [ImageuploadComponent]
 })
