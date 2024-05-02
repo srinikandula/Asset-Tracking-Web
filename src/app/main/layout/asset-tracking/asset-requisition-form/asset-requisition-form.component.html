@@ -1155,12 +1155,13 @@
                 <td style="padding: 5px !important; line-height: 15px; font-size: 14px; font-weight: 700">{{poData.indentNumber}}</td>
             </tr>
             <tr>
-                <td colspan="3" style="font-size: 14px; padding: 10px 5px; font-weight: 700">With respect to your Proforma Invoice dated 19th July 2023 vide proforma Invoice No:Pro/2023-
-                    24,we are pleased to place the order as per the details given below</td>
+                <td colspan="3" style="font-size: 14px; padding: 10px 5px; font-weight: 700">With respect to your Proforma Invoice No:Pro/2023-
+                    24,dated 19th July 2023, we are pleased to place the order as per the details given below</td>
             </tr>
             <tr >
                 <th style="text-align: left; font-size: 14px; padding: 5px"> Vendor</th>
-                <th style="text-align: left; font-size: 14px; padding: 5px"> Bill To</th>
+                <th style="text-align: left; font-size: 14px; padding: 5px"> Bill To <br>
+                    ZipZap Logistics Pvt Ltd</th>
                 <th style="text-align: left; font-size: 14px;padding: 5px "> Ship To</th>
             </tr>
 <!--            <tr>-->
@@ -1174,7 +1175,8 @@
             <!--style="outline: thin solid"-->
             <tr >
                 <td>
-                    <span style="font-size: 14px;padding: 5px">{{poData.beneficiaryName || 'NA'}}</span>
+                    <span style="font-size: 14px;padding: 5px">{{poData.beneficiaryName || 'NA'}}</span> <br>
+                    <span style="font-size: 14px;padding: 5px">{{poData.vendorAddress || 'NA'}}</span>
 <!--                    <span style="font-size: 14px;padding: 5px">Bangalore – 560037</span><br>-->
 <!--                    <span style="font-size: 14px;padding: 5px"> Phone No.080-41693607</span><br>-->
 <!--                    <span style="font-size: 14px;padding: 5px">GSTIN:29AAKCS7937D1ZW</span><br>-->
@@ -1198,53 +1200,61 @@
             </tr>
             <tr>
                 <td colspan="3" style="text-align: -webkit-center; padding: 10px">
-                    <table style="border: 1px solid black; border-collapse: collapse; text-align: center!important;">
+                    <table style="border: 1px solid black; border-collapse: collapse; text-align: center!important; width: 100%">
+                        <thead>
                         <tr>
                             <th style="font-size: 14px;padding: 5px; border-top: 1px solid;">#item</th>
                             <th style="border-right: 1px solid; font-size: 14px;padding: 5px">Description</th>
+                            <th style="border-right: 1px solid; font-size: 14px;padding: 5px">Asset Sub Category</th>
                             <th style="border-right: 1px solid; font-size: 14px;padding: 5px">Qty</th>
                             <th style="border-right: 1px solid; font-size: 14px;padding: 5px">Rate</th>
-<!--                            <th style="font-size: 14px;padding: 5px">Unit Price</th>-->
+                            <th style="border-right: 1px solid; font-size: 14px;padding: 5px">GST</th>
                             <th style="font-size: 14px;padding: 5px">Total Price</th>
                         </tr>
-                        <tr>
-                            <td style="font-size: 14px;padding: 5px; border-top: 1px solid;">1</td>
-                            <td style="border-top: 1px solid; border-right: 1px solid; font-size: 14px; padding: 5px">{{poData.description}}</td>
-                            <td style="border-top: 1px solid; border-right: 1px solid; font-size: 14px; padding: 5px">{{poData.quantity}}</td>
-                            <td style="border-top: 1px solid; font-size: 14px; padding: 5px">{{poData.rate}}</td>
-                            <td style="border-top: 1px solid; font-size: 14px; padding: 5px">{{poData.preGstAmount}}</td>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let data of poData['itemsList']; let i = index">
+                            <td style="font-size: 14px;padding: 5px; border-top: 1px solid; border-bottom: 1px solid">{{data.serialNumber}}</td>
+                            <td style="border-top: 1px solid; border-right: 1px solid; font-size: 14px; padding: 5px; border-bottom: 1px solid">{{data.description}}</td>
+                            <td style="border-top: 1px solid; border-right: 1px solid; font-size: 14px; padding: 5px; border-bottom: 1px solid">{{data.assetSubCategory}}</td>
+                            <td style="border-top: 1px solid; border-right: 1px solid; font-size: 14px; padding: 5px; border-bottom: 1px solid">{{data.quantity}}</td>
+                            <td style="border-top: 1px solid; border-right: 1px solid; font-size: 14px; padding: 5px; border-bottom: 1px solid">{{data.rate}}</td>
+                            <td style="border-top: 1px solid; border-right: 1px solid; font-size: 14px; padding: 5px; border-bottom: 1px solid">{{data.gstAmount}}</td>
+                            <td style="border-top: 1px solid; border-right: 1px solid; font-size: 14px; padding: 5px; border-bottom: 1px solid">{{data.totalAmount}}</td>
                         </tr>
-                        <tr>
-                            <td style="border-top: 1px solid; padding: 10px 5px; font-size: 14px;padding: 5px"></td>
-                            <td style="border-top: 1px solid; border-right: 1px solid; padding: 10px 5px; font-size: 14px; padding: 5px"></td>
-                            <td style="border-right: 1px solid; font-size: 14px;padding: 5px"></td>
-                            <td ></td>
-                        </tr>
+<!--                        <tr>-->
+<!--                            <td style="border-top: 1px solid; padding: 10px 5px; font-size: 14px;padding: 5px"></td>-->
+<!--                            <td style="border-top: 1px solid; border-right: 1px solid; padding: 10px 5px; font-size: 14px; padding: 5px"></td>-->
+<!--                            <td style="border-top: 1px solid; border-right: 1px solid; font-size: 14px;padding: 5px"></td>-->
+<!--                            <td style="border-top: 1px solid;  font-size: 14px;padding: 5px"></td>-->
+<!--                            <td style="border-top: 1px solid;  font-size: 14px;padding: 5px"></td>-->
+<!--                            <td style="border-top: 1px solid;  font-size: 14px;padding: 5px"></td>-->
+<!--&lt;!&ndash;                            <td ></td>&ndash;&gt;-->
+<!--                        </tr>-->
 <!--                        <tr>-->
 <!--                            <td colspan="2" style="border-top: 1px solid; border-right: 1px solid; font-size: 14px; font-weight: 700; padding: 5px">Total</td>-->
 <!--                            <td style="border-right: 1px solid; font-size: 14px; padding: 5px">{{poData.quantity}}</td>-->
 <!--                            <td style="border-bottom: 1px solid; font-size: 14px; font-weight: 700; padding: 5px">{{poData.rate}}</td>-->
 <!--                            <td style="border-right: 1px solid; border-bottom: 1px solid; font-size: 14px; font-weight: 700; padding: 5px">{{poData.totalAmount}}</td>-->
 <!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="2" style="border-right: 1px solid; font-size: 14px; font-weight: 700; padding: 5px">GST</td>-->
+<!--                            <td style="border-right: 1px solid; font-size: 14px;padding: 5px"></td>-->
+<!--                            <td style="border-bottom: 1px solid; padding: 5px"></td>-->
+<!--                            <td style="border-bottom: 1px solid; font-size: 14px; font-weight: 700;padding: 5px">{{data.gstAmount}}</td>-->
+<!--                        </tr>-->
                         <tr>
-                            <td colspan="2" style="border-right: 1px solid; font-size: 14px; font-weight: 700; padding: 5px">GST</td>
-                            <td style="border-right: 1px solid; font-size: 14px;padding: 5px"></td>
-                            <td style="border-bottom: 1px solid; padding: 5px"></td>
-                            <td style="border-bottom: 1px solid; font-size: 14px; font-weight: 700;padding: 5px">{{poData.gstAmount}}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="border-right: 1px solid; padding: 5px; font-weight: 700; font-size: 14px"></td>
+                            <td colspan="3" style="border-right: 1px solid; padding: 5px; font-weight: 700; font-size: 14px"></td>
                             <td style="border-right: 1px solid; padding: 5px"></td>
-                            <td style="font-size: 14px; font-weight: 700; padding: 5px">Total</td>
+                            <td style="font-size: 14px; font-weight: 700; padding: 5px" colspan="2">Total</td>
                             <td style="font-size: 14px; font-weight: 700; padding: 5px">{{poData.totalAmount}}</td>
                         </tr>
+                        </tbody>
                     </table>
                 </td>
             </tr>
             <tr>
-                <td style="font-size: 14px; font-weight: 700; padding: 5px">Rupees: {{poData.totalAmount | amountWords}}.</td>
-                <td></td>
-                <td></td>
+                <td colspan="3" style="font-size: 14px; font-weight: 700; padding: 5px">Rupees: {{poData.totalAmount | amountWords}}.</td>
             </tr>
             <tr >
                 <td ></td>
@@ -1259,8 +1269,8 @@
             <tr>
                 <td colspan="2">
                     <span style="padding: 5px; font-size: 14px; font-weight: 700">Terms & Conditions :</span><br>
-                    <span style="padding: 5px !important;  font-size: 14px">50% of advance at the time of placing the order</span><br>
-                    <span style="padding: 5px !important; font-size: 14px">Balance will be paid on Dispatch Confirmation</span><br>
+<!--                    <span style="padding: 5px !important;  font-size: 14px">50% of advance at the time of placing the order</span><br>-->
+<!--                    <span style="padding: 5px !important; font-size: 14px">Balance will be paid on Dispatch Confirmation</span><br>-->
                     <span style="padding: 5px !important;  font-size: 14px">The seller will be fully responsible for all statutory compliances, permissions (if any) required to work ordered by Zipzap Logistics Pvt Ltd</span><br>
                     <span style="padding: 5px !important; font-size: 14px">All disputes are subject to Hyderabad jurisdiction</span><br>
                 </td>
