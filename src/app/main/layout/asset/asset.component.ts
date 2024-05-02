@@ -72,7 +72,7 @@ export class AssetComponent implements OnInit {
     console.log(this.query)
     this.apiService.getAll(this.apiUrls.countAssets, this.query).subscribe((res: any) =>{
       // if (res){
-        // this.AssetListCount = res;
+        this.AssetListCount = res;
         this.getAll()
         OnlynumberDirective.pagination(res, this.query);
       // }

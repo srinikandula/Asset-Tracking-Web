@@ -398,6 +398,7 @@ export class AssetRequisitionFormComponent implements OnInit {
   }
 
   addPurchasingFun(asset: any) {
+    this.allErrors = [];
     const combinedPayload = {
       ...this.initiatePo,
       ...this.assetQuery

@@ -124,6 +124,7 @@
                                 <th>Asset Category</th>
                                 <th>Asset Sub Category</th>
                                 <th>Asset Number</th>
+                                <th>Vendor Number</th>
                                 <th>Vendor Name</th>
                                 <th>Model</th>
                                 <th>Invoice Number</th>
@@ -139,6 +140,7 @@
                                 <td>{{ asset.assetSubCategory }}</td>
                                 <td>{{ asset.assetNumber }}</td>
                                 <td>{{ asset.attrs.vendorName }}</td>
+                                <td>{{ asset.vendorNumber }}</td>
                                 <td>{{ asset.model }}</td>
                                 <td>{{ asset.invoiceNumber }}</td>
                                 <td>{{ asset.invoiceDate }}</td>
@@ -294,6 +296,7 @@
                                 <th>Asset Category</th>
                                 <th>Asset Sub Category</th>
                                 <th>Asset Number</th>
+                                <th>Vendor Number</th>
                                 <th>Vendor Name</th>
                                 <th>Model</th>
                                 <th>Invoice Number</th>
@@ -308,6 +311,7 @@
                                 <td>{{ asset.assetCategory }}</td>
                                 <td>{{ asset.assetSubCategory }}</td>
                                 <td>{{ asset.assetNumber }}</td>
+                                <td>{{ asset.vendorNumber }}</td>
                                 <td>{{ asset.attrs.vendorName }}</td>
                                 <td>{{ asset.model }}</td>
                                 <td>{{ asset.invoiceNumber }}</td>
@@ -524,7 +528,7 @@
 </ng-template>
 
 
-<!--export Excel For Pending Tab-->
+<!--Export Excel For Pending Tab-->
 
 
 <table class="table table-hover dataTable text-center d-none" id="pendingExcelExportTable">
@@ -534,6 +538,7 @@
         <th>Asset Category</th>
         <th>Asset Sub Category</th>
         <th>Asset Number</th>
+        <th>Vendor Number</th>
         <th>Vendor Name</th>
         <th>Model</th>
         <th>Invoice Number</th>
@@ -547,6 +552,7 @@
         <td>{{ asset.assetCategory }}</td>
         <td>{{ asset.assetSubCategory }}</td>
         <td>{{ asset.assetNumber }}</td>
+        <td>{{ asset.vendorNumber }}</td>
         <td>{{ asset.attrs.vendorName }}</td>
         <td>{{ asset.model }}</td>
         <td>{{ asset.invoiceNumber }}</td>
@@ -554,6 +560,7 @@
         <td>{{ asset.serialNumber }}</td>
 </table>
 
+<!--Export Excel For Active Tab-->
 
 <table class="table table-hover dataTable text-center d-none" id="activeExcelExportTable">
     <thead>
@@ -562,6 +569,7 @@
         <th>Asset Category</th>
         <th>Asset Sub Category</th>
         <th>Asset Number</th>
+        <th>Vendor Number</th>
         <th>Vendor Name</th>
         <th>Model</th>
         <th>Invoice Number</th>
@@ -575,6 +583,7 @@
         <td>{{ asset.assetCategory }}</td>
         <td>{{ asset.assetSubCategory }}</td>
         <td>{{ asset.assetNumber }}</td>
+        <td>{{ asset.vendorNumber }}</td>
         <td>{{ asset.attrs.vendorName }}</td>
         <td>{{ asset.model }}</td>
         <td>{{ asset.invoiceNumber }}</td>
