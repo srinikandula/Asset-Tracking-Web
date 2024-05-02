@@ -10,6 +10,7 @@ import * as html2pdf from 'html2pdf.js';
 import { ModalManager } from 'ngb-modal';
 import swal from "sweetalert2";
 import Swal from "sweetalert2";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-asset-requisition-form',
@@ -52,6 +53,8 @@ export class AssetRequisitionFormComponent implements OnInit {
   public sitesStore: Array<any> = [];
   custodianDetails: any;
   public assetRequisitionId: any;
+  dateOfProforma = new Date();
+  startExpenseDate = new Date(new Date().getFullYear() + '-' + new Date().getMonth() + '-' + 1);
   public initiatePo: any = {
     vendorName: '',
     vendorPhoneNumber: '',
@@ -73,6 +76,8 @@ export class AssetRequisitionFormComponent implements OnInit {
     vendorGstNumber: '',
     vendorAddress: '',
     panCardNumber: '',
+    proformaDate: '',
+    proformaInvoiceNumber: ''
     // itemsList: [
     //   { quantity: 0, rate: 0, preGstAmount: 0, gstAmount: 0, totalAmount: 0}
     // ]
@@ -100,11 +105,14 @@ export class AssetRequisitionFormComponent implements OnInit {
               private apiUrls: ApiUrls,
               private actRoute: ActivatedRoute,
               private ngModalService: NgbModal,
-              public modelService: ModalManager,) {
+              public modelService: ModalManager,
+              private datePipe: DatePipe,) {
     this.authenticationService.currentUser.subscribe(x => {
       this.currentUser = x;
       console.log(this.currentUser)
     });
+    this.initiatePo.proformaDate = this.datePipe.transform(this.dateOfProforma, 'yyyy-MM-dd');
+    console.log(this.initiatePo.proformaDate)
   }
 
   ngOnInit(): void {
@@ -403,6 +411,8 @@ export class AssetRequisitionFormComponent implements OnInit {
       ...this.initiatePo,
       ...this.assetQuery
     };
+    this.initiatePo.proformaDate = this.datePipe.transform(this.dateOfProforma, 'yyyy-MM-dd');
+    console.log(this.initiatePo.proformaDate)
     swal.fire({
       title: 'Are you sure?' ,
       icon: 'warning',
@@ -587,19 +597,14 @@ export class AssetRequisitionFormComponent implements OnInit {
 
   showRejectButtonFun(asset: any): any {
     if (this.currentUser.id === asset.createdBy) {
-      console.log(1)
       return false;
     } else if ((this.currentUser.role === 26) && ((asset.status === 'OM_PENDING') || (asset.status === 'RM_PENDING') || (asset.status === 'VL_PENDING') || (asset.status === 'SIGNED_OFF'))) {
-      console.log(2)
       return true;
     } else if ((this.currentUser.role === 31) && ((asset.status === 'OM_PENDING'))) {
-      console.log(3)
       return true;
     } else if ((this.currentUser.role === 40) && ((asset.status === 'RM_PENDING'))) {
-      console.log(4)
       return true;
     } else if ((this.currentUser.role === 76) && (asset.status === 'VL_PENDING')) {
-      console.log(5)
       return true;
     } else {
       return false;

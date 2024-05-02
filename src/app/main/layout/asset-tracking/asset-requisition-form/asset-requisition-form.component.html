@@ -546,6 +546,7 @@
                                                                         <textarea class="form-control form-control-sm"
                                                                                   type="text"
                                                                                   rows="3" cols="20"
+                                                                                  disabled
                                                                                   [(ngModel)]="initiatePo.shippingAddress"
                                                                                   [ngModelOptions]="{standalone: true}"
                                                                                   placeholder="Enter Shipping Address"
@@ -572,12 +573,15 @@
                                                                                required/>
                                                                     </div>
                                                                     <div class="col-sm-3 form-group text-left">
-                                                                        <label class="control-label">Terms </label>
-                                                                        <input class="form-control form-control-sm"
+                                                                        <label class="control-label">Terms <b class="mandatory-field">*</b></label>
+                                                                        <textarea class="form-control form-control-sm"
+                                                                                  rows="3" cols="20"
                                                                                type="text"
                                                                                [(ngModel)]="initiatePo.terms"
                                                                                [ngModelOptions]="{standalone: true}"
-                                                                               placeholder="Enter Terms" required/>
+                                                                                  placeholder="Enter Terms" required>
+
+                                                                        </textarea>
                                                                     </div>
                                                                     <div class="col-sm-3 form-group text-left">
                                                                         <label class="control-label">Warranty</label>
@@ -637,6 +641,36 @@
                                                                                [ngModelOptions]="{standalone: true}"
                                                                                (ngModelChange)="totalFun('')"
                                                                                placeholder="Enter Additional Expenses"
+                                                                               required/>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group">
+                                                                        <label class="control-label">Proforma Date <b class="mandatory-field">*</b></label>
+                                                                        <div class="input-group">
+                                                                            <input class="form-control form-control-sm" placeholder=" Proforma Date"
+                                                                                   [(ngModel)]="initiatePo.proformaDate"
+                                                                                   [ngModelOptions]="{standalone: true}"
+                                                                                   #dp1="bsDatepicker"
+                                                                                   readonly
+                                                                                   [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', containerClass: 'theme-red', showTodayButton: true, todayPosition: 'center',  isAnimated: true }"
+                                                                                   bsDatepicker required >
+                                                                            <div class="input-group-append">
+                                                                                <button class="btn btn-light btn-sm"
+                                                                                        style="border: 1px solid #ced4da;"
+                                                                                        (click)="dp1.show()"
+                                                                                        [attr.aria-expanded]="dp1.isOpen"  >
+                                                                                    <i class="fa fa-calendar"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3 form-group text-left">
+                                                                        <label class="control-label">Proforma Invoice Number <b
+                                                                                class="mandatory-field">*</b></label>
+                                                                        <input class="form-control form-control-sm"
+                                                                               type="text"
+                                                                               [(ngModel)]="initiatePo.proformaInvoiceNumber"
+                                                                               [ngModelOptions]="{standalone: true}"
+                                                                               placeholder="Enter Proforma Invoice Number"
                                                                                required/>
                                                                     </div>
                                                                     <div class="col-sm-3 form-group text-left">
@@ -1155,8 +1189,9 @@
                 <td style="padding: 5px !important; line-height: 15px; font-size: 14px; font-weight: 700">{{poData.indentNumber}}</td>
             </tr>
             <tr>
-                <td colspan="3" style="font-size: 14px; padding: 10px 5px; font-weight: 700">With respect to your Proforma Invoice No:Pro/2023-
-                    24,dated 19th July 2023, we are pleased to place the order as per the details given below</td>
+                <td colspan="3" style="font-size: 14px; padding: 10px 5px; font-weight: 700">
+                    With respect to your Proforma Invoice No: {{poData.proformaInvoiceNumber || 'NA'}},
+                    dated {{poData.proformaDate}}, we are pleased to place the order as per the details given below</td>
             </tr>
             <tr >
                 <th style="text-align: left; font-size: 14px; padding: 5px"> Vendor</th>
@@ -1269,9 +1304,9 @@
             <tr>
                 <td colspan="2">
                     <span style="padding: 5px; font-size: 14px; font-weight: 700">Terms & Conditions :</span><br>
-<!--                    <span style="padding: 5px !important;  font-size: 14px">50% of advance at the time of placing the order</span><br>-->
+                    <span style="padding: 5px !important;  font-size: 14px">{{poData.terms}}</span><br>
 <!--                    <span style="padding: 5px !important; font-size: 14px">Balance will be paid on Dispatch Confirmation</span><br>-->
-                    <span style="padding: 5px !important;  font-size: 14px">The seller will be fully responsible for all statutory compliances, permissions (if any) required to work ordered by Zipzap Logistics Pvt Ltd</span><br>
+                    <span style="padding: 5px !important;  font-size: 14px">The seller will be fully responsible for all statutory compliance's, permissions (if any) required to work ordered by ZipZap Logistics Pvt Ltd</span><br>
                     <span style="padding: 5px !important; font-size: 14px">All disputes are subject to Hyderabad jurisdiction</span><br>
                 </td>
             </tr>
