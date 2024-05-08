@@ -188,7 +188,7 @@ export class AddEditAssetComponent implements OnInit {
     }
       this.apiService.getAll(this.apiUrls.assetConfirmation + this.assetId, payload).subscribe((res: any) => {
         if (res){
-          swal.fire('Success!', 'Confirm Successfully  ' , 'success');
+          swal.fire('Success!', 'Confirmed Successfully  ' , 'success');
           this.router.navigate(['Asset']);
         }
 
