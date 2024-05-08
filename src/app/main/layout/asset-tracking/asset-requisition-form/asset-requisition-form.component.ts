@@ -149,6 +149,12 @@ export class AssetRequisitionFormComponent implements OnInit {
   cancelEditing() {
     this.editIndex = null;
   }
+  checkQuantity(event: any) {
+    const inputValue = event.target.value;
+    if (inputValue < 1) {
+      event.target.value = 1;
+    }
+  }
 
   cancelEditingQuantity() {
     // Reset the edited quantity to the original value

@@ -67,7 +67,7 @@
                                 </ng-select>
                             </div>
 
-                            <div class="col-sm-2 p-0 text-right form-group">
+                            <div class="col-sm-2 p-0 text-right form-group offset-2">
                                 <button type="button" *ngIf="currentUser.role !== 76"
                                         class="btn btn-sm btn-danger btn-all-shadow waves-effect waves-light form-group"
                                         title="Add Expense"
@@ -276,7 +276,7 @@
                                                                                         </button>
                                                                                     </span>
                                                                                     <ng-template #editMode>
-                                                                                        <input type="number" class="form-control" [(ngModel)]="assetQuery.itemsList[editIndex!].quantity" />
+                                                                                        <input type="number" class="form-control" minlength="1" maxlength="3" [(ngModel)]="assetQuery.itemsList[editIndex!].quantity"  (input)="checkQuantity($event)"/>
                                                                                     </ng-template>
                                                                                 </td>
                                                                                 <!--                                                                                <td style="border: 2px solid #dee2e6">-->
@@ -403,7 +403,7 @@
                                                                                         </button>
                                                                                     </span>
                                                                                     <ng-template #editMode>
-                                                                                        <input type="number" class="form-control" [(ngModel)]="assetQuery.itemsList[editIndex!].quantity" />
+                                                                                        <input type="number" class="form-control"  minlength="1" maxlength="3" [(ngModel)]="assetQuery.itemsList[editIndex!].quantity" (input)="checkQuantity($event)"/>
                                                                                     </ng-template>
                                                                                 </td>
 <!--                                                                                <td style="border: 2px solid #dee2e6">-->
