@@ -35,6 +35,10 @@ export class ApiUrls {
     getRejectRequestForm = 'api/v1/assetTracking/indent/getRejectRequestForm'
     getRejectRequestFormCount = 'api/v1/assetTracking/indent/getRejectRequestFormCount'
     updateQuantityByVL = 'api/v1/assetTracking/indent/updateQuantityByVL/';
+    imageUploadForAck = "api/v1/assetTracking/indent/addCustodianQtyAndInvoiceNumber?id=";
+    getAcknowledgeListImagesBySerialNumber = 'api/v1/assetTracking/indent/getAcknowledgeListImagesBySerialNumber?id='
+    getUrlByFilePath = 'api/v1/assetTracking/indent/getUrlByFilePath?filePath='
+//     Asset_Upload/664ecfb1219bd811330f6031
 
 
 //  Asset or Add-Asset Api's
@@ -49,5 +53,6 @@ export class ApiUrls {
     assetConfirmation = 'api/v1/assetTracking/asset/assetConfirmation/'
     searchActiveAssets = 'api/v1/assetTracking/asset/searchActiveAssets';
     countActiveAssets = 'api/v1/assetTracking/asset/countActiveAssets'
+    getAllImagesFromAcknowledge = 'api/v1/assetTracking/asset/getAcknowledgeListImagesForAddAsset?indentNumber='
 
 }

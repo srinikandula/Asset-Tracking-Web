@@ -4,6 +4,7 @@ import {ApiUrls} from '../schemas/apiUrls';
 import {map} from 'rxjs/operators';
 import {AuthenticationService} from './authentication.service';
 import * as XLSX from 'xlsx';
+import {Observable} from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -190,14 +191,84 @@ export class ApiServiceService {
     }
 
     imageUpload(subUrl: any, data: File) {
+        const formData = new FormData();
+        formData.append('fileKey', data, data.name);
+        return this.http.post(this.Apiurls.mainUrl + subUrl, formData);
+    }
+    imageUpload11(subUrl: string, file: File) {
+        const formData = new FormData();
+
+        // Check if file is not null or undefined
+        if (file) {
+            // Ensure that the second parameter passed to formData.append is a Blob
+            const blob = new Blob([file], { type: file.type });
+            formData.append('images', blob, file.name); // Ensure the key name matches with backend
+        }
+
+        return this.http.post(this.Apiurls.mainUrl + subUrl, formData);
+    }
+
+    imageUpload1(subUrl: any, data: File): Observable<any> {
         const formData: FormData = new FormData();
         formData.append('fileKey', data, data.name);
         return this.http.post(this.Apiurls.mainUrl + subUrl, formData);
     }
 
+    base64ToBinary(base64: string): Uint8Array {
+        const binaryString = window.atob(base64.split(',')[1]);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes;
+    }
 
 
+    imageUploads1(subUrl: any, data: any) {
+        const formData: FormData = new FormData();
+        formData.append('acknowledgeList', JSON.stringify(data)); // Convert payload to JSON string and append it
+        return this.http.post(this.Apiurls.mainUrl + subUrl, formData);
+    }
 
+    imageUpload123(subUrl: string, data: any) {
+        return this.http.post(this.Apiurls.mainUrl + subUrl, data);
+    }
+
+    imageUploadBinary(subUrl: any, data: File[]) {
+        console.log(data);
+
+        const imageData: FormData[] = [];
+        let formData: FormData = new FormData();
+        for (let index = 0; index < data.length; index++) {
+            const file = data[index];
+
+            console.log(file, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+            formData.append(index.toString(), file, file.name); // Using index as the key
+
+            imageData.push(formData);
+        }
+
+        console.log(imageData, 'iiiiiiiiiiiiiiiiiiiiii');
+
+        // Assuming this.Apiurls.mainUrl + subUrl is the correct URL
+        return this.http.post(this.Apiurls.mainUrl + subUrl, formData);
+    }
+
+    imageUploadBinary1(subUrl: any, data: File) {
+        console.log(data)
+        // const  imageData: any = [];
+        // @ts-ignore
+        // for(let i of data){
+            // console.log(i, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+            const formData: FormData = new FormData();
+            formData.append('fileKey', data, data.name)
+            // imageData.push(formData)
+            // console.log(imageData, 'iiiiiiiiiiiiiiiiiiiiii')
+        // }
+        // console.log(imageData, 'iiiiiiiiiiiiiiiiiiiiiiforrrrrrrrrrrrrrrrrr<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+        return this.http.post(this.Apiurls.mainUrl + subUrl, data);
+    }
 //     excel Export
     exportExcel(tableId: any, xlfileName: any, col1: any, col2: any): void {
         const element = document.getElementById(tableId);

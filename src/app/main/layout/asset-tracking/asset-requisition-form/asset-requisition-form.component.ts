@@ -39,13 +39,14 @@ export class AssetRequisitionFormComponent implements OnInit {
     size: 10,
     pageSizes: [],
   };
-  public assetQuery: any = {
-    model: '',
-    description: '',
-    assetCategory: '',
-    assetSubCategory: '',
-    quantity: 0
-  }
+  assetQuery: any = {}
+  // public assetQuery: any = {
+  //   model: '',
+  //   description: '',
+  //   assetCategory: '',
+  //   assetSubCategory: '',
+  //   quantity: 0
+  // }
   expandedRows: boolean[] = [];
   selectedRowData: any;
   public assetCategoryTypes: Array<any> = [];
@@ -93,12 +94,23 @@ export class AssetRequisitionFormComponent implements OnInit {
   public imageChangedEvent: any = '';
   public imageArray: Array<any> = [];
   @ViewChild('myModal') myModal: any;
+  @ViewChild('viewImageModal') viewImageModal: any;
   @ViewChild('myModal2') myModal2: any;
   @ViewChild('viewRejectModal') viewRejectModal: any;
   public modalRef: any;
   public custodianUploadData: any = {};
   public allErrors: Array<any> = [];
   editIndex: number | null = null;
+  public imageFileArray: Array<any> = [];
+  public imageFile: any = {
+    imageData: '',
+    picName: '',
+    subUrl: '',
+  };
+  imageFileArrayData: any = [];
+  imageCounts: any = [];
+  allUploadedImagesNumber: any = [];
+  imagesPathById: any = [];
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
               public  apiService: ApiServiceService,
@@ -470,37 +482,151 @@ export class AssetRequisitionFormComponent implements OnInit {
   }
 
 
-  uploadImage(event: any): void {
+  // uploadImage(event: any): void {
+  //   const reader = new FileReader();
+  //   if (!event.imageData) {
+  //   } else {
+  //     const obj: any = {
+  //       file: '',
+  //       subUrl: '',
+  //       picName: '',
+  //     };
+  //     for (let i = 0; i < this.imageArray.length; i++) {
+  //       if (this.imageArray[i].picName === event.uploadName) {
+  //         this.imageArray.splice(i, 1);
+  //       }
+  //     }
+  //     console.log(this.imageArray)
+  //     switch (event.uploadName) {
+  //       case 'uploadAssetDocument':
+  //         obj.picName = event.uploadName;
+  //         obj.subUrl = 'api/v1/assetTracking/indent/uploadAssetDocument?id=';
+  //         obj.file = event.imageData;
+  //         reader.readAsDataURL(obj.file);
+  //         console.log(obj.file)
+  //         reader.onload = () => {
+  //           this.uploadPanPicDemo = reader.result;
+  //         };
+  //         this.imageArray.push(obj);
+  //         break;
+  //     }
+  //     console.log(this.custodianUploadData)
+  //   }
+  //   // this.preview();
+  // }
+  // uploadImage(event: any, item: any, i: number): void {
+  //   // this.vendorExpenseErrors = [];
+  //   const reader = new FileReader();
+  //   if (!event.imageData) {
+  //     Swal.fire('Error!', 'Please select File', 'error');
+  //   } else if (event.uploadName) {
+  //     this.imageFile.picName = event.uploadName;
+  //     this.imageFile.imageData = event.imageData;
+  //     // if (this.imageFile.imageData.size >= 2000000){
+  //       // this.vendorExpenseErrors.push('Please Upload Image Below 2MB');
+  //     // }
+  //     this.imageFile.subUrl = 'api/v1/vendorPayment/uploadVendorPaymentDocument?' + '&vendorPaymentId=';
+  //   }
+  //   reader.readAsDataURL(event.imageData);
+  //   reader.onload = () => {
+  //     this.vendorExpensePicDemo = reader.result;
+  //     item.imageFileArray.push({
+  //       name: event.uploadName + this.currentUser.fullName, encoding: event.imageData, mimetype: 'image/png',
+  //       url: this.vendorExpensePicDemo, subUrl: this.imageFile.subUrl
+  //     });
+  //   };
+  // }
+
+
+  // uploadImage(event: any, rowIndex: number): void {
+  //   const reader = new FileReader();
+  //   if (!event.imageData) {
+  //     Swal.fire('Error!', 'Please select a file', 'error');
+  //   } else if (event.uploadName) {
+  //     const imageFile = {
+  //       picName: event.uploadName,
+  //       imageData: event.imageData,
+  //       subUrl: 'api/v1/vendorPayment/uploadVendorPaymentDocument?' + '&vendorPaymentId=' // Modify this as per your application's requirements
+  //     };
+  //
+  //     reader.readAsDataURL(event.imageData);
+  //     reader.onload = () => {
+  //       const imageUrl = reader.result as string;
+  //       this.assetQuery.itemsList[rowIndex].imageData = imageUrl; // Update the image data for the specific row
+  //       console.log('Image uploaded for row index:', rowIndex, this.assetQuery.itemsList);
+  //     };
+  //   }
+  // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  imgArr: any = []
+  rowArrWithIma: any = []
+  uploadImageSingleWithBinary(event: any, item: any, i: number): void {
+    console.log(event.imageData.name);
     const reader = new FileReader();
-    if (!event.imageData) {
-    } else {
-      const obj: any = {
-        file: '',
-        subUrl: '',
-        picName: '',
-      };
-      for (let i = 0; i < this.imageArray.length; i++) {
-        if (this.imageArray[i].picName === event.uploadName) {
-          this.imageArray.splice(i, 1);
-        }
+    let vendorExpensePicDemo: string | ArrayBuffer | null = '';
+    reader.readAsDataURL(event.imageData);
+    reader.onload = () => {
+      vendorExpensePicDemo = reader.result;
+      event.imageData.url = vendorExpensePicDemo;
+
+      // Ensure imageFileArray is initialized as an array
+      if (!item.imageFileArray) {
+        item.imageFileArray = [];
       }
-      console.log(this.imageArray)
-      switch (event.uploadName) {
-        case 'uploadAssetDocument':
-          obj.picName = event.uploadName;
-          obj.subUrl = 'api/v1/assetTracking/indent/uploadAssetDocument?id=';
-          obj.file = event.imageData;
-          reader.readAsDataURL(obj.file);
-          console.log(obj.file)
-          reader.onload = () => {
-            this.uploadPanPicDemo = reader.result;
-          };
-          this.imageArray.push(obj);
-          break;
-      }
-      console.log(this.custodianUploadData)
-    }
-    // this.preview();
+
+      // Push the event to the array
+      item.imageFileArray.push(event);
+      const imageCount = item.imageFileArray.length;
+      this.imageCounts[i] = imageCount;
+    };
+    // this.allUploadedImages.push(item.imageFileArray)
+    console.log(item.imageFileArray)
+    // this.singleImageWithBinary(this.assetQuery);
+    // console.log(JSON.stringify(item), item)
+
+    // formData.append("acknowledgeList", JSON.stringify(formData))
+    //
+    // let object: any = {};
+    // formData.forEach((value, key) => object[key] = value);
+    // const json = JSON.stringify(object);
+    // console.log(json, '===========================');
+
+    // this.vendorExpenseErrors = [];
+    // const reader = new FileReader();
+    // if (!event.imageData) {
+    //   Swal.fire('Error!', 'Please select File', 'error');
+    // } else if (event.uploadName) {
+    //   this.imageFile.picName = event.uploadName;
+    //   this.imageFile.imageData = event.imageData;
+    //   if (this.imageFile.imageData.size >= 2000000){
+    //     // this.vendorExpenseErrors.push('Please Upload Image Below 2MB');
+    //   }
+    //   this.imageFile.subUrl = 'api/v1/vendorPayment/uploadVendorPaymentDocument?' + '&vendorPaymentId=';
+    // }
+    // reader.readAsDataURL(event.imageData);
+    // reader.onload = () => {
+    //   this.vendorExpensePicDemo = reader.result;
+    //   this.imageFileArray.push({
+    //     name: event.uploadName + this.currentUser.fullName, encoding: event.imageData, mimetype: 'image/png',
+    //     url: this.vendorExpensePicDemo, subUrl: this.imageFile.subUrl
+    //   });
+    //   console.log(this.imageFileArray, 'this.imageFileArraythis.imageFileArraythis.imageFileArraythis.imageFileArray=========', item)
+    // };
   }
 
   ackUpload(): void{
@@ -541,15 +667,270 @@ export class AssetRequisitionFormComponent implements OnInit {
       swal.fire('Error!', error[0], 'error');
     })
   }
-  acknowledgeOpenPopUp(data: any) {
-    this.modalRef = this.ngModalService.open(this.myModal, {size: 'md', backdrop: 'static', keyboard: false});
+
+
+// singleImageWithBinary(): void{
+//   const imageAray: any = [];
+//   if (this.imageFileArray.length != 0) {
+//     for (let i = 0; i < this.imageFileArray.length; i++) {
+//       imageAray.push(this.imageFileArray[i].encoding);
+//       console.log(imageAray, '---------------------')
+//     }
+//     console.log(imageAray.length, '--------------------->>>>>>>>>>>>>>>>>>>>>>>>>>')
+//     this.apiService.imageUploadBinary(this.apiUrls.imageUploadForAck + '12345', imageAray).subscribe((res: any) => {
+//     })
+//   }
+// }
+singleImageWithBinary2(): void{
+  const formData = new FormData();
+  const imageAray: any = [];
+  if (this.imageFileArray.length != 0) {
+    for (let i = 0; i < this.imageFileArray.length; i++) {
+      // formData.append('data' + i, this.imageFileArray[i].encoding);
+      console.log(this.imageFileArray[i].encoding, formData)
+      this.apiService.imageUploadBinary(this.apiUrls.imageUploadForAck + '12345', this.imageFileArray[i].encoding).subscribe((res: any) => {
+      })
+    }
+    // console.log(imageAray, '--------------------->>>>>>>>>>>>>>>>>>>>>>>>>>')
+
+  }
+}
+
+  singleImageWithBinary(data: any) {
+    // const payload: any = {acknowledgeList: []};
+    // for (let i of this.assetQuery.itemsList) {
+    //   let obj = {
+    //     serialNumber: i.serialNumber,
+    //     request: i.imageFileArray
+    //     // request: []
+    //   }
+    //   // obj.request = i.imageFileArray.map((j: any) => {
+    //   //   return this.apiService.base64ToBinary(j.url);
+    //   // })
+    //   payload.acknowledgeList.push(obj)
+    // }
+    // console.log(payload)
+
+    const formData = new FormData();
+    let totalReceivedQuantity = 0;
+    this.assetQuery.itemsList.forEach((item: any, index: number) => {
+      formData.append(`acknowledgeList[${index}].serialNumber`, item.serialNumber.toString());
+      const remarks = item.remarks ? item.remarks : '';
+      formData.append(`acknowledgeList[${index}].remarks`, remarks);
+      // const receivedQuantity = item.receivedQuantity ? item.receivedQuantity : '0';
+      // formData.append(`acknowledgeList[${index}].receivedQuantity`, receivedQuantity);
+      // formData.append(`acknowledgeList[${index}].totalAmount`, item.totalAmount.toString());
+      const receivedQuantity = item.receivedQuantity ? item.receivedQuantity : '0';
+      formData.append(`acknowledgeList[${index}].receivedQuantity`, receivedQuantity);
+
+      if (!item.imageFileArray) {
+        item.imageFileArray = [];
+      }
+      // Add to totalReceivedQuantity
+      totalReceivedQuantity += parseInt(receivedQuantity, 10);
+      console.log(totalReceivedQuantity, item.imageFileArray);
+      item.imageFileArray.forEach((fileItem: any, fileIndex: number) => {
+        // console.log(fileItem.imageData.name, '----------=============>>>>>>>>>>>>>>>>==============================')
+
+        if (fileItem?.imageData?.name) {
+          formData.append(`acknowledgeList[${index}].imageFileArray[${fileIndex}].imageData`, fileItem.imageData);
+          // formData.append(`acknowledgeList[${index}].imageFileArray[${fileIndex}].uploadName`, fileItem.uploadName);
+        }
+        // formData.append(`acknowledgeList[${index}].imageFileArray[${fileIndex}].imageData`, fileItem.imageData);
+      });
+    });
+    console.log(formData,'---------------->>>>>>>>>>>>>>>>>>>')
+    let object: any = {};
+    formData.forEach((value, key) => object[key] = value);
+    const jsonData = JSON.stringify(object);
+    console.log(jsonData, '===========================');
+    this.apiService.imageUpload123(this.apiUrls.imageUploadForAck + data.id + '&qty=' + totalReceivedQuantity, formData ).subscribe((res: any) => {
+      if (res){
+        console.log(res)
+        swal.fire('Success', 'Uploaded Successfully.', 'success');
+        this.changeTab(1)
+      }
+    }, error => {
+      console.log(error);
+      let errorMessage: string = '';
+      if (Array.isArray(error)) {
+        errorMessage = '<ul>'; // Start unordered list
+        error.forEach(message => {
+          errorMessage += `<li style="text-align: start; color: red">${message}</li>`; // Add each error message as a list item
+        });
+        errorMessage += '</ul>'; // End unordered list
+      } else {
+        errorMessage = error.toString(); // Convert non-array errors to string
+      }
+      Swal.fire('Error!', errorMessage, 'error');
+    })
+  }
+
+  ViewImages(item: any, n: number): void{
+    this.allUploadedImagesNumber = n
+    console.log(this.allUploadedImagesNumber, '===============================')
+    this.getImagesPathAndNameForArray(item, n)
+    this.modalRef = this.ngModalService.open(this.viewImageModal, {size: 'lg', backdrop: 'static', keyboard: false});
+  }
+
+  deleteImage(imageIndex: number): void {
+    const currentItem = this.assetQuery.itemsList[this.allUploadedImagesNumber];
+    currentItem.imageFileArray.splice(imageIndex, 1);
+    this.imageCounts[this.allUploadedImagesNumber] = currentItem.imageFileArray.length;
+    console.log(currentItem.imageFileArray);
+  }
+  selectedRowIndex: number | null = null;
+  getImagesPathAndNameForArray(item: any, index: number): void{
+    this.apiService.get(this.apiUrls.getAcknowledgeListImagesBySerialNumber + this.assetQuery.id + '&serialNumber=' + item.serialNumber).subscribe((res: any) => {
+      if (res){
+        console.log(res);
+        this.imagesPathById = res;
+        this.assetQuery.itemsList[this.allUploadedImagesNumber].imageFileArray.push(...this.imagesPathById);
+        this.selectedRowIndex = index;
+        console.log(this.selectedRowIndex)
+;      }
+    })
+  }
+
+  downloadImage(url: string): void {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = this.extractFilename(url);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  extractFilename(url: string): string {
+    return url.substring(url.lastIndexOf('/') + 1);
+  }
+  // getUrlsByPath(path: any): void{
+  //   console.log(path);
+  //   this.apiService.get(this.apiUrls.getUrlByFilePath + path.filePath ).subscribe((res: any) => {
+  //     if(res){
+  //       console.log(res.url);
+  //       this.downloadImage(res.url);
+  //     }
+  //   })
+  // }
+
+  downloadImage1(url: any): void {
+    const a = document.createElement('a');
+    a.href = url;
+
+    // Check if url is defined
+    if (url) {
+      const segments = url.split('/');
+      const filename = segments.pop(); // Extract filename from URL
+      if (filename) {
+        a.download = filename;
+      } else {
+        console.error('Unable to extract filename from URL:', url);
+        return; // Don't proceed further if filename is undefined
+      }
+    } else {
+      console.error('URL is undefined.');
+      return; // Don't proceed further if URL is undefined
+    }
+
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  // acknowledgeOpenPopUp(data: any) {
+  //   const acknowledgeList = [];
+  //
+  //   for (const item of this.assetQuery.itemsList) {
+  //     const request = [];
+  //
+  //     // Assuming item.imageFileArray contains File objects
+  //     for (const imageFile of item.imageFileArray) {
+  //       request.push(imageFile); // Append each image File to the request array
+  //     }
+  //
+  //     const acknowledgeItem = {
+  //       serialNumber: item.serialNumber,
+  //       receivedQuantity: 2, // Modify this as needed
+  //       request: request,
+  //       remarks: "" // Add remarks if needed
+  //     };
+  //
+  //     acknowledgeList.push(acknowledgeItem);
+  //   }
+  //
+  //   const payload: any = {
+  //     acknowledgeList: acknowledgeList
+  //   };
+  //
+  //   console.log("Payload:", payload); // Log the payload to verify its structure
+  //
+  //   // Now you can send the payload to your API endpoint
+  //   this.apiService.imageUpload123(this.apiUrls.imageUploadForAck + data.id + '&qty='+ 2, payload).subscribe(
+  //       (res: any) => {
+  //         console.log('Response:', res); // Handle response as needed
+  //       },
+  //       (error) => {
+  //         console.error('Error:', error); // Log any errors
+  //       }
+  //   );
+  // }
+
+
+
+
+
+
+
+
+  acknowledgeOpenPopUp1(data: any) {
+    const payload: any = { acknowledgeList: [] };
+
+    for (let i of this.assetQuery.itemsList) {
+      let obj = {
+        serialNumber: i.serialNumber,
+        request: []
+      };
+
+      if (i.imageFileArray && i.imageFileArray.length > 0) {
+        i.imageFileArray.forEach((imageFile: any) => {
+          // Assuming imageFile.url contains the base64 string
+          const byteCharacters = atob(imageFile.url.split(',')[1]);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let j = 0; j < byteCharacters.length; j++) {
+            byteNumbers[j] = byteCharacters.charCodeAt(j);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const file = new File([byteArray], `image_${Date.now()}.png`, { type: 'image/png' });
+          // @ts-ignore
+          obj.request.push(file);
+        });
+      }
+
+      payload.acknowledgeList.push(obj);
+    }
+
+    console.log(payload);
+
+    // Assuming this.Apiurls.mainUrl is your API base URL
+    // and this.apiUrls.imageUploadForAck + data.id forms the specific endpoint
+    const subUrl = this.apiUrls.imageUploadForAck + data.id;
+    const files = payload.acknowledgeList.map((obj: any) => obj.request).flat(); // Extract all files
+
+    // Call the imageUpload method for each file
+    files.forEach((file: any) => {
+      this.apiService.imageUpload(subUrl, file).subscribe((res: any) => {
+        // Handle response
+      });
+    });
   }
   close(): void{
     this.ngModalService.dismissAll();
     this.imageArray = [];
     this.custodianUploadData.invoiceNumber = '';
     this.custodianUploadData.qty= ''
-
+    this.imagesPathById= []
+    // this.assetQuery.itemsList[this.allUploadedImagesNumber].imageFileArray = [];
   }
   getVendorPanDetail(): void {
     if (this.initiatePo.panCardNumber.length === 10) {
@@ -700,5 +1081,17 @@ export class AssetRequisitionFormComponent implements OnInit {
       };
       html2pdf().from(elementToPrint).set(opt).save();
     }
+  }
+
+  convertImageToUrl(data: any): string {
+    console.log(data, '-----------------------')
+    let picDemo: string | ArrayBuffer | null = ''
+    const reader = new FileReader();
+    reader.readAsDataURL(data);
+    reader.onload = () => {
+      picDemo = reader.result;
+    }
+    console.log(picDemo, '==================================')
+    return picDemo
   }
 }

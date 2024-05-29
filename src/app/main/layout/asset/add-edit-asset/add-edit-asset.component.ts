@@ -46,8 +46,10 @@ export class AddEditAssetComponent implements OnInit {
   imageChangedEvent: any = ''
   private modalRef: any;
   @ViewChild('myModal2') myModal2: any;
+  @ViewChild('viewImageModal') viewImageModal: any;
   public currentUser: any;
   public imageUrls: any = [];
+  public getAllImages: any = [];
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
               public  apiService: ApiServiceService,
@@ -233,5 +235,23 @@ export class AddEditAssetComponent implements OnInit {
 
   close(): void {
     this.ngModalService.dismissAll(this.modalRef);
+  }
+
+  ViewImages(assetQuery: any): void{
+    this.modalRef = this.ngModalService.open(this.viewImageModal, {size: 'lg', backdrop: 'static', keyboard: false});
+    this.apiService.get(this.apiUrls.getAllImagesFromAcknowledge + assetQuery.indentNumber +'&subCategory=' + assetQuery.assetSubCategory).subscribe((res: any) => {
+      this.getAllImages = res;
+    })
+  }
+  extractFilename(url: string): string {
+    return url.substring(url.lastIndexOf('/') + 1);
+  }
+  downloadImage(url: string): void {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = this.extractFilename(url);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 }
