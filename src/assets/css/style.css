@@ -3496,6 +3496,7 @@ ul.uib-datepicker-popup.dropdown-menu.ng-scope {
 .cus-font-label {
     letter-spacing: .04em;
     font-weight: 700 !important;
+    width: 43%;
     /*color: #bla!important;*/
 }
 
@@ -4768,4 +4769,8 @@ table.tid-table tr.tid-detail-row.show > td > div {
     text-align: left;
     border-radius: 5px;
     margin: 30px 10px;
+}
+.asset-input-placeholder{
+    font-size: 0.8rem !important;
+    font-family: 'Roboto', sans-serif !important;
 }
