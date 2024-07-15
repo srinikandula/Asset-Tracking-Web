@@ -28,14 +28,14 @@
         <div class="tile-body">
             <div id="sampleTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
                 <div class="row">
-                    <div class="col-sm-2 form-group">
-                        <input class="form-control form-control-sm" type="text" [(ngModel)]="query.assetNumber"
+                    <div class="col-sm-3 form-group">
+                        <input class="form-control form-control-sm asset-input-placeholder" type="text" [(ngModel)]="query.assetNumber"
                                placeholder="Search By Asset Number" required
                                (ngModelChange)="getCount()"
                                autocomplete="false">
                     </div>
 
-                    <div class="form-group col-sm-2 ">
+                    <div class="form-group col-sm-3 ">
 <!--                        <label class="control-label">Asset Category<b-->
 <!--                                class="mandatory-field">*</b></label>-->
                         <ng-select [(ngModel)]="query.assetCategory"
@@ -51,7 +51,7 @@
                         </ng-select>
                     </div>
 
-                    <div class="col-md-2 form-group">
+                    <div class="col-md-3 form-group">
 <!--                        <label class="control-label">Select Asset SubCategory</label>-->
                         <ng-select
                                 [items]="assetSubCategoryTypes"
@@ -88,7 +88,7 @@
                         </ng-select>
                     </div>
 
-                    <div class="form-group col-sm-2">
+                    <div class="form-group col-sm-3">
 <!--                        <label class="control-label">Select Site<b-->
 <!--                                class="mandatory-field">*</b></label>-->
                         <ng-select [(ngModel)]="query.siteId"
@@ -104,7 +104,7 @@
                         </ng-select>
                     </div>
 
-                    <div class="col-sm-3 offset-1 text-right">
+                    <div class="col-sm-11 offset-1 text-right">
                         <button type="button" *ngIf="currentUser.role === 74 || currentUser.role === 29"
                                 class="btn btn-sm btn-danger btn-all-shadow waves-effect waves-light form-group"
                                 title="Add Expense"
@@ -204,16 +204,14 @@
         <div class="tile-body">
             <div id="sampleTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
                 <div class="row">
-                    <div class="col-sm-2 form-group">
-                        <input class="form-control form-control-sm" type="text" [(ngModel)]="activeQuery.assetNumber"
+                    <div class="col-sm-3 form-group">
+                        <input class="form-control form-control-sm asset-input-placeholder" type="text" [(ngModel)]="activeQuery.assetNumber"
                                placeholder="Search By Asset Number" required
                                (ngModelChange)="getActiveCount()"
                                autocomplete="false">
                     </div>
 
-                    <div class="form-group col-sm-2 ">
-                        <!--                        <label class="control-label">Asset Category<b-->
-                        <!--                                class="mandatory-field">*</b></label>-->
+                    <div class="form-group col-sm-3 ">
                         <ng-select [(ngModel)]="activeQuery.assetCategory"
                                    [ngModelOptions]="{standalone: true}"
                                    bindValue="value"
@@ -227,7 +225,7 @@
                         </ng-select>
                     </div>
 
-                    <div class="col-md-2 form-group">
+                    <div class="col-md-3 form-group">
                         <!--                        <label class="control-label">Select Asset SubCategory</label>-->
                         <ng-select
                                 [items]="assetSubCategoryTypes"
@@ -264,7 +262,7 @@
                         </ng-select>
                     </div>
 
-                    <div class="form-group col-sm-2">
+                    <div class="form-group col-sm-3">
                         <!--                        <label class="control-label">Select Site<b-->
                         <!--                                class="mandatory-field">*</b></label>-->
                         <ng-select [(ngModel)]="activeQuery.siteId"
@@ -280,7 +278,7 @@
                         </ng-select>
                     </div>
 
-                    <div class="col-sm-2 offset-2 text-right">
+                    <div class="col-sm-11 offset-1 text-right">
                         <button class="btn btn-default btn-sm btn-all-shadow waves-effect waves-light form-group" (click)="activeExcelExport()">
                             <span class="xls"></span>Export to xls<i class="xlsUpload fa fa-upload"></i>
                         </button>
@@ -296,7 +294,8 @@
                                 <th>Asset Category</th>
                                 <th>Asset Sub Category</th>
                                 <th>Asset Number</th>
-                                <th>Vendor Number</th>
+                                <th>Site Code</th>
+                                <th>Vendor Ticket Number</th>
                                 <th>Vendor Name</th>
                                 <th>Model</th>
                                 <th>Invoice Number</th>
@@ -308,15 +307,16 @@
                             <tbody>
                             <tr *ngFor="let asset of activeListData ; let i = index" style="cursor: pointer">
                                 <td>{{ (activeQuery.page - 1) * activeQuery.size + i + 1 }}</td>
-                                <td>{{ asset.assetCategory }}</td>
-                                <td>{{ asset.assetSubCategory }}</td>
-                                <td>{{ asset.assetNumber }}</td>
-                                <td>{{ asset.vendorNumber }}</td>
-                                <td>{{ asset.attrs.vendorName }}</td>
-                                <td>{{ asset.model }}</td>
-                                <td>{{ asset.invoiceNumber }}</td>
+                                <td>{{ asset.assetCategory || 'NA' }}</td>
+                                <td>{{ asset.assetSubCategory  || 'NA'}}</td>
+                                <td>{{ asset.assetNumber || 'NA' }}</td>
+                                <td>{{ asset.attrs.siteCode  || 'NA' }}</td>
+                                <td>{{ asset.vendorNumber || 'NA'}}</td>
+                                <td>{{ asset.attrs.vendorName || 'NA' }}</td>
+                                <td>{{ asset.model || 'NA' }}</td>
+                                <td>{{ asset.invoiceNumber || 'NA'}}</td>
                                 <td>{{ asset.invoiceDate }}</td>
-                                <td>{{ asset.serialNumber }}</td>
+                                <td>{{ asset.serialNumber || 'NA'}}</td>
                                 <td class="td-active">
                                     <button class="action-icon-style waves-effect waves-blue" style="padding: 10px 15px !important;"
                                             (click)="viewAssetData(asset)" title="Info" >
@@ -569,6 +569,7 @@
         <th>Asset Category</th>
         <th>Asset Sub Category</th>
         <th>Asset Number</th>
+        <th>Site Code</th>
         <th>Vendor Number</th>
         <th>Vendor Name</th>
         <th>Model</th>
@@ -580,13 +581,14 @@
     <tbody>
     <tr *ngFor="let asset of activeListData ; let i = index" style="cursor: pointer">
         <td>{{ (activeQuery.page - 1) * activeQuery.size + i + 1 }}</td>
-        <td>{{ asset.assetCategory }}</td>
-        <td>{{ asset.assetSubCategory }}</td>
-        <td>{{ asset.assetNumber }}</td>
-        <td>{{ asset.vendorNumber }}</td>
+        <td>{{ asset.assetCategory || 'NA'}}</td>
+        <td>{{ asset.assetSubCategory || 'NA'}}</td>
+        <td>{{ asset.assetNumber || 'NA' }}</td>
+        <td>{{ asset.attrs.siteCode }}</td>
+        <td>{{ asset.vendorNumber || 'NA' }}</td>
         <td>{{ asset.attrs.vendorName }}</td>
-        <td>{{ asset.model }}</td>
-        <td>{{ asset.invoiceNumber }}</td>
+        <td>{{ asset.model || 'NA'}}</td>
+        <td>{{ asset.invoiceNumber || 'NA' }}</td>
         <td>{{ asset.invoiceDate }}</td>
-        <td>{{ asset.serialNumber }}</td>
+        <td>{{ asset.serialNumber || 'NA'}}</td>
 </table>

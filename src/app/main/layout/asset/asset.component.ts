@@ -54,6 +54,7 @@ export class AssetComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.changeTab(1);
     if (this.tab === 2){
       this.getCount();
       this.getAllCategory();
