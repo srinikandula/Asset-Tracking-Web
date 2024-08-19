@@ -152,6 +152,9 @@ export class AssetRequisitionFormComponent implements OnInit {
         // this.editIndex = null
 
       }
+    }, error => {
+      swal.fire("Error", error[0], error)
+      console.log(error)
     })
   }
   startEditing(index: number) {

@@ -304,11 +304,11 @@
 
 <!--                                                            disabled Fields -->
                                                             <fieldset class="form-fieldset" *ngIf="getStatusCheck(asset.createdBy, asset.attrs.currentStatus, asset.attrs?.nextStatus)['staticBoo']">
-                                                            <legend style="width: unset; max-width: none">Requisition Details123: </legend>
+                                                            <legend style="width: unset; max-width: none">Requisition Details: </legend>
                                                             <div class="row">
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group">
-                                                                        <label class="cus-font-label">Asset Category: </label>&nbsp;
+                                                                        <label class="cus-font-label text-right">Asset Category: </label>
                                                                         <span class="shift-tem-text-Re">{{ assetQuery.assetCategory|| 'NA'}}</span>
                                                                     </div>
                                                                 </div>
@@ -320,7 +320,7 @@
 <!--                                                                </div>-->
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group">
-                                                                        <label class="cus-font-label">Site: </label>&nbsp;
+                                                                        <label class="cus-font-label text-right">Site: </label>
                                                                         <span class="shift-tem-text-Re">{{assetQuery.attrs.siteName}} ({{ assetQuery.attrs.siteCode|| 'NA'}})</span>
                                                                     </div>
                                                                 </div>
@@ -368,7 +368,7 @@
 <!--                                                                </div>-->
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group">
-                                                                        <label class="cus-font-label">Acknowledged Qty: </label>&nbsp;
+                                                                        <label class="cus-font-label text-right">Acknowledged Qty: </label>
                                                                         <span class="shift-tem-text-Re">{{ assetQuery.custodianQty|| 'NA'}}</span>
                                                                     </div>
                                                                 </div>
@@ -733,7 +733,7 @@
                                                                                disabled
                                                                                [(ngModel)]="initiatePo.totalAmount"
                                                                                [ngModelOptions]="{standalone: true}"
-                                                                               placeholder="Enter Total Amount"
+                                                                               placeholder="Total Amount"
                                                                                required/>
                                                                     </div>
                                                                     <!--                                                                <div class="col-sm-3 form-group text-left">-->
