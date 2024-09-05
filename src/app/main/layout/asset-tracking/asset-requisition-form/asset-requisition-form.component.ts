@@ -725,6 +725,8 @@ singleImageWithBinary2(): void{
       // formData.append(`acknowledgeList[${index}].totalAmount`, item.totalAmount.toString());
       const receivedQuantity = item.receivedQuantity ? item.receivedQuantity : '0';
       formData.append(`acknowledgeList[${index}].receivedQuantity`, receivedQuantity);
+      const shippedQuantity = item.shippedQuantity ? item.shippedQuantity : '0';
+      formData.append(`shippedQuantity[${index}].shippedQuantity`, shippedQuantity);
 
       if (!item.imageFileArray) {
         item.imageFileArray = [];

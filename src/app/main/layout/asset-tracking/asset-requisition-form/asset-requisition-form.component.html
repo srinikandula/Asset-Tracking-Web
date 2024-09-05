@@ -384,6 +384,7 @@
                                                                                 <th>Description</th>
                                                                                 <th>Asset SubCategory</th>
                                                                                 <th>Quantity</th>
+                                                                                <th>Shipped Quantity</th>
                                                                                 <th *ngIf="(currentUser.id === asset.custodianId) && (asset.status === 'ACK_PENDING' || asset.status === 'ACK_PARTIALLY')">Received Quantity</th>
                                                                                 <th *ngIf="(currentUser.id === asset.custodianId) && (asset.status === 'ACK_PENDING' || asset.status === 'ACK_PARTIALLY')">Remarks</th>
                                                                                 <th *ngIf="(currentUser.id === asset.custodianId) && (asset.status === 'ACK_PENDING' || asset.status === 'ACK_PARTIALLY')">Image Upload</th>
@@ -412,6 +413,19 @@
                                                                                     *ngIf="(currentUser.id === asset.custodianId) && (asset.status === 'ACK_PENDING' || asset.status === 'ACK_PARTIALLY')">
                                                                                     <input class="form-control form-control-sm"
                                                                                            type="number"
+                                                                                           maxlength="10"
+                                                                                           minlength="10"
+                                                                                           [(ngModel)]="item.shippedQuantity"
+                                                                                           [ngModelOptions]="{standalone: true}"
+                                                                                           placeholder="Enter Received Quantity"
+                                                                                           required/>
+                                                                                </td>
+                                                                                <td style="border: 2px solid #dee2e6; width: 80px"
+                                                                                    *ngIf="(currentUser.id === asset.custodianId) && (asset.status === 'ACK_PENDING' || asset.status === 'ACK_PARTIALLY')">
+                                                                                    <input class="form-control form-control-sm"
+                                                                                           type="number"
+                                                                                           readonly
+                                                                                           disabled
                                                                                            maxlength="10"
                                                                                            minlength="10"
                                                                                            [(ngModel)]="item.receivedQuantity"
