@@ -53,6 +53,7 @@ export class ApiUrls {
     assetConfirmation = 'api/v1/assetTracking/asset/assetConfirmation/'
     searchActiveAssets = 'api/v1/assetTracking/asset/searchActiveAssets';
     countActiveAssets = 'api/v1/assetTracking/asset/countActiveAssets'
-    getAllImagesFromAcknowledge = 'api/v1/assetTracking/asset/getAcknowledgeListImagesForAddAsset?indentNumber='
+    getAllImagesFromAcknowledge = 'api/v1/assetTracking/asset/getAcknowledgeListImagesForAddAsset?indentNumber=';
+    getAssetQRCode = "api/v1/assetTracking/asset/getAssetQRCode/"
 
 }

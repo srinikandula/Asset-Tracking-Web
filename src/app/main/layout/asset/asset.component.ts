@@ -13,6 +13,7 @@ import {OnlynumberDirective} from "../../../customDirectives/onlynumber.directiv
 })
 export class AssetComponent implements OnInit {
   @ViewChild('viewAssetDetails') viewAssetDetails: any;
+  @ViewChild('viewAssetQr') viewAssetQr: any;
   public listOfasset: any
   public AssetListCount: any;
   public activeListCount: any;
@@ -41,6 +42,7 @@ export class AssetComponent implements OnInit {
   public currentUser: any;
   public tab = 2;
   assetDetails: any;
+  assetQrUrl: any
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
               public  apiService: ApiServiceService,
@@ -183,5 +185,29 @@ export class AssetComponent implements OnInit {
   }
   activeExcelExport(): void {
     this.apiService.exportExcel('activeExcelExportTable', 'Active_Asset_Export', '', '12');
+  }
+
+  generateQrCode(assetId: any) {
+    // this.assetQrUrl = ''
+    this.ngModalService.open(this.viewAssetQr, {size: "md", backdrop: "static", keyboard: false})
+    this.apiService.get(this.apiUrls.getAssetQRCode + assetId).subscribe((res: any) => {
+      if (res){
+          this.assetQrUrl = res.assetUrl;
+      }
+    })
+  }
+  printQrCode(): void {
+    const printContents = document.getElementById('printQR')!.innerHTML;
+    const originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+  }
+
+  protected readonly close = close;
+
+  closePopUp(): void {
+    this.assetQrUrl = ''
+    this.ngModalService.dismissAll()
   }
 }
