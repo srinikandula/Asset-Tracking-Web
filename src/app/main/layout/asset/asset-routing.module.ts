@@ -7,17 +7,17 @@ const routes: Routes = [
   {
     path: '',
     component: AssetComponent,
-    data: {expectedRole: [27, 29, 74, 45]},
+    data: {expectedRole: [27, 29, 74, 45, 70, 76, 40, 27, 41, 78, 43]},
   },
   {
     path: 'AddAsset',
     component: AddEditAssetComponent,
-    data: {expectedRole: [27, 29, 74, 45]},
+    data: {expectedRole: [27, 29, 74, 45, 70, 76, 40, 27, 41, 78, 43 ]},
   },
   {
     path: 'EditAsset/:id',
     component: AddEditAssetComponent,
-    data: {expectedRole: [27, 29, 74, 45]},
+    data: {expectedRole: [27, 29, 74, 45, 70, 76, 40, 27, 41, 78, 43]},
   },
 ];
 

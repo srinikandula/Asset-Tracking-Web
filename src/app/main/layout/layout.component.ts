@@ -115,10 +115,10 @@ export class LayoutComponent implements OnInit {
         this.assetMenu = true;
       } else if (this.role === 72 || this.role === 70){
         this.assetRequisitionFormMenu = true;
-        this.assetMenu = false;
+        this.assetMenu = true;
       }else if (this.role === 78 || this.role === 80){
         this.assetRequisitionFormMenu = true;
-        this.assetMenu = false;
+        this.assetMenu = true;
       } else if (this.role === 74 ){
         this.assetRequisitionFormMenu = true;
         this.assetMenu = true;
@@ -133,13 +133,22 @@ export class LayoutComponent implements OnInit {
         this.assetMenu = true;
       } else if (this.role === 31) {
         this.assetRequisitionFormMenu = true;
-        this.assetMenu = false;
+        this.assetMenu = true;
       } else if (this.role === 40) {
         this.assetRequisitionFormMenu = true;
-        this.assetMenu = false;
+        this.assetMenu = true;
       } else if (this.role === 76) {
         this.assetRequisitionFormMenu = true;
-        this.assetMenu = false;
+        this.assetMenu = true;
+      }else if (this.role === 41) {
+        this.assetRequisitionFormMenu = true;
+        this.assetMenu = true;
+      }else if (this.role === 43) {
+        this.assetRequisitionFormMenu = true;
+        this.assetMenu = true;
+      }else if (this.role === 47) {
+        this.assetRequisitionFormMenu = true;
+        this.assetMenu = true;
       } else {
         this.adminRole = false;
         this.headerRole = false;
