@@ -19,13 +19,13 @@ const layoutRoutes: Routes = [
             {
                 path: 'AssetTracking',
                 canActivate: [AuthGuard],
-                data: {expectedRole: [26, 31, 40, 70, 72, 74, 78, 80, 45, 76]},
+                data: {expectedRole: [26, 31, 40, 70, 72, 74, 78, 80, 45, 76 ,47]},
                 loadChildren: () => import('./asset-tracking/asset-tracking.module').then(m => m.AssetTrackingModule)
             },
             {
                 path: 'Asset',
                 canActivate: [AuthGuard],
-                data: {expectedRole: [27, 29, 74, 45]},
+                data: {expectedRole: [27, 29, 74, 45, 40, 47, 31, 27, 41, 78, 43, 70, 76]},
                 loadChildren: () => import('./asset/asset-routing.module').then( m=> m.AssetRoutingModule)
 
             },
